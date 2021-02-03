@@ -1,0 +1,1683 @@
+{
+    "accueil": {
+        "alias": [
+            "Accueil"
+        ],
+        "color": "#2ecc71",
+        "displayId": "",
+        "displayName": "",
+        "icon": "accueil",
+        "name": "Accueil",
+        "shortName": "",
+        "ue": ""
+    },
+    "anglaisOption": {
+        "alias": [
+            "Parcours International - INFO",
+            "Anglais PIN",
+            "Anglais PCL",
+            "_Parcours international_",
+            "Anglais Option"
+        ],
+        "color": "#d35400",
+        "displayId": "PIN",
+        "displayName": "Anglais Option",
+        "group": [
+            "S2A",
+            "S3A"
+        ],
+        "icon": "anglais",
+        "name": "Anglais option",
+        "shortName": "",
+        "ue": "Options"
+    },
+    "ds": {
+        "alias": [
+            "Devoir Surveillé"
+        ],
+        "color": "#2c3e50",
+        "displayId": "",
+        "displayName": "",
+        "icon": "evaluation",
+        "name": "Devoir surveillé",
+        "shortName": "",
+        "ue": ""
+    },
+    "forumPoursuiteEtudes": {
+        "alias": [
+            "FORUM DES STAGES"
+        ],
+        "color": "#2ecc71",
+        "displayId": "",
+        "displayName": "",
+        "icon": "stage",
+        "name": "Forum des stages",
+        "shortName": "",
+        "ue": ""
+    },
+    "forumStages": {
+        "alias": [
+            "FORUM POURSUITE D'ETUDES"
+        ],
+        "color": "#2ecc71",
+        "displayId": "",
+        "displayName": "",
+        "icon": "stage",
+        "name": "Forum poursuite d'études",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1101": {
+        "color": "#9b59b6",
+        "displayId": "",
+        "displayName": "",
+        "icon": "systeme",
+        "name": "Archi. & Système",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1101-a": {
+        "alias": [
+            "M1101 Système"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M1101A",
+        "displayName": "Système",
+        "group": [
+            "S1"
+        ],
+        "icon": "systeme",
+        "name": "M1101 Système",
+        "shortName": "",
+        "ue": "UE 1-1"
+    },
+    "m1101-b": {
+        "alias": [
+            "M1101 Archi"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M1101B",
+        "displayName": "Architecture",
+        "group": [
+            "S1"
+        ],
+        "icon": "archi",
+        "name": "M1101 Archi",
+        "shortName": "Archi",
+        "ue": "UE 1-1"
+    },
+    "m1102": {
+        "color": "#3498db",
+        "displayId": "",
+        "displayName": "",
+        "icon": "algo-prog",
+        "name": "Algo-Prog",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1102-a": {
+        "alias": [
+            "M1102 Algo-Prog 1"
+        ],
+        "color": "#3498db",
+        "displayId": "M1102",
+        "displayName": "Algorithmique-Programmation",
+        "group": [
+            "S1"
+        ],
+        "icon": "algo-prog",
+        "name": "M1102 Algo-Prog 1",
+        "shortName": "Algo-Prog",
+        "ue": "UE 1-1"
+    },
+    "m1102-b": {
+        "alias": [
+            "M1102 Projet"
+        ],
+        "color": "#3498db",
+        "displayId": "",
+        "displayName": "",
+        "icon": "projet",
+        "name": "M1102 Projet",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1102-c": {
+        "alias": [
+            "M1102 Prog++"
+        ],
+        "color": "#3498db",
+        "displayId": "",
+        "displayName": "",
+        "icon": "algo-prog",
+        "name": "M1102 Prog++",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1103": {
+        "color": "#1abc9c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "algo-prog2",
+        "name": "Algo-Prog 2",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1103-a": {
+        "alias": [
+            "M1103 Algo-Prog 2"
+        ],
+        "color": "#1abc9c",
+        "displayId": "M1103",
+        "displayName": "Algorithmique-Programmation 2",
+        "group": [
+            "S1"
+        ],
+        "icon": "algo-prog2",
+        "name": "M1103 Algo-Prog 2",
+        "shortName": "Algo-Prog 2",
+        "ue": "UE 1-1"
+    },
+    "m1103-b": {
+        "alias": [
+            "M1103 Projet"
+        ],
+        "color": "#1abc9c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "projet2",
+        "name": "M1103 Projet",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1103-c": {
+        "alias": [
+            "M1103 Prog++"
+        ],
+        "color": "#1abc9c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "algo-prog2",
+        "name": "M1103 Prog++",
+        "shortName": "",
+        "ue": ""
+    },
+    "m1104": {
+        "alias": [
+            "M1104 ACSI-BD"
+        ],
+        "color": "#2ecc71",
+        "displayId": "M1104",
+        "displayName": "ACSI-BD",
+        "group": [
+            "S1"
+        ],
+        "icon": "bd",
+        "name": "M1104 ACSI-BD",
+        "shortName": "",
+        "ue": "UE 1-1"
+    },
+    "m1105": {
+        "alias": [
+            "M1105 Web"
+        ],
+        "color": "#f1c40f",
+        "displayId": "M1105",
+        "displayName": "Web",
+        "group": [
+            "S1"
+        ],
+        "icon": "web",
+        "name": "M1105 Web",
+        "shortName": "",
+        "ue": "UE 1-1"
+    },
+    "m1106": {
+        "alias": [
+            "M1106 PT1"
+        ],
+        "color": "#e67e22",
+        "displayId": "M1106",
+        "displayName": "Projet Tuteuré 1",
+        "group": [
+            "S1"
+        ],
+        "icon": "pt1",
+        "name": "M1106 PT1",
+        "shortName": "PT1",
+        "ue": "UE 1-1"
+    },
+    "m1201": {
+        "alias": [
+            "M1201 Maths discrètes"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M1201",
+        "displayName": "Mathématiques discrètes",
+        "group": [
+            "S1"
+        ],
+        "icon": "maths-discretes",
+        "name": "M1201 Maths discrètes",
+        "shortName": "Maths discrètes",
+        "ue": "UE 1-2"
+    },
+    "m1202": {
+        "alias": [
+            "M1202 Algèbre linéaire"
+        ],
+        "color": "#2980b9",
+        "displayId": "M1202",
+        "displayName": "Algèbre linéaire",
+        "group": [
+            "S1"
+        ],
+        "icon": "algebre-lineaire",
+        "name": "M1202 Algèbre linéaire",
+        "shortName": "",
+        "ue": "UE 1-2"
+    },
+    "m1203": {
+        "alias": [
+            "M1203 Env. économique"
+        ],
+        "color": "#16a085",
+        "displayId": "M1203",
+        "displayName": "Environnement Économique",
+        "group": [
+            "S1"
+        ],
+        "icon": "environnement-eco",
+        "name": "M1203 Env. Économique",
+        "shortName": "Env. Économique",
+        "ue": "UE 1-2"
+    },
+    "m1204": {
+        "alias": [
+            "M1204 Fonc. organisations"
+        ],
+        "color": "#27ae60",
+        "displayId": "M1204",
+        "displayName": "Fonctionnement des Orgnaisations",
+        "group": [
+            "S1"
+        ],
+        "icon": "organisation",
+        "name": "M1204 Fonc. Organisations",
+        "shortName": "Fonc. Organisations",
+        "ue": "UE 1-2"
+    },
+    "m1205": {
+        "alias": [
+            "M1205 Expression"
+        ],
+        "color": "#f39c12",
+        "displayId": "M1205",
+        "displayName": "Expression - Communication",
+        "group": [
+            "S1"
+        ],
+        "icon": "expression",
+        "name": "M1205 Expression",
+        "shortName": "Expression",
+        "ue": "UE 1-2"
+    },
+    "m1206": {
+        "alias": [
+            "M1206 Anglais"
+        ],
+        "color": "#d35400",
+        "displayId": "M1206",
+        "displayName": "Anglais",
+        "group": [
+            "S1"
+        ],
+        "icon": "anglais",
+        "name": "M1206 Anglais",
+        "shortName": "",
+        "ue": "UE 1-2"
+    },
+    "m1207": {
+        "alias": [
+            "M1207 PPP"
+        ],
+        "color": "#c0392b",
+        "displayId": "M1207",
+        "displayName": "Projet personnel professionnel",
+        "group": [
+            "S1"
+        ],
+        "icon": "ppp",
+        "name": "M1207 PPP",
+        "shortName": "PPP",
+        "ue": "UE 1-2"
+    },
+    "m2101": {
+        "alias": [
+            "M2101 Prog bas niveau"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M2101",
+        "displayName": "Programmation bas niveau",
+        "group": [
+            "S2"
+        ],
+        "icon": "prog-bas-niveau",
+        "name": "M2101 Prog bas niveau",
+        "shortName": "Prog bas niveau",
+        "ue": "UE 2-1"
+    },
+    "m2102": {
+        "alias": [
+            "M2102 Réseaux"
+        ],
+        "color": "#3498db",
+        "displayId": "M2102",
+        "displayName": "Réseaux",
+        "group": [
+            "S2"
+        ],
+        "icon": "reseaux",
+        "name": "M2102 Réseaux",
+        "shortName": "",
+        "ue": "UE 2-1"
+    },
+    "m2103": {
+        "alias": [
+            "M2103 Prog OO"
+        ],
+        "color": "#1abc9c",
+        "displayId": "M2103",
+        "displayName": "Programmation orientée objet",
+        "group": [
+            "S2"
+        ],
+        "icon": "prog-oo",
+        "name": "M2103 Prog OO",
+        "shortName": "Prog OO",
+        "ue": "UE 2-1"
+    },
+    "m2103-git": {
+        "alias": [
+            "M2103 Versioning"
+        ],
+        "color": "#1abc9c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "git",
+        "name": "M2103 Versionning",
+        "shortName": "",
+        "ue": ""
+    },
+    "m2104": {
+        "alias": [
+            "M2104 Conception OO"
+        ],
+        "color": "#2ecc71",
+        "displayId": "M2104",
+        "displayName": "Conception orientée objet",
+        "group": [
+            "S2"
+        ],
+        "icon": "conception-oo",
+        "name": "M2104 Conception OO",
+        "shortName": "Conception OO",
+        "ue": "UE 2-1"
+    },
+    "m2105": {
+        "alias": [
+            "M2105 IHM"
+        ],
+        "color": "#f1c40f",
+        "displayId": "M2105",
+        "displayName": "IHM",
+        "group": [
+            "S2"
+        ],
+        "icon": "ihm",
+        "name": "M2105 IHM",
+        "shortName": "",
+        "ue": "UE 2-1"
+    },
+    "m2106": {
+        "alias": [
+            "M2106 BD"
+        ],
+        "color": "#e67e22",
+        "displayId": "M2106",
+        "displayName": "Bases de données",
+        "group": [
+            "S2"
+        ],
+        "icon": "bd",
+        "name": "M2106 BD",
+        "shortName": "BD",
+        "ue": "UE 2-1"
+    },
+    "m2107": {
+        "alias": [
+            "M2107 PT2"
+        ],
+        "color": "#e74c3c",
+        "displayId": "M2107",
+        "displayName": "Projet Tuteuré 2",
+        "group": [
+            "S2"
+        ],
+        "icon": "pt2",
+        "name": "M2107 PT2",
+        "shortName": "PT2",
+        "ue": "UE 2-1"
+    },
+    "m2201": {
+        "color": "#8e44ad",
+        "displayId": "",
+        "displayName": "",
+        "icon": "graphes-langages",
+        "name": "Graphes & Langages",
+        "shortName": "",
+        "ue": ""
+    },
+    "m2201-a": {
+        "alias": [
+            "M2201 Graphes"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M2201A",
+        "displayName": "Graphes",
+        "group": [
+            "S2"
+        ],
+        "icon": "graphes-langages",
+        "name": "M2201 Graphes",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2201-b": {
+        "alias": [
+            "M2201 langage"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M2201B",
+        "displayName": "Langage",
+        "group": [
+            "S2"
+        ],
+        "icon": "graphes-langages",
+        "name": "M2201 langage",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2202": {
+        "alias": [
+            "M2202 Analyse"
+        ],
+        "color": "#2980b9",
+        "displayId": "M2202",
+        "displayName": "Analyse",
+        "group": [
+            "S2"
+        ],
+        "icon": "analyse",
+        "name": "M2202 Analyse",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2203": {
+        "alias": [
+            "SIEF-Droit"
+        ],
+        "color": "#16a085",
+        "displayId": "",
+        "displayName": "",
+        "icon": "droit",
+        "name": "SIEF & Droit",
+        "shortName": "",
+        "ue": ""
+    },
+    "m2203-a": {
+        "alias": [
+            "M2203 Droit"
+        ],
+        "color": "#16a085",
+        "displayId": "M2203A",
+        "displayName": "Droit",
+        "group": [
+            "S2"
+        ],
+        "icon": "droit",
+        "name": "M2203 Droit",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2203-b": {
+        "alias": [
+            "M2203 SIEF"
+        ],
+        "color": "#16a085",
+        "displayId": "M2203B",
+        "displayName": "SIEF",
+        "group": [
+            "S2"
+        ],
+        "icon": "sief",
+        "name": "M2203 SIEF",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2204": {
+        "alias": [
+            "M2204 Méthodes agiles",
+            "Gestion de projet"
+        ],
+        "color": "#27ae60",
+        "displayId": "M2204",
+        "displayName": "Méthodes agiles",
+        "group": [
+            "S2"
+        ],
+        "icon": "gestion-projet",
+        "name": "M2204 Méthodes agiles",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2205": {
+        "alias": [
+            "M2205 Expression"
+        ],
+        "color": "#f39c12",
+        "displayId": "M2205",
+        "displayName": "Expression - Communication",
+        "group": [
+            "S2"
+        ],
+        "icon": "expression",
+        "name": "M2205 Expression",
+        "shortName": "Expression",
+        "ue": "UE 2-2"
+    },
+    "m2206": {
+        "alias": [
+            "M2206 Anglais"
+        ],
+        "color": "#d35400",
+        "displayId": "M2206",
+        "displayName": "Anglais",
+        "group": [
+            "S2"
+        ],
+        "icon": "anglais",
+        "name": "M2206 Anglais",
+        "shortName": "",
+        "ue": "UE 2-2"
+    },
+    "m2207": {
+        "alias": [
+            "M2207 PPP"
+        ],
+        "color": "#c0392b",
+        "displayId": "M2207",
+        "displayName": "Projet personnel professionnel 2",
+        "group": [
+            "S2"
+        ],
+        "icon": "ppp",
+        "name": "M2207 PPP",
+        "shortName": "PPP 2",
+        "ue": "UE 2-2"
+    },
+    "m3101": {
+        "color": "#9b59b6",
+        "displayId": "",
+        "displayName": "",
+        "icon": "systemes-exploitation",
+        "name": "Systèmes d'exploitation",
+        "shortName": "",
+        "ue": ""
+    },
+    "m3101-a": {
+        "alias": [
+            "M3101 Prog système"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M3101A",
+        "displayName": "Programmation système",
+        "group": [
+            "S3"
+        ],
+        "icon": "prog-systeme",
+        "name": "M3101 Prog système",
+        "shortName": "Prog. système",
+        "ue": "UE 3-1"
+    },
+    "m3101-b": {
+        "alias": [
+            "M3101 Systèmes d'exploitation"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M3101B",
+        "displayName": "Systèmes d’exploitation",
+        "group": [
+            "S3"
+        ],
+        "icon": "systemes-exploitation",
+        "name": "M3101 Systèmes d'exploitation",
+        "shortName": "Syst. exploitation",
+        "ue": "UE 3-1"
+    },
+    "m3102": {
+        "alias": [
+            "M3102 Réseaux"
+        ],
+        "color": "#3498db",
+        "displayId": "M3102",
+        "displayName": "Services réseaux",
+        "group": [
+            "S3"
+        ],
+        "icon": "reseaux",
+        "name": "M3102 Réseaux",
+        "shortName": "Réseaux",
+        "ue": "UE 3-1"
+    },
+    "m3103": {
+        "color": "#1abc9c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "algorithmique",
+        "name": "C & Algorithmique",
+        "shortName": "",
+        "ue": ""
+    },
+    "m3103-a": {
+        "alias": [
+            "M3103 Algorithmique"
+        ],
+        "color": "#1abc9c",
+        "displayId": "M3103A",
+        "displayName": "Algorithmique",
+        "group": [
+            "S3"
+        ],
+        "icon": "algorithmique",
+        "name": "M3103 Algorithmique",
+        "shortName": "Algo.",
+        "ue": "UE 3-1"
+    },
+    "m3103-b": {
+        "alias": [
+            "M3103 C"
+        ],
+        "color": "#1abc9c",
+        "displayId": "M3103B",
+        "displayName": "Programmation C",
+        "group": [
+            "S3"
+        ],
+        "icon": "prog-c",
+        "name": "M3103 C",
+        "shortName": "Prog. C",
+        "ue": "UE 3-1"
+    },
+    "m3104": {
+        "alias": [
+            "M3104 Prog web (serveur)"
+        ],
+        "color": "#2ecc71",
+        "displayId": "M3104",
+        "displayName": "Programmation web côté serveur",
+        "group": [
+            "S3"
+        ],
+        "icon": "prog-web-serveur",
+        "name": "M3104 Prog web (serveur)",
+        "shortName": "Prog. web (serveur)",
+        "ue": "UE 3-1"
+    },
+    "m3105": {
+        "alias": [
+            "M3105 Conception et Prog Objet"
+        ],
+        "color": "#f1c40f",
+        "displayId": "M3105",
+        "displayName": "Conception et Prog Objet",
+        "group": [
+            "S3"
+        ],
+        "icon": "conception-prog-oo",
+        "name": "M3105 Conception et Prog Objet",
+        "shortName": "",
+        "ue": "UE 3-1"
+    },
+    "m3106": {
+        "alias": [
+            "M3106 BD avancées"
+        ],
+        "color": "#e67e22",
+        "displayId": "M3106",
+        "displayName": "Bases de données avancées",
+        "group": [
+            "S3"
+        ],
+        "icon": "bd",
+        "name": "M3106 BD avancées",
+        "shortName": "BD avancées",
+        "ue": "UE 3-1"
+    },
+    "m3201": {
+        "alias": [
+            "M3201 Probas stats"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M3201",
+        "displayName": "Probabilités & Statistiques",
+        "group": [
+            "S3"
+        ],
+        "icon": "probas-stats",
+        "name": "M3201 Probas stats",
+        "shortName": "Probas stats",
+        "ue": "UE 3-2"
+    },
+    "m3202": {
+        "alias": [
+            "M3202 Modélisations math."
+        ],
+        "color": "#2980b9",
+        "displayId": "M3202",
+        "displayName": "Modélisations mathématiques",
+        "group": [
+            "S3"
+        ],
+        "icon": "modelisation-math",
+        "name": "M3202 Modélisations math.",
+        "shortName": "Modélisations math.",
+        "ue": "UE 3-2"
+    },
+    "m3203": {
+        "alias": [
+            "M3203 Droit"
+        ],
+        "color": "#16a085",
+        "displayId": "M3203",
+        "displayName": "Droit",
+        "group": [
+            "S3"
+        ],
+        "icon": "droit",
+        "name": "M3203 Droit",
+        "shortName": "",
+        "ue": "UE 3-2"
+    },
+    "m3204": {
+        "alias": [
+            "M3204 Gestion des SI"
+        ],
+        "color": "#27ae60",
+        "displayId": "M3204",
+        "displayName": "Gestion des systèmes d'information",
+        "group": [
+            "S3"
+        ],
+        "icon": "gestion-si",
+        "name": "M3204 Gestion des SI",
+        "shortName": "Gestion des SI",
+        "ue": "UE 3-2"
+    },
+    "m3205": {
+        "alias": [
+            "M3205 Expression"
+        ],
+        "color": "#f39c12",
+        "displayId": "M3205",
+        "displayName": "Expression - Communication",
+        "group": [
+            "S3"
+        ],
+        "icon": "expression",
+        "name": "M3205 Expression",
+        "shortName": "Expression",
+        "ue": "UE 3-2"
+    },
+    "m3206": {
+        "alias": [
+            "M3206 Anglais"
+        ],
+        "color": "#d35400",
+        "displayId": "M3206",
+        "displayName": "Anglais",
+        "group": [
+            "S3"
+        ],
+        "icon": "anglais",
+        "name": "M3206 Anglais",
+        "shortName": "",
+        "ue": "UE 3-2"
+    },
+    "m3301": {
+        "alias": [
+            "M3301 Gestion de projet"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M3301",
+        "displayName": "Gestion de projet",
+        "group": [
+            "S3"
+        ],
+        "icon": "gestion-projet",
+        "name": "M3301 Gestion de projet",
+        "shortName": "",
+        "ue": "UE 3-3"
+    },
+    "m3302": {
+        "color": "#2980b9",
+        "displayId": "M3302",
+        "displayName": "Projet Tuteuré 3",
+        "group": [
+            "S3"
+        ],
+        "icon": "pt3",
+        "name": "PT3",
+        "shortName": "PT3",
+        "ue": "UE 3-3"
+    },
+    "m3302-a": {
+        "alias": [
+            "M3302 PT - Conception"
+        ],
+        "color": "#2980b9",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt3",
+        "name": "M3302 PT – Conception",
+        "shortName": "",
+        "ue": ""
+    },
+    "m3302-b": {
+        "alias": [
+            "M3302 PT - Gestion"
+        ],
+        "color": "#2980b9",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt3",
+        "name": "M3302 PT – Gestion",
+        "shortName": "",
+        "ue": ""
+    },
+    "m3303": {
+        "alias": [
+            "M3303 PPP - Compétences pro"
+        ],
+        "color": "#128a73",
+        "displayId": "M3303",
+        "displayName": "PPP – Compétences pro",
+        "group": [
+            "S3"
+        ],
+        "icon": "ppp",
+        "name": "P3303 PPP – Compétences pro",
+        "shortName": "PPP3",
+        "ue": "UE 3-3"
+    },
+    "m4101": {
+        "color": "#9b59b6",
+        "displayId": "",
+        "displayName": "",
+        "icon": "",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4101c-1-a": {
+        "alias": [
+            "M4101C Admin"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M4101C",
+        "displayName": "Admin",
+        "group": [
+            "S4p1"
+        ],
+        "icon": "admin",
+        "name": "M4101C Admin",
+        "shortName": "",
+        "ue": "UE 4-1"
+    },
+    "m4101c-2-a": {
+        "alias": [
+            "M4101C Image"
+        ],
+        "color": "#9b59b6",
+        "displayId": "M4101C",
+        "displayName": "Image",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "image",
+        "name": "M4101C Image",
+        "shortName": "",
+        "ue": "UE 4-1"
+    },
+    "m4102": {
+        "color": "#3498db",
+        "displayId": "",
+        "displayName": "",
+        "icon": "",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4102c-1-a": {
+        "alias": [
+            "M4102C Prog répartie"
+        ],
+        "color": "#3498db",
+        "displayId": "M4102C",
+        "displayName": "Programmation répartie",
+        "group": [
+            "S4p1"
+        ],
+        "icon": "prog-repartie",
+        "name": "M4102C Prog répartie",
+        "shortName": "Prog. répartie",
+        "ue": "UE 4-1"
+    },
+    "m4102c-2-a": {
+        "alias": [
+            "M4102C Algo distribuée"
+        ],
+        "color": "#3498db",
+        "displayId": "M4102CA",
+        "displayName": "Algorithmique distribuée",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "algo-distribuee",
+        "name": "M4102C Algo distribuée",
+        "shortName": "Algo. distribuée",
+        "ue": "UE 4-1"
+    },
+    "m4102c-2-b": {
+        "alias": [
+            "M4102C Robotique"
+        ],
+        "color": "#3498db",
+        "displayId": "M4102CB",
+        "displayName": "Robotique",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "robotique",
+        "name": "M4102C Robotique",
+        "shortName": "",
+        "ue": "UE 4-1"
+    },
+    "m4103c": {
+        "alias": [
+            "M4103C Prog web (client)"
+        ],
+        "color": "#1abc9c",
+        "displayId": "M4103C",
+        "displayName": "Programmation web côté client",
+        "group": [
+            "S4"
+        ],
+        "icon": "prog-web-client",
+        "name": "M4103C Prog web (client)",
+        "shortName": "Prog. web (client)",
+        "ue": "UE 4-1"
+    },
+    "m4104c": {
+        "alias": [
+            "M4104C Prog mobile"
+        ],
+        "color": "#2ecc71",
+        "displayId": "",
+        "displayName": "",
+        "icon": "prog-mobile-android",
+        "name": "M4104C Prog mobile",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4104c-a": {
+        "alias": [
+            "M4104C Prog mobile - Android"
+        ],
+        "color": "#2ecc71",
+        "displayId": "M4104CA",
+        "displayName": "Programmation mobile - Android",
+        "group": [
+            "S4"
+        ],
+        "icon": "prog-mobile-android",
+        "name": "Android",
+        "option": [
+            "android"
+        ],
+        "shortName": "Prog. mobile - Android",
+        "ue": "UE 4-1"
+    },
+    "m4104c-b": {
+        "alias": [
+            "M4104C Prog mobile - VR"
+        ],
+        "color": "#2ecc71",
+        "displayId": "M4104CB",
+        "displayName": "Programmation mobile - Réalité Virtuelle",
+        "group": [
+            "S4"
+        ],
+        "icon": "prog-mobile-vr",
+        "name": "Réalité virtuelle",
+        "option": [
+            "vr"
+        ],
+        "shortName": "Prog. mobile - VR",
+        "ue": "UE 4-1"
+    },
+    "m4105c": {
+        "alias": [
+            "M4105C JEE"
+        ],
+        "color": "#f1c40f",
+        "displayId": "M4105C",
+        "displayName": "Java JEE",
+        "group": [
+            "S4"
+        ],
+        "icon": "jee",
+        "name": "M4105C JEE",
+        "shortName": "JEE",
+        "ue": "UE 4-1"
+    },
+    "m4106": {
+        "alias": [
+            "M4106 PT"
+        ],
+        "color": "#e67e22",
+        "displayId": "M4106",
+        "displayName": "Projet Tuteuré 4",
+        "group": [
+            "S4"
+        ],
+        "icon": "pt4",
+        "name": "M4106 PT",
+        "shortName": "PT4",
+        "ue": "UE 4-1"
+    },
+    "m4106-a": {
+        "alias": [
+            "M4106 PT - Gestion"
+        ],
+        "color": "#e67e22",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt4",
+        "name": "M4106 PT - Gestion",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4106-b": {
+        "alias": [
+            "M4106 PT - Présentation"
+        ],
+        "color": "#e67e22",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt4",
+        "name": "M4106 PT – Présentation",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4106-c": {
+        "alias": [
+            "M4106 PT - Qualité"
+        ],
+        "color": "#e67e22",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt4",
+        "name": "M4106 PT – Qualité",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4106-d": {
+        "alias": [
+            "M4106 PT - Réalisation"
+        ],
+        "color": "#e67e22",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt4",
+        "name": "M4106 PT – Réalisation",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4106-e": {
+        "alias": [
+            "M4106 PT - Soutenances"
+        ],
+        "color": "#e67e22",
+        "displayId": "",
+        "displayName": "",
+        "icon": "pt4",
+        "name": "M4106 PT - Soutenances",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4201c": {
+        "color": "#8e44ad",
+        "displayId": "",
+        "displayName": "",
+        "icon": "",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4201c-1-a": {
+        "alias": [
+            "M4201C Création d'entreprise"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M4201C",
+        "displayName": "Création d'entreprise",
+        "group": [
+            "S4p1"
+        ],
+        "icon": "organisation",
+        "name": "M4201C Création d'entreprise",
+        "shortName": "",
+        "ue": "UE 4-2"
+    },
+    "m4201c-2-a": {
+        "alias": [
+            "M4201C Qualité logicielle"
+        ],
+        "color": "#8e44ad",
+        "displayId": "M4201C",
+        "displayName": "Qualité logicielle",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "qualite-logicielle",
+        "name": "M4201C Qualité logicielle",
+        "shortName": "",
+        "ue": "UE 4-2"
+    },
+    "m4202-2-b": {
+        "alias": [
+            "M4202C Crypto"
+        ],
+        "color": "#2980b9",
+        "displayId": "M4202B",
+        "displayName": "Cryptographie",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "crypto",
+        "name": "M4202C Crypto",
+        "shortName": "Crypto",
+        "ue": "UE 4-2"
+    },
+    "m4202-2-c": {
+        "alias": [
+            "M4202C Groupes"
+        ],
+        "color": "#2980b9",
+        "displayId": "M4202C",
+        "displayName": "Groupes",
+        "group": [
+            "S4p2"
+        ],
+        "icon": "groupes",
+        "name": "M4202C Groupes",
+        "shortName": "",
+        "ue": "UE 4-2"
+    },
+    "m4202c": {
+        "color": "#2980b9",
+        "displayId": "",
+        "displayName": "",
+        "icon": "",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "m4202c-a": {
+        "alias": [
+            "M4202C IA"
+        ],
+        "color": "#2980b9",
+        "displayId": "M4202A",
+        "displayName": "Intelligences Artificelles",
+        "group": [
+            "S4"
+        ],
+        "icon": "ia",
+        "name": "M4202C IA",
+        "shortName": "IA",
+        "ue": "UE 4-2"
+    },
+    "m4203": {
+        "alias": [
+            "M4203 Expression"
+        ],
+        "color": "#f39c12",
+        "displayId": "M4203",
+        "displayName": "Expression - Communication",
+        "group": [
+            "S4"
+        ],
+        "icon": "expression",
+        "name": "M4203 Expression",
+        "shortName": "Expression",
+        "ue": "UE 4-2"
+    },
+    "m4204": {
+        "alias": [
+            "M4204 Anglais"
+        ],
+        "color": "#d35400",
+        "displayId": "M4204",
+        "displayName": "Anglais",
+        "group": [
+            "S4"
+        ],
+        "icon": "anglais",
+        "name": "M4204 Anglais",
+        "shortName": "",
+        "ue": "UE 4-2"
+    },
+    "mathsSti2d": {
+        "alias": [
+            "Complément maths STI2D"
+        ],
+        "color": "#9b59b6",
+        "displayId": "",
+        "displayName": "",
+        "icon": "sti2d",
+        "name": "Complément maths STI2D",
+        "shortName": "",
+        "ue": ""
+    },
+    "optionS1": {
+        "alias": [
+            "Sport ou Théa ou club innov-1"
+        ],
+        "color": "#bdc3c7",
+        "displayId": "",
+        "displayName": "",
+        "icon": "sport",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "optionS2": {
+        "alias": [
+            "Sport ou Théa ou club innov-2"
+        ],
+        "color": "#bdc3c7",
+        "displayId": "",
+        "displayName": "",
+        "icon": "sport",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "optionS3": {
+        "alias": [
+            "Sport ou Théa ou club innov-3"
+        ],
+        "color": "#bdc3c7",
+        "displayId": "",
+        "displayName": "",
+        "icon": "sport",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "optionS4": {
+        "alias": [
+            "Sport ou Théa ou club innov-4"
+        ],
+        "color": "#bdc3c7",
+        "displayId": "",
+        "displayName": "",
+        "icon": "sport",
+        "name": "",
+        "shortName": "",
+        "ue": ""
+    },
+    "pr1a": {
+        "alias": [
+            "Conception elec"
+        ],
+        "color": "#2ecc71",
+        "displayId": "PR1A",
+        "displayName": "Conception électronique",
+        "group": [
+            "S1"
+        ],
+        "icon": "robotique/conception-elec",
+        "name": "Conception électronique",
+        "option": [
+            "roboticS1"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr1b": {
+        "alias": [
+            "Conception méca"
+        ],
+        "color": "#f1c40f",
+        "displayId": "PR1B",
+        "displayName": "Conception mécanique",
+        "group": [
+            "S1"
+        ],
+        "icon": "robotique/conception-meca",
+        "name": "Conception mécanique",
+        "option": [
+            "roboticS1"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr1c": {
+        "alias": [
+            "Navigation"
+        ],
+        "color": "#16a085",
+        "displayId": "PR1C",
+        "displayName": "Navigation",
+        "group": [
+            "S1"
+        ],
+        "icon": "robotique/navigation",
+        "name": "Navigation",
+        "option": [
+            "roboticS1"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr1d": {
+        "alias": [
+            "Programmation"
+        ],
+        "color": "#f39c12",
+        "displayId": "PR1D",
+        "displayName": "Programmation",
+        "group": [
+            "S1"
+        ],
+        "icon": "robotique/programmation",
+        "name": "Programmation",
+        "option": [
+            "roboticS1"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr3a": {
+        "alias": [
+            "La robotique"
+        ],
+        "color": "#e74c3c",
+        "displayId": "PR3A",
+        "displayName": "La Robotique et l'éthique",
+        "group": [
+            "S3"
+        ],
+        "icon": "robotique/la-robotique-ethique",
+        "name": "La Robotique et l'éthique",
+        "option": [
+            "roboticS3"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr3b": {
+        "alias": [
+            "Outils mathematiques Robotique"
+        ],
+        "color": "#27ae60",
+        "displayId": "PR3B",
+        "displayName": "Outils mathématiques pour la robotique",
+        "group": [
+            "S3"
+        ],
+        "icon": "robotique/outils-mathematiques",
+        "name": "Outils mathématiques pour la robotique",
+        "option": [
+            "roboticS3"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr3c": {
+        "alias": [
+            "PARCOURS ROBOTIQUE",
+            "Matière à préciser"
+        ],
+        "color": "#e67e22",
+        "displayId": "PR3C",
+        "displayName": "Parcours Robotique",
+        "group": [
+            "S3"
+        ],
+        "icon": "robotique/robotique",
+        "name": "Parcours Robotique",
+        "option": [
+            "roboticS3"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr3d": {
+        "alias": [
+            "Robotique Industrielle"
+        ],
+        "color": "#e67e22",
+        "displayId": "PR3D",
+        "displayName": "Robotique Industrielle",
+        "group": [
+            "S3"
+        ],
+        "icon": "robotique/robotique-industrielle",
+        "name": "Robotique Industrielle",
+        "option": [
+            "roboticS3"
+        ],
+        "shortName": "",
+        "ue": "Options"
+    },
+    "pr4a": {
+        "alias": [
+            "Analyse d'images"
+        ],
+        "color": "#9b59b6",
+        "displayId": "PR4A",
+        "displayName": "Analyse d’images",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/analyse-images",
+        "name": "Analyse d’images",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4b": {
+        "alias": [
+            "Anglais"
+        ],
+        "color": "#3498db",
+        "displayId": "PR4B",
+        "displayName": "Anglais",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/anglais",
+        "name": "Anglais",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4c": {
+        "alias": [
+            "Automatisme"
+        ],
+        "color": "#1abc9c",
+        "displayId": "PR4C",
+        "displayName": "Automatisme",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/automatisme",
+        "name": "Automatisme",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4d": {
+        "alias": [
+            "Expression Communication"
+        ],
+        "color": "#e67e22",
+        "displayId": "PR4D",
+        "displayName": "Expression Communication",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/expression-communication",
+        "name": "Expression Communication",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4e": {
+        "alias": [
+            "Mécanique & Protoypage"
+        ],
+        "color": "#8e44ad",
+        "displayId": "PR4E",
+        "displayName": "Mécanique & Prototypage",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/mecanique-prototypage",
+        "name": "Mécanique & Prototypage",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4f": {
+        "alias": [
+            "Méthodes d'apprentissage"
+        ],
+        "color": "#2980b9",
+        "displayId": "PR4F",
+        "displayName": "Méthodes d’apprentissage",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/methodes-apprentissage",
+        "name": "Méthodes d’apprentissage",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4g": {
+        "alias": [
+            "Normes et sécurité"
+        ],
+        "color": "#27ae60",
+        "displayId": "PR4G",
+        "displayName": "Normes et sécurité",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/normes-securite",
+        "name": "Normes et sécurité",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4h": {
+        "alias": [
+            "Projet"
+        ],
+        "color": "#d35400",
+        "displayId": "PR4H",
+        "displayName": "Projet",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/projet",
+        "name": "Projet",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4i": {
+        "alias": [
+            "Systèmes embarqués"
+        ],
+        "color": "#c0392b",
+        "displayId": "PR4I",
+        "displayName": "Systèmes embarqués",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/systemes-embarques",
+        "name": "Systèmes embarqués",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "pr4j": {
+        "alias": [
+            "WorkShop"
+        ],
+        "color": "#9b59b6",
+        "displayId": "PR4J",
+        "displayName": "WorkShop",
+        "group": [
+            "roboticS4"
+        ],
+        "icon": "robotique/workshop",
+        "name": "WorkShop",
+        "shortName": "",
+        "ue": "Parcours Robotique S4"
+    },
+    "prEvaluation": {
+        "alias": [
+            "Evaluation"
+        ],
+        "color": "#2c3e50",
+        "displayId": "",
+        "displayName": "",
+        "icon": "robotique/evaluation",
+        "name": "Évaluation",
+        "shortName": "",
+        "ue": ""
+    },
+    "prReunion": {
+        "alias": [
+            "Réunion Robotique"
+        ],
+        "color": "#2ecc71",
+        "displayId": "",
+        "displayName": "",
+        "icon": "robotique/reunion-robotique",
+        "name": "Réunion Robotique",
+        "shortName": "",
+        "ue": ""
+    },
+    "tutorat": {
+        "alias": [
+            "Tutorat"
+        ],
+        "color": "#e74c3c",
+        "displayId": "",
+        "displayName": "",
+        "icon": "tutorat",
+        "name": "Tutorat",
+        "shortName": "",
+        "ue": ""
+    }
+}

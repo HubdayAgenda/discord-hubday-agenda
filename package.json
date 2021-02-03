@@ -1,16 +1,18 @@
 {
-  "name": "discord.js-template",
+  "name": "hubday-bot",
   "version": "0.0.1",
   "main": "src/index",
   "author": "MenuDocs",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^7.17.0",
+    "eslint": "^7.19.0",
     "eslint-config-tesseract": "^0.0.2"
   },
   "dependencies": {
     "ascii-cats": "^1.1.1",
     "better-logging": "^4.4.0",
+    "canvas": "^2.6.1",
+    "canvas-table": "0.0.8",
     "cron": "^1.8.2",
     "discord.js": "^12.5.1",
     "glob": "^7.1.6",
