@@ -10,43 +10,33 @@ const matieres = {
     "fields": [
         {
             "name": "Algo",
-            "value": "😄"
         },
         {
             "name": "Systeme",
-            "value": "🤖"
         },
         {
             "name": "Anglais",
-            "value": "💩"
         },
         {
             "name": "Maths",
-            "value": "👩‍🎤"
         },
         {
             "name": "Web",
-            "value": "🙆‍♀️"
         },
         {
             "name": "DB",
-            "value": "😭"
         },
         {
             "name": "Droit",
-            "value": "🤐‍"
         },
         {
             "name": "Ouistiti",
-            "value": "☹️‍"
         },
         {
             "name": "Hello",
-            "value": "😈‍"
         },
         {
             "name": "Bonsoir",
-            "value": "👾‍"
         },
 
     ]
@@ -80,6 +70,6 @@ const testEmbedNum = (msg) => {
         embed.addField(element.name, i, true);
         i++;
     });
-    embed.addField('━━━━━━━━━━━━━━━━━━━━━━━━━━━━','\u200B', false);
+    embed.addField('━━━━━━━━━━━━━━━━━━━━━━━━━━━━', '\u200B', false);
     msg.channel.send(embed);
 }
