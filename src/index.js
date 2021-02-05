@@ -2,135 +2,54 @@ const Discord = require("discord.js");
 const botClient = new Discord.Client();
 const discordConfig = require("../config.json");
 
-const { CanvasTable, CTConfig } = require("canvas-table");
-const { createCanvas, loadImage } = require("canvas");
+const modulesTab = require("./modulesTab");
 
-botClient.login(discordConfig.token);
+// botClient.api.applications(botClient.id).guilds('796320659759300628').commands.post({data: {
+//     name: 'ping',
+//     description: 'ping pong!'
+// }})
 
-const modules = require("./modules");
+botClient.on('ready', () => {
+	console.log("Started !")
 
-console.log("Started !")
-
-/**
- * Donne un ue
- * Retourne tous les modules de cet ue
- */
-const getModulesByUE = (ue) => {
-	let tab = [];
-	for (var mod in modules) {
-		if (modules[mod].ue == ue) {
-			tab.push(modules[mod]);
-		}
-	}
-	return tab;
-};
-
-// console.log(getModulesByUE("UE 1-1"));
+    botClient.api.applications(botClient.user.id).commands.post({
+        data: {
+            name: "agenda",
+            description: "Permet d'ajouter un devoir dans l'agenda Discord et Hudbay"
+        }
+    });
 
 
-botClient.on("message", msg => {
+    botClient.ws.on('INTERACTION_CREATE', async interaction => {
+        const command = interaction.data.name.toLowerCase();
+        const args = interaction.data.options;
 
-	//On regarde si le message commence bien par le prefix (!)
-	if (!msg.content.startsWith(discordConfig.prefix))//Si le message ne commence pas par le prefix du config.json
-		return;
-
-	switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
-		case "test":
-			testCanvas(msg, ["UE 3-1", "UE 3-2", "UE 3-3"]);
-			break;
-	}
+        if (command === 'agenda'){ 
+			botClient.users.fetch(interaction.member.user.id)
+			.then(async (user) => {
+				console.log(user);
+				user.send(await testCanvas(["UE 1-1", "UE 1-2"]))
+			})
+        }
+    });
 });
 
-const getData = (mods) => {
-	let data = [];
-	let i = 1;
-	mods.forEach(mod => {
-		const ligne = [i.toString(), mod.name, mod.ue];
-		data.push(ligne);
-		i++;
-	});
-	return data;
-};
+// botClient.on("message", msg => {
 
-const columns = [
-	{
-		title: "Numero",
-		options: {
-			textAlign: "center",
-			fontSize: 20,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "#444444",
-			lineHeight: 3,
-		}
-	},
-	{
-		title: "Nom",
-		options: {
-			textAlign: "left",
-			fontSize: 20,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "#444444",
-			lineHeight: 3,
-		}
-	},
-	{
-		title: "UE",
-		options: {
-			textAlign: "center",
-			fontSize: 20,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "#444444",
-			lineHeight: 3,
-		}
-	}
-];
+// 	//On regarde si le message commence bien par le prefix (!)
+// 	if (!msg.content.startsWith(discordConfig.prefix))//Si le message ne commence pas par le prefix du config.json
+// 		return;
 
-const options = {
-	borders: {
-		table: { color: "#444444", width: 3 }
-	},
-	fit: true,
-	options: {
-		textAlign: "center",
-	},
-	header: {
-		fontSize: 20,
-		fontFamily: "arial",
-		color: "#db74b0",
-	},
-};
+// 	switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
+// 		case "test":
+// 			break;
+// 	}
+// });
 
-/*
-const data: CTData = [
-	["cell 1", "cell 2", "cell 3"], // row 1
-	["cell 1", "cell 2", "cell 3"] // row 2
-];
-*/
 
-const testCanvas = async (msg, ue) => {
-	const mod = [];
-	ue.forEach(element => {
-		getModulesByUE(element).forEach(matiere => {
-			mod.push(matiere);
-		});
-	});
+const testCanvas = async (ue) => {
 
-	const canvas = createCanvas(1920 / 3, 1080 / 2.3);
-
-	const data = getData(mod);
-	console.log(data);
-	const ct = new CanvasTable(canvas, {
-		data,
-		columns,
-		options
-	});
-	await ct.generateTable();
-	await ct.renderToFile("test-table.png");
-
-	const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "image.png");
+	const attachment = await modulesTab.getTabImageAttachment(ue);
 
 	const embed = new Discord.MessageEmbed()
 		.attachFiles(attachment)
@@ -138,67 +57,9 @@ const testCanvas = async (msg, ue) => {
 		.setImage("attachment://image.png")
 		.setFooter("Repondez avec le numéro correspondant")
 		.setAuthor("Cliquez sur l'image pour zoomer !", "https://www.hubday.fr/favicon/apple-touch-icon.png");
-	msg.channel.send(embed);
-};
+	return embed;
+}
 
 
 
-/*
-borders: {
-		column: undefined,
-		header: undefined,
-		row: { width: 1, color: "#555" },
-		table: { width: 2, color: "#aaa" }
-	},
-	header: {
-		fontSize: 12,
-		fontWeight: "bold",
-		fontFamily: "sans-serif",
-		color: "#666666",
-		lineHeight: 1.2,
-		textAlign: "left",
-		padding: 5
-	},
-	cell: {
-		fontSize: 12,
-		fontWeight: "normal",
-		fontFamily: "sans-serif",
-		color: "#444444",
-		lineHeight: 1.2,
-		padding: 5,
-		textAlign: "left"
-	},
-	background: "#ffffff",
-	devicePixelRatio: 2,
-	fader: {
-		right: true,
-		size: 40,
-		bottom: true
-	},
-	padding: {
-		bottom: 20,
-		left: 20,
-		right: 20,
-		top: 20
-	},
-	subtitle: {
-		fontSize: 14,
-		fontWeight: "normal",
-		fontFamily: "sans-serif",
-		color: "#888888",
-		lineHeight: 1,
-		multiline: false,
-		// text: "",
-		textAlign: "center"
-	},
-	title: {
-		fontSize: 14,
-		fontWeight: "bold",
-		fontFamily: "sans-serif",
-		color: "#666666",
-		lineHeight: 1,
-		multiline: false,
-		// text: "",
-		textAlign: "center"
-	}
-*/
+botClient.login(discordConfig.token);
