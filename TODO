@@ -1,0 +1,14 @@
+- Help message
+
+- Convention forme devoir
+
+- Formulaire ajout
+    - Slash cmd lancement reponse mp
+    - Recup UE utilisateur
+    - Recup modules
+    - Choix matiere (Embed & tab done)
+    - Choix description
+    - Choix date
+    - Envois sur bd hubday
+
+- Sync db avec salons

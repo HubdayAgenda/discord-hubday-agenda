@@ -15,7 +15,7 @@ const getTabImageAttachment = async (ueList) => {
 
 	const canvas = createCanvas(1920 / 3, 25 * mod.length + 50);
 
-	const data = getData(mod);
+	const data = modulesToTabData(mod);
 
 	const ct = new CanvasTable(canvas, {
 		data,
@@ -42,8 +42,12 @@ const getModulesByUE = (ue) => {
 	return tab;
 };
 
-
-const getData = (mods) => {
+/**
+ * Transforme une liste de module sous une forme utilisée pour générer un tableau
+ * @param mods liste des modules a afficher dans le tableau
+ * @return Les modules sous forme lisible pour canvas-table
+ */
+const modulesToTabData = (mods) => {
 	let data = [];
 	let i = 1;
 	mods.forEach(mod => {
@@ -59,48 +63,49 @@ const columns = [
 		title: "Numero",
 		options: {
 			textAlign: "center",
-			fontSize: 20,
+			fontSize: 14,
 			fontWeight: "bold",
 			fontFamily: "arial",
-			color: "white",
-			lineHeight: 3,
+			color: "#afdab9",
+			lineHeight: 5,
 		}
 	},
 	{
-		title: "Nom",
+		title: "Module",
 		options: {
 			textAlign: "left",
-			fontSize: 20,
+			fontSize: 12,
 			fontWeight: "bold",
 			fontFamily: "arial",
 			color: "white",
-			lineHeight: 3,
-		}
+			lineHeight: 5,
+		},
 	},
 	{
 		title: "UE",
 		options: {
 			textAlign: "center",
-			fontSize: 20,
+			fontSize: 12,
 			fontWeight: "bold",
 			fontFamily: "arial",
 			color: "white",
-			lineHeight: 3,
-		}
+			lineHeight: 5,
+		},
 	}
 ];
 
 const options = {
 	background: "#2c2f33",
 	borders: {
-		table: { color: "white", width: 3 }
+		table: { color: "#bababa", width: 2 },
+		row: { width: 2, color: "##bababa" },
 	},
 	fit: true,
 	options: {
 		textAlign: "center",
 	},
 	header: {
-		fontSize: 20,
+		fontSize: 16,
 		fontFamily: "arial",
 		color: "#afdab9",
 	},
