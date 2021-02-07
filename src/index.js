@@ -1,12 +1,22 @@
+/* eslint-disable */
 // require("better-logging")(console);
 
 const Discord = require("discord.js");
+const Firebase = require("./firebase.js");
 const client = new Discord.Client();
 const DISCORD_CONFIG = require("../config.json");
+const FIREBASE_CONFIG = require("../configFirebase.json");
 
 const embed = require("./embed");
 const addForm = require("./addForm");
 
+const fb = new Firebase(FIREBASE_CONFIG);
+
+async function getModules() {
+	const modules = await fb.getDbData("modules");
+	console.log(Object.keys(modules).length);
+	return modules;
+}
 
 /**
  * Actions du bot, choisissable depuis un message de menu (Premier MP du bot après /agenda)
@@ -33,7 +43,7 @@ const BOT_ACTIONS = [
 		"emoji": "📣",
 		"action": (user) => user.send(
 			embed.getDefaultEmbed("Voici ou reporter un bug du bot :", "https://github.com/tjobit/discord-hubday-agenda/issues/new")
-		)
+		).catch(e => console.error(e))
 	}
 ];
 
@@ -44,9 +54,9 @@ client.on("ready", () => {
 	 * Enregistrement de la commande /agenda
 	 */
 	client.api.applications(client.user.id).commands.post({
-		data: {name: "agenda", description: "Permet de gérer les devoirs dans l'agenda Discord et Hudbay"}
+		data: { name: "agenda", description: "Permet de gérer les devoirs dans l'agenda Discord et Hudbay" }
 	});
-	
+
 	/**
 	 * Enregistrement listener des commandes
 	 */
@@ -55,7 +65,8 @@ client.on("ready", () => {
 	});
 
 	console.log("========================================");
-	console.log("Bot started !");
+	console.log("             Bot started !              ");
+	console.log("========================================");
 
 });
 
@@ -66,6 +77,7 @@ client.on("ready", () => {
  * @param {*} interaction 
  */
 const onBotCommand = (interaction) => {
+	console.log(`/agenda received : ${interaction.member.user.username}`);
 	//Recupération de l'utilisateur qui a fais la commande
 	client.users.fetch(interaction.member.user.id).then((user) => {
 		//Envois du message de menu en privé à l'utilisateur
@@ -116,22 +128,30 @@ client.login(DISCORD_CONFIG.token);
 
 
 
-// /**
-//  * Dev ===============================
-//  */
-// client.on("message", async msg => {
-// 	if (msg.channel.type === "dm") {
-// 		msg.author.send(await embed.getMatieresEmbed(["UE 1-1", "UE 1-2"]));
-// 	}
+/**
+ * Dev ===============================
+ */
+client.on("message", async msg => {
+	// if (msg.channel.type === "dm") {
+	// 	msg.author.send(await embed.getMatieresEmbed(["UE 1-1", "UE 1-2"]));
+	// }
 
-// 	//On regarde si le message commence bien par le prefix (!)
-// 	if (!msg.content.startsWith(DISCORD_CONFIG.prefix))//Si le message ne commence pas par le prefix du config.json
-// 		return;
+	//On regarde si le message commence bien par le prefix (!)
+	if (!msg.content.startsWith(DISCORD_CONFIG.prefix))//Si le message ne commence pas par le prefix du config.json
+		return;
 
-// 	switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
-// 		case "agenda-help":
-// 			msg.channel.send(embed.getHelpEmbed());
-// 			break;
-// 	}
-// });
+	switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
+		case "test":
+			// msg.channel.send(embed.getHelpEmbed());
+			//getModules();
+			// console.log(msg.author.id);
+			//console.log(await fb.getDbDataWithFilter("users", "discordId", msg.author.id))
+			const users = await fb.getDbData("users")
+			for (var idnum of Object.keys(users)) {
+				var user = users[idnum];
+				if (user.discordId === "") console.log(user.displayName, user.group2)
+			}
+			break;
+	}
+});
 

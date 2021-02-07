@@ -5,6 +5,11 @@ const { createCanvas} = require("canvas");
 
 const modules = require("./modules");
 
+/**
+ * Création du canvas avec les matières et les UE
+ * @param ueList tableau contenant les UE 
+ * @return la canvas mis en forme
+ */
 const getTabImageAttachment = async (ueList) => {
 	const mod = [];
 	ueList.forEach(element => {
@@ -29,8 +34,9 @@ const getTabImageAttachment = async (ueList) => {
 };
 
 /**
- * Donne un ue
- * Retourne tous les modules de cet ue
+ * Permet de recuperer les objets de module à partir d'une liste d'ue
+ * @param ue tableau comprenant les ue à prendre en compte
+ * @return tableau des modules correspondants aux ue
  */
 const getModulesByUE = (ue) => {
 	let tab = [];
@@ -58,6 +64,9 @@ const modulesToTabData = (mods) => {
 	return data;
 };
 
+/**
+ * Affichage des colonnes pour le canvas
+ */
 const columns = [
 	{
 		title: "Numero",
@@ -94,6 +103,9 @@ const columns = [
 	}
 ];
 
+/**
+ * Options pour le canvas
+ */
 const options = {
 	background: "#2c2f33",
 	borders: {

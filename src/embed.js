@@ -19,6 +19,7 @@ const getHelpEmbed = () => {
 
 /**
  * Création de l'embed pour l'affichage du tableau des matières
+ * @param ue Un tableau comprenant les ue à prendre en compte
  * @return l'embed mis en forme
  */
 const getMatieresEmbed = async (ue) => {
@@ -33,6 +34,11 @@ const getMatieresEmbed = async (ue) => {
 	return embed;
 };
 
+/**
+ * Création de l'embed pour l'affichage du menu des commandes
+ * @param BOT_ACTIONS JSON contenant les emoji, les noms etc correspondant aux commandes
+ * @return l'embed mis en forme
+ */
 const getMenuEmbed = (BOT_ACTIONS) => {
 	const embed = new Discord.MessageEmbed()
 		.setAuthor("Menu des commandes", "https://www.hubday.fr/favicon/apple-touch-icon.png")
@@ -46,6 +52,11 @@ const getMenuEmbed = (BOT_ACTIONS) => {
 	return embed;
 };
 
+/**
+ * Retourne un embed tout simple avec juste un titre et une description
+ * @param titre Le titre de l'embed 
+ * @param description La description de l'embed (facultatif)
+ */
 const getDefaultEmbed = (titre, description = null) => {
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(titre, "https://www.hubday.fr/favicon/apple-touch-icon.png")
