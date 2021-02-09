@@ -6,7 +6,7 @@ const DISCORD_CONFIG = require("../config.json");
 
 const FIREBASE_CONFIG = require("../configFirebase.json");
 const Firebase = require("./firebase.js");
-const fb = new Firebase(FIREBASE_CONFIG);
+const dataBase = new Firebase(FIREBASE_CONFIG);
 
 const Embed = require("./embed.js");
 const embed = new Embed();
@@ -26,7 +26,8 @@ let MODULES = null;
  */
 const getModules = async () => {
 	if (MODULES === null) {
-		const modules = await fb.getDbData("modules");
+		// const modules = await dataBase.getDbData("modules");
+		const modules = require("./modules.json");
 		console.log("[DB] Modules retrieved : " + Object.keys(modules).length);
 		return modules;
 	}
@@ -122,6 +123,16 @@ client.on("ready", async () => {
 	console.log("             Bot started !              ");
 	console.log("========================================");
 
+	const status = async () => {
+		setTimeout(() => {
+			client.user.setActivity("/agenda");
+			setTimeout(() => {
+				client.user.setActivity("hubday.fr", { type: "WATCHING" } );
+				status();
+			}, 20000);
+		}, 20000);
+	};
+	status();
 });
 
 
@@ -165,8 +176,10 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 						//Si cette action possède une fonction valide, on l'execute
 						if (action.action) {
 							action.action(user);
+							msg.delete().catch((e) => console.error(e));
 						} else {
 							msg.reply(embed.getDefaultEmbed("Désolé cette commande n'est pas encore disponible")).catch(e => console.error(e));
+							msg.delete().catch((e) => console.error(e));
 							// On renvois le menu dans le cas d'une action non valide
 							setTimeout(() => { onBotCommand(userId, true); }, 1000);
 						}
@@ -174,9 +187,9 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 				});
 			}).catch(() => {
 				msg.reply(embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
+				msg.delete().catch((e) => console.error(e));
 				handleUser(userId, true);
 			});
-
 		}).catch(() => { console.error("Impossible d'envoyer un message privé à cet utilisateur"); });
 
 	}).catch(() => console.error("Utilisateur introuvable ou erreur interne (onBotCommand)"));
