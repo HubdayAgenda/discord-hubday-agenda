@@ -1,0 +1,112 @@
+{
+    "S1A": {
+        "-MOAcMQ2zClbaI1QluuP": {
+            "date": "2020-12-14",
+            "delivery": "Remise miniexos1 diapo 84 Chap1 M1202",
+            "group": "",
+            "label": [
+                "Remise mini-exos 1"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/mod/assign/view.php?id=308167",
+            "module": "M1202",
+            "notation": "graded",
+            "time": "16:00"
+        },
+        "-MOAdzr8p6j8KaN6dOXD": {
+            "date": "2020-12-13",
+            "delivery": "Synthèse d'interview",
+            "group": "prime",
+            "label": [
+                "Synthèse d'interview"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/mod/assign/view.php?id=277228",
+            "module": "M1205",
+            "notation": "graded",
+            "time": "23:31"
+        },
+        "-MOAejxOA-LpF9fv5TgT": {
+            "date": "2020-12-13",
+            "delivery": "Remise du TP4",
+            "group": "",
+            "label": [
+                "TP4: Opérations ensemblistes et jointures externes"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/course/view.php?id=6064",
+            "module": "M1104",
+            "notation": "",
+            "time": "23:59"
+        },
+        "-MOHSsyJqkn9Ovzy9fYN": {
+            "date": "2021-01-04",
+            "delivery": "Rendu du projet",
+            "group": "",
+            "label": [
+                "Projet système"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/mod/assign/view.php?id=320506",
+            "module": "M1101",
+            "notation": "graded",
+            "time": "23:50"
+        },
+        "-MOXcUaq87kyE2_hHot9": {
+            "date": "2020-12-18",
+            "delivery": "",
+            "group": "",
+            "label": [
+                "Phase 2 Towa - IA"
+            ],
+            "link": "",
+            "module": "M1103",
+            "notation": "graded",
+            "time": "18:00"
+        },
+        "-MOXd0SEsEjnnU1mILPN": {
+            "date": "2021-01-04",
+            "delivery": "Remise miniexos2",
+            "group": "",
+            "label": [
+                "Remise mini-exos 2"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/mod/assign/view.php?id=309376",
+            "module": "M1202",
+            "notation": "graded",
+            "time": "23:59"
+        },
+        "-MOXdqxjEie43eIw3oif": {
+            "date": "2020-12-18",
+            "delivery": "",
+            "group": "",
+            "label": [
+                "TD2 -Eco à rendre par mail"
+            ],
+            "link": "",
+            "module": "M1203",
+            "notation": "graded",
+            "time": "23:59"
+        },
+        "-MOXdznr-9OGlaCgg_1G": {
+            "date": "2020-12-18",
+            "delivery": "",
+            "group": "",
+            "label": [
+                "TD2 - Orga à rendre par mail"
+            ],
+            "link": "",
+            "module": "M1204",
+            "notation": "graded",
+            "time": "23:59"
+        },
+        "-MObyD6-i8oM567GCWFM": {
+            "date": "2020-12-31",
+            "delivery": "Projet Site du fin de S1",
+            "group": "",
+            "label": [
+                "Projet site du fin de S1"
+            ],
+            "link": "https://moodle1.u-bordeaux.fr/mod/assign/view.php?id=89557",
+            "module": "M1105",
+            "notation": "graded",
+            "time": "23:59"
+        }
+    }
+}

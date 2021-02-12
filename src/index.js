@@ -6,10 +6,10 @@ const DISCORD_CONFIG = require("../config.json");
 
 const FIREBASE_CONFIG = require("../configFirebase.json");
 const Firebase = require("./firebase.js");
+// eslint-disable-next-line no-unused-vars
 const dataBase = new Firebase(FIREBASE_CONFIG);
 
-const Embed = require("./embed.js");
-const embed = new Embed();
+const Embed = require("./Embed.js");
 
 const AddForm = require("./addForm");
 
@@ -52,19 +52,19 @@ let USER_LOAD = [];
 const handleUser = (id, remove = false) => {
 	if (USER_LOAD.includes(id)) {
 		if (remove) {
-			console.info("[UserLoad] User unhandled correctly with id : " + id);
-			USER_LOAD.splice(USER_LOAD.indexOf(id, 1));
+			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
+			console.info(`[UserLoad : ${USER_LOAD.length}] User unhandled correctly with id : ` + id);
 		} else {
-			console.info("[UserLoad] User already handled with id : " + id);
+			console.info(`[UserLoad : ${USER_LOAD.length}] User already handled with id : ` + id);
 			return -1;
 		}
 	} else {
 		USER_LOAD.push(id);
-		console.info("[UserLoad] New user handled with id : " + id);
+		console.info(`[UserLoad : ${USER_LOAD.length}] New user handled with id : ` + id);
 		async () => {
 			setTimeout(() => {
-				console.warn("[UserLoad] User automatically unhandled with id : " + id + "(timeout)");
 				handleUser(id, true);
+				console.warn(`[UserLoad : ${USER_LOAD.length}] User automatically unhandled with id : ` + id + "(timeout)");
 			}, 120000);
 		};
 	}
@@ -81,7 +81,7 @@ const BOT_ACTIONS = [
 	{
 		"name": "Ajouter un devoir",
 		"emoji": "✅",
-		"action": new AddForm().startAddForm
+		"action": (user) => AddForm.startAddForm(user)
 	},
 	{
 		"name": "Modifier un devoir",
@@ -94,9 +94,12 @@ const BOT_ACTIONS = [
 	{
 		"name": "Reporter un bug",
 		"emoji": "📣",
-		"action": (user) => user.send(
-			embed.getDefaultEmbed("Voici ou reporter un bug du bot :", "https://github.com/tjobit/discord-hubday-agenda/issues/new")
-		).catch(e => console.error(e))
+		"action": (user) => {
+			user.send(
+				Embed.getDefaultEmbed("Voici ou reporter un bug du bot :", "https://github.com/tjobit/discord-hubday-agenda/issues/new")
+			).catch(e => console.error(e));
+			handleUser(user.id, true);
+		}
 	}
 ];
 
@@ -127,7 +130,7 @@ client.on("ready", async () => {
 		setTimeout(() => {
 			client.user.setActivity("/agenda");
 			setTimeout(() => {
-				client.user.setActivity("hubday.fr", { type: "WATCHING" } );
+				client.user.setActivity("hubday.fr", { type: "WATCHING" });
 				status();
 			}, 20000);
 		}, 20000);
@@ -145,20 +148,20 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 	//Recupération de l'utilisateur qui a fais la commande
 	client.users.fetch(userId).then((user) => {
 		if (handleUser(userId) === -1 && !byPassUserHandle) {
-			user.send(embed.getDefaultEmbed("Hop hop hop attention !", "Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !"))
+			user.send(Embed.getDefaultEmbed("Hop hop hop attention !", "Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !"))
 				.catch(e => console.error(e));
 			return;
 		}
 
 		//Envois du message de menu en privé à l'utilisateur
-		embed.getMenuEmbed(BOT_ACTIONS);
-		user.send(embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
+		Embed.getMenuEmbed(BOT_ACTIONS);
+		user.send(Embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
 
 			//Creation des reactions du menu
 			const emojis = [];
 			BOT_ACTIONS.forEach(action => {
 				emojis.push(action.emoji);
-				msg.react(action.emoji);
+				msg.react(action.emoji).catch(() => console.info("React on deleted message"));
 			});
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte) 
@@ -178,7 +181,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 							action.action(user);
 							msg.delete().catch((e) => console.error(e));
 						} else {
-							msg.reply(embed.getDefaultEmbed("Désolé cette commande n'est pas encore disponible")).catch(e => console.error(e));
+							msg.reply(Embed.getDefaultEmbed("Désolé cette commande n'est pas encore disponible")).catch(e => console.error(e));
 							msg.delete().catch((e) => console.error(e));
 							// On renvois le menu dans le cas d'une action non valide
 							setTimeout(() => { onBotCommand(userId, true); }, 1000);
@@ -186,7 +189,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 					}
 				});
 			}).catch(() => {
-				msg.reply(embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
+				msg.reply(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
 				msg.delete().catch((e) => console.error(e));
 				handleUser(userId, true);
 			});
@@ -198,6 +201,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 client.login(DISCORD_CONFIG.token);
 
 exports.modules = getModules;
+exports.handleUser = handleUser;
 
 
 
@@ -210,21 +214,39 @@ exports.modules = getModules;
 /**
  * Dev ===============================
  */
-client.on("message", async msg => {
+client.on("message", msg => {
 	if (msg.channel.type === "dm") {
-		// msg.author.send(await embed.getMatieresEmbed(["UE 1-1", "UE 1-2"]));
-		// console.log(MODULES);
-		// const users = await fb.getDbData("users");
-		// const groups = [];
-		// for (var idnum of Object.keys(users)) {
-		// 	var user = users[idnum];
 
-		// 	if(!groups.includes(user.group2)){
-		// 		console.log(user.group2);
-		// 		groups.push(user.group2);
-		// 	}
+		// if (msg.author.id !== client.user.id) {
+		// 	onBotCommand(msg.author.id);
 		// }
-		// console.log(groups);
+		if(msg.author.id !== client.user.id && ! USER_LOAD.includes(msg.author.id)){
+			handleUser(msg.author.id);
+			AddForm.startAddForm(msg.author);
+		}
+
+		// let tab = [];
+		// const users = await dataBase.getDbData("users");
+
+		// for (let idnum of Object.keys(users)) {
+
+		// 	let user = users[idnum];
+		// 	if (user.group2 === "roboticS4")
+		// 		console.log(user);
+		// 	// if(user.options[0] = )
+		// 	// // if( !tab.includes(user.group1))
+		// 	// // 	tab.push(user.group1);
+		// 	// // if( !tab.includes(user.group2))
+		// 	// // 	tab.push(user.group2);
+		// }
+		// tab.forEach(element => {
+		// 	console.log(element);
+		// });
+
+
+		// const agenda = await dataBase.getDbData("agenda");
+		// console.log(agenda["S2A"]);
+
 	}
 
 	//On regarde si le message commence bien par le prefix (!)
@@ -233,7 +255,7 @@ client.on("message", async msg => {
 
 	// switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
 	// 	case "test":
-	// 		// msg.channel.send(embed.getHelpEmbed());
+	// 		// msg.channel.send(Embed.getHelpEmbed());
 	// 		//getModules();
 	// 		// console.log(msg.author.id);
 	// 		//console.log(await fb.getDbDataWithFilter("users", "discordId", msg.author.id))

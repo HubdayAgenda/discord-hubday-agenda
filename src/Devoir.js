@@ -4,6 +4,7 @@ class Devoir {
 		-> label : string[] -> minimum 1
 		-> date : new Date().toISOString()
 		-> group : string "" -> groupe entier | "prime | "seconde" -> groupe de l'utilisateur
+
 		-> delivery : string (intitulé du lien)
 		-> link : string (lien Moodle, consignes) -> optionnel
 		-> notation : boolean
@@ -21,13 +22,13 @@ class Devoir {
 		this.courseId = courseId;
 	}
 
-	async persist() {
-		if (this.id === undefined) { // Nouveau devoir
+	// async persist() {
+	// 	if (this.id === undefined) { // Nouveau devoir
 
-		} else { // Devoir existant : mise à jour
+	// 	} else { // Devoir existant : mise à jour
 
-		}
-	}
+	// 	}
+	// }
 }
 
 exports.Devoir = Devoir;

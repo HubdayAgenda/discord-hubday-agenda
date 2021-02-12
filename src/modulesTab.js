@@ -37,9 +37,9 @@ class ModuleTab {
 	}
 
 	/**
-	 * Permet de recuperer les objets de module à partir d'une liste d'ue
-	 * @param ue tableau comprenant les ue à prendre en compte
-	 * @return tableau des modules correspondants aux ue
+	 * Permet de recuperer les objets de module à partir d'un seul UE'
+	 * @param ue l'ue
+	 * @return tableau des modules correspondants a l'UE
 	 */
 	getModulesByUE(ue) {
 		let tab = [];
