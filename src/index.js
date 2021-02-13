@@ -13,6 +13,8 @@ const Embed = require("./Embed.js");
 
 const AddForm = require("./addForm");
 
+// const Devoir = require("./Devoir");
+// const Utils = require("./utils");
 
 /**
  * Modules db object {}
@@ -58,7 +60,7 @@ const handleUser = (id, remove = false) => {
 			console.info(`[UserLoad : ${USER_LOAD.length}] User already handled with id : ` + id);
 			return -1;
 		}
-	} else {
+	} else if (!remove) {
 		USER_LOAD.push(id);
 		console.info(`[UserLoad : ${USER_LOAD.length}] New user handled with id : ` + id);
 		async () => {
@@ -68,6 +70,15 @@ const handleUser = (id, remove = false) => {
 			}, 120000);
 		};
 	}
+};
+
+/**
+ * 
+ * @param id l'id de l'utilisateur a rechercher
+ * @return vrai si l'utilisateur est enregistré 
+ */
+const isUserHandled = (id) => {
+	return USER_LOAD.includes(id);
 };
 
 
@@ -117,7 +128,7 @@ client.on("ready", async () => {
 	 * Enregistrement listener des commandes
 	 */
 	client.ws.on("INTERACTION_CREATE", async interaction => {
-		(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.user.id);
+		(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
 	});
 
 	console.log("========================================");
@@ -202,6 +213,7 @@ client.login(DISCORD_CONFIG.token);
 
 exports.modules = getModules;
 exports.handleUser = handleUser;
+exports.isUserHandled = isUserHandled;
 
 
 
@@ -220,9 +232,41 @@ client.on("message", msg => {
 		// if (msg.author.id !== client.user.id) {
 		// 	onBotCommand(msg.author.id);
 		// }
-		if(msg.author.id !== client.user.id && ! USER_LOAD.includes(msg.author.id)){
+		if (msg.author.id !== client.user.id && !USER_LOAD.includes(msg.author.id)) {
 			handleUser(msg.author.id);
 			AddForm.startAddForm(msg.author);
+
+			// const modul_ = {
+			// 	"alias": [
+			// 		"M1202 Algèbre linéaire"
+			// 	],
+			// 	"color": "#2980b9",
+			// 	"displayId": "M1202",
+			// 	"displayName": "Algèbre linéaire",
+			// 	"group": [
+			// 		"S1"
+			// 	],
+			// 	"icon": "algebre-lineaire",
+			// 	"name": "M1202 Algèbre linéaire",
+			// 	"shortName": "",
+			// 	"ue": "UE 1-2"
+			// };
+			// msg.author.send(
+			// 	new Devoir(
+			// 		modul_,
+			// 		[
+			// 			"Exerice pages 16 à 18", 
+			// 			"Envoyer les réponses sur moodle", 
+			// 			"Manger des patates"
+			// 		],
+			// 		Utils.convertDateIso("21/02"),
+			// 		"entier",
+			// 		"Remise moodle",
+			// 		"https://moodle1.u-bordeaux.fr/",
+			// 		true,
+			// 		null
+			// 	).getEmbed()
+			// );
 		}
 
 		// let tab = [];

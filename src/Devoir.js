@@ -1,7 +1,10 @@
+const Discord = require("discord.js");
+const Utils = require("./utils");
+
 class Devoir {
 	/*
 		-> module : string
-		-> label : string[] -> minimum 1
+		-> labels : string[] -> minimum 1
 		-> date : new Date().toISOString()
 		-> group : string "" -> groupe entier | "prime | "seconde" -> groupe de l'utilisateur
 
@@ -11,9 +14,9 @@ class Devoir {
 		-> courseId : string -> proposer de lier a un cours si la date correspond a un cours
 	*/
 
-	constructor(modul_, label, date, group, delivery, link, notation, courseId) {
+	constructor(modul_, labels, date, group, delivery, link, notation, courseId) {
 		this.module = modul_;
-		this.label = label;
+		this.labels = labels;
 		this.date = date;
 		this.group = group;
 		this.delivery = delivery;
@@ -21,6 +24,24 @@ class Devoir {
 		this.notation = notation;
 		this.courseId = courseId;
 	}
+
+	getEmbed() {
+		const embed = new Discord.MessageEmbed()
+			.setColor("#afdab9")
+			.setTitle(this.module.name + ((this.delivery !== null) ? ("  -  " + this.delivery) : ""))
+			.setURL(this.link !== null ? this.link : "https://moodle1.u-bordeaux.fr/my/")
+			.setAuthor("Agenda Hubday" + (this.notation !== null ? (this.notation ? " - Devoir noté" : " - Devoir non noté") : ""), "https://www.hubday.fr/favicon/apple-touch-icon.png", "https://www.hubday.fr/dashboard")
+			.setFooter("À rendre pour le : " + Utils.convertIsoToDate(this.date));
+
+		let numTache = 1;
+		this.labels.forEach(element => {
+			embed.addField("Tâche " + ((this.labels.length > 1) ? numTache : ""), "```" + element + "```", true);
+			numTache++;
+		});
+
+		return embed;
+	}
+
 
 	// async persist() {
 	// 	if (this.id === undefined) { // Nouveau devoir
@@ -31,4 +52,4 @@ class Devoir {
 	// }
 }
 
-exports.Devoir = Devoir;
+module.exports = Devoir;

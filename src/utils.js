@@ -1,3 +1,4 @@
+
 class Utils {
 
 	/**
@@ -81,13 +82,17 @@ class Utils {
 		const monthDevoir = parseInt(splitArr[1]);
 		return dateDevoir = new Date(2021, monthDevoir - 1, dayDevoir + 1);
 	}
+	
+	static convertIsoToDate(iso) {
+		return `${("0" + iso.getDate()).slice(-2)}/${("0" + (iso.getMonth() + 1)).slice(-2)}`;
+	}
 
 	static dateValid(date) {
 		const dateDevoir = this.convertDateIso(date);
 		let today = new Date();
 		today.setHours(0, 0, 0);
 		let diffDate = Math.round((dateDevoir - today) / (1000 * 60 * 60 * 24)) - 1;
-		return (diffDate > 0);
+		return (diffDate >= 0);
 	}
 
 	static validURL(str) {

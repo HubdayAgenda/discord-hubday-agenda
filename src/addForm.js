@@ -8,7 +8,7 @@ const ModulesTab = require("./modulesTab.js");
 
 const index = require("./index.js");
 const Utils = require("./utils");
-const Devoir = require("./Devoir.js");
+const Devoir = require("./Devoir");
 
 class AddForm {
 
@@ -91,7 +91,7 @@ class AddForm {
 
 			if (Utils.dateValidFormat(dateResponse) && Utils.dateValid(dateResponse)) {
 				valid = true;
-				_DATE = dateResponse;
+				_DATE = Utils.convertDateIso(dateResponse);
 			} else {
 				dateEmbed = Embed.getDefaultEmbed(
 					"Date invalide",
@@ -199,12 +199,12 @@ class AddForm {
 		// ==============================================================
 
 
-
-		// const devoir = new Devoir(_MODULE, _LABELS, _DATE, _GROUP);
+		const devoir = new Devoir(_MODULE, _LABELS, _DATE, _GROUP, _DELIVERY, _LINK, _GRADE, null);
 
 		this.logForm(user, "== Add form ended ==");
 		index.handleUser(user.id, true);
-		user.send("done");
+
+		user.send(devoir.getEmbed());
 	}
 
 	static async getResponse(user, messageContent, filter, emojiActions = null) {
@@ -234,7 +234,8 @@ class AddForm {
 					}).then(answer => {
 						resolve(answer.first().content);
 					}).catch(() => {
-						user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
+						if(index.isUserHandled(user.id))
+							user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
 						msg.delete().catch((e) => console.error(e));
 						index.handleUser(user.id, true);
 						resolve(null);
@@ -261,7 +262,8 @@ class AddForm {
 						});
 						resolve(null);
 					}).catch(() => {
-						user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
+						if(index.isUserHandled(user.id))
+							user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
 						msg.delete().catch((e) => console.error(e));
 						index.handleUser(user.id, true);
 						resolve(null);
