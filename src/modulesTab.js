@@ -10,18 +10,12 @@ class ModuleTab {
 	}
 	/**
 	 * Création du canvas avec les matières et les UE
-	 * @param ueList tableau contenant les UE 
+	 * @param userModules
 	 * @return la canvas mis en forme
 	 */
-	async getTabImageAttachment(ueList) {
-		const mod = [];
-		ueList.forEach(element => {
-			this.getModulesByUE(element).forEach(matiere => {
-				mod.push(matiere);
-			});
-		});
+	async getTabImageAttachment(mod) { 
 
-		const canvas = createCanvas(1920 / 3, 25 * mod.length + 50);
+		const canvas = createCanvas(1965 / 3, 25 * mod.length + 100);
 
 		const data = this.modulesToTabData(mod);
 
@@ -59,11 +53,13 @@ class ModuleTab {
 	modulesToTabData(mods) {
 		let data = [];
 		let i = 1;
+		data.push(["", "", ""]);
 		mods.forEach(mod => {
-			const ligne = [i.toString(), mod.name, mod.ue];
+			const ligne = [i.toString(), mod.displayId + " - " + mod.displayName];
 			data.push(ligne);
 			i++;
 		});
+		data.push(["", "", ""]);
 		return data;
 	}
 
@@ -73,48 +69,49 @@ class ModuleTab {
  */
 const columns = [
 	{
-		title: "Numero",
+		title: "Numéro",
 		options: {
 			textAlign: "center",
-			fontSize: 14,
+			fontSize: 18,
 			fontWeight: "bold",
 			fontFamily: "arial",
 			color: "#afdab9",
-			lineHeight: 5,
+			lineHeight: 21,
 		}
 	},
 	{
 		title: "Module",
 		options: {
 			textAlign: "left",
-			fontSize: 12,
+			fontSize: 18,
 			fontWeight: "bold",
 			fontFamily: "arial",
 			color: "white",
-			lineHeight: 5,
+			lineHeight: 21,
 		},
 	},
-	{
-		title: "UE",
-		options: {
-			textAlign: "center",
-			fontSize: 12,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "white",
-			lineHeight: 5,
-		},
-	}
+	// {
+	// 	title: "UE",
+	// 	options: {
+	// 		textAlign: "center",
+	// 		fontSize: 12,
+	// 		fontWeight: "bold",
+	// 		fontFamily: "arial",
+	// 		color: "white",
+	// 		lineHeight: 5,
+	// 	},
+	// }
 ];
 
 /**
  * Options pour le canvas
  */
 const options = {
-	background: "#2c2f33",
+	devicePixelRatio: 1,
+	background: "#2f3136",
 	borders: {
 		table: { color: "#bababa", width: 2 },
-		row: { width: 2, color: "##bababa" },
+		// row: { width: 2, color: "#bababa" },
 	},
 	fit: true,
 	options: {

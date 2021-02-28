@@ -1,5 +1,7 @@
 require("better-logging")(console);
 
+// Icone d'un module : 'https://www.hubday.fr/img/modules/png/' + module.icon + '.png'
+
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const DISCORD_CONFIG = require("../config.json");
@@ -211,7 +213,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 
 client.login(DISCORD_CONFIG.token);
 
-exports.modules = getModules;
+exports.getModules = getModules;
 exports.handleUser = handleUser;
 exports.isUserHandled = isUserHandled;
 
@@ -223,8 +225,39 @@ exports.isUserHandled = isUserHandled;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
- * Dev ===============================
+ * Dev ====================================================================================================================
  */
 client.on("message", msg => {
 	if (msg.channel.type === "dm") {
@@ -233,6 +266,7 @@ client.on("message", msg => {
 		// 	onBotCommand(msg.author.id);
 		// }
 		if (msg.author.id !== client.user.id && !USER_LOAD.includes(msg.author.id)) {
+			// msg.author.send(Embed.getHelpEmbed());
 			handleUser(msg.author.id);
 			AddForm.startAddForm(msg.author);
 

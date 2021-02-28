@@ -30,7 +30,7 @@ class Devoir {
 			.setColor("#afdab9")
 			.setTitle(this.module.name + ((this.delivery !== null) ? ("  -  " + this.delivery) : ""))
 			.setURL(this.link !== null ? this.link : "https://moodle1.u-bordeaux.fr/my/")
-			.setAuthor("Agenda Hubday" + (this.notation !== null ? (this.notation ? " - Devoir noté" : " - Devoir non noté") : ""), "https://www.hubday.fr/favicon/apple-touch-icon.png", "https://www.hubday.fr/dashboard")
+			.setAuthor("Agenda Hubday" + (this.notation !== null ? (this.notation ? " - Devoir noté" : " - Devoir non noté") : ""), "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png", "https://www.hubday.fr/dashboard")
 			.setFooter("À rendre pour le : " + Utils.convertIsoToDate(this.date));
 
 		let numTache = 1;

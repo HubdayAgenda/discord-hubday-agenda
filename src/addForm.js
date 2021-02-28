@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 const Embed = require("./embed");
 
 const FIREBASE_CONFIG = require("../configFirebase.json");
@@ -12,28 +13,32 @@ const Devoir = require("./Devoir");
 
 class AddForm {
 
+	/**
+	 * Contient l'entièreté des questions nécéssaires à la création d'un devoir
+	 * A la fin du formulaire un nouveau devoir est créé
+	 * @param user l'utilisateur concerné par le formulaire
+	 */
 	static async startAddForm(user) {
 		this.logForm(user, "== Add form started ==");
 		const GROUPNUM = 2;
 
 
-
 		// Retrieve user from DB
 		// ==============================================================
-		const hubdayUser = await dataBase.getDbDataWithFilter("users", "discordId", user.id);
+		const hubdayUserResults = await dataBase.getDbDataWithFilter("users", "discordId", user.id);
+		const hubdayUser = hubdayUserResults[Object.keys(hubdayUserResults)[0]];
 		if (Object.keys(hubdayUser).length == 0) {
 			console.warn("User not found");
 			return;
 		}
-		const group = hubdayUser[Object.keys(hubdayUser)[0]][`group${GROUPNUM}`];
-		const semester = group[1];//2em char de la string group
+		const group = hubdayUser[`group${GROUPNUM}`];
+		const options = hubdayUser["options"] !== undefined ? hubdayUser["options"] : [];
 		// ==============================================================
-
 
 
 		// Ask for module		
 		// ==============================================================
-		const { tabMod, matEmbed } = await this.getUeTab(semester, group);
+		const { tabMod, matEmbed } = await this.getUeTab(group, options);
 
 		let filter = m => m.author.id === user.id
 			&& !Number.isNaN(parseInt(m.content))
@@ -56,7 +61,8 @@ class AddForm {
 		const labelEmbed = Embed.getDefaultEmbed(
 			"Description du devoir de " + (_MODULE.shortName ? _MODULE.shortName : _MODULE.name),
 			"Vous pouvez indiquer plusieurs tâches à effectuer",
-			"Répondez sous la forme :\n tache 1 | tache 2 | tache 3 | ..."
+			"Répondez sous la forme :\n tache 1 | tache 2 | tache 3 | ...",
+			_MODULE.color,
 		);
 
 		const labelResponse = await this.getResponse(user, labelEmbed, filter);
@@ -81,7 +87,9 @@ class AddForm {
 		// ==============================================================
 		let dateEmbed = Embed.getDefaultEmbed(
 			"Date de remise du devoir",
-			"Ajoutez la date sous la forme JJ/MM"
+			"Ajoutez la date sous la forme JJ/MM",
+			null,
+			_MODULE.color
 		);
 		let valid = false;
 		let _DATE;
@@ -108,14 +116,14 @@ class AddForm {
 		// Ask for group
 		// ==============================================================
 		let emojiAction = [
-			{ "emoji": "⏏️", "value": 1, "description": "Ajouter le devoir pour toute la classe" },
-			{ "emoji": "🔽", "value": 2, "description": "Ajouter le devoir uniquement pour votre groupe de TP" },
+			{ "emoji": "⏏️", "value": 1, "description": "Toute la classe" },
+			{ "emoji": "🔽", "value": 2, "description": "Mon groupe de TP" },
 		];
 
 		const groupResponse = await this.getEmojisResponse(
 			user,
 			emojiAction,
-			Embed.getEmojiFormEmbed("Classe ou groupe de TP ?", emojiAction, null, "Réagissez avec l'émoji correspondant à l'action souhaitée.")
+			Embed.getEmojiFormEmbed("A qui est destiné ce devoir ?", emojiAction, "‌‌ ", "Réagissez avec l'émoji correspondant à l'action souhaitée.")
 		);
 		if (groupResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
@@ -207,6 +215,14 @@ class AddForm {
 		user.send(devoir.getEmbed());
 	}
 
+	/**
+	 * Envois un message a l'utilisateur, attend sa réponse et return la reponse en question
+	 * @param user L'utilisateur concerné
+	 * @param messageContent le contenu du message qui compose la question
+	 * @param filter filtre des reponses du message (Pour eviter que les messages du bot soint prient pour des réponses par exemple)
+	 * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
+	 * @return la reponse ou null si aucune n'est donée
+	 */
 	static async getResponse(user, messageContent, filter, emojiActions = null) {
 		return new Promise(
 			function (resolve) {
@@ -245,6 +261,13 @@ class AddForm {
 		);
 	}
 
+	/**
+	 * Envois un message à l'utilisateur et met une liste d'emojis en dessous comme choix de reponses
+	 * @param user l'utilisateur concerné
+	 * @param emojiActions la liste des actions a faire avc les emojis
+	 * @param messageContent le contenu du message composant la question
+	 * @return la reponse ou null si aucune reponse n'est donnée
+	 */
 	static async getEmojisResponse(user, emojiActions, messageContent) {
 		return new Promise(
 			function (resolve) {
@@ -273,43 +296,29 @@ class AddForm {
 		);
 	}
 
-	static async getUeTab(semester, group) {
-		const sem = parseInt(semester);
-
-		const ueTab = [];
-		if (Number.isNaN(sem)) {
-			ueTab.push("Parcours Robotique S4");
-		} else {
-			if (group.length === 3) {
-				if (sem === 3) {
-					// S3A S3B S3C S3D
-					ueTab.push("UE 3-1");
-					ueTab.push("UE 3-2");
-					ueTab.push("UE 3-3");
-				} else {
-					// S1A S1B S1C S1D S2A S2B S2C S2D
-					ueTab.push(`UE ${sem}-1`);
-					ueTab.push(`UE ${sem}-2`);
-				}
-			} else {
-				// S4p1A S4p2B S4p2C S4p2D
-				ueTab.push("UE 4-1");
-				ueTab.push("UE 4-2");
-			}
+	/**
+	 * Retourne la liste des modules à partir d'un group et une option
+	 * @param group le group des modules a retourner
+	 * @param options les options des modules a retourner
+	 * @return la liste des modules ainsi que l'embed comportant le tableau de tous les modules
+	 */
+	static async getUeTab(group, options) {
+		const modulesDict = await index.getModules();
+		
+		let modulesArray = [];
+		for (var idModule of Object.keys(modulesDict)) {
+			let mod = modulesDict[idModule];
+			mod.id = idModule;
+			modulesArray.push(mod);
 		}
-
-		const matEmbed = await Embed.getMatieresEmbed(ueTab, semester);
-
-		const modulesTab = new ModulesTab(await index.modules());
-
-		const tabMod = [];
-		ueTab.forEach(element => {
-			modulesTab.getModulesByUE(element).forEach(element => {
-				tabMod.push(element);
-			});
+		
+		const userModules = await modulesArray.filter(m => {
+			return group.startsWith(m.group) && (m.option === undefined || m.option.filter(value => options.includes(value)).length > 0);
 		});
 
-		return { tabMod, matEmbed };
+		const matEmbed = await Embed.getMatieresEmbed(userModules);
+
+		return { tabMod: userModules, matEmbed };
 	}
 
 	static logForm(user, log) {

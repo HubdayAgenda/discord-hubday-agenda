@@ -8,12 +8,14 @@ OK- Convention forme devoir
 OK    - Slash cmd lancement reponse mp 
 FIX    - Recup UE utilisateur
 FIX    - Recup modules
-    - Choix matiere (Embed & tab done)
-    - Choix description
-    - Choix date
-    - creation classe devoir
+OK    - Choix matiere (Embed & tab done)
+OK    - Choix description
+OK    - Choix date
+OK    - creation classe devoir
     - Envois sur bd hubday
 
 - Sync db avec salons
 
 - system de debug via cmd pour dev
+
+- Demander l'année pour éviter le problème du changement d'année décembre/janvier

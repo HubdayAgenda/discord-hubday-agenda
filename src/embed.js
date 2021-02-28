@@ -9,7 +9,7 @@ class Embeds {
 	 */
 	static getHelpEmbed() {
 		const exampleEmbed = new Discord.MessageEmbed()
-			.setAuthor("Aide BotAgenda", "https://www.hubday.fr/favicon/apple-touch-icon.png")
+			.setAuthor("Aide BotAgenda", "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png")
 			.addFields(
 				{ name: "Utiliser le BotAgenda", value: "/agenda" }
 			)
@@ -21,18 +21,18 @@ class Embeds {
 
 	/**
 	 * Création de l'embed pour l'affichage du tableau des matières
-	 * @param ue Un tableau comprenant les ue à prendre en compte
+	 * @param userModules
 	 * @return l'embed mis en forme
 	 */
-	static async getMatieresEmbed(ue, semester) {
-		const attachment = await new ModulesTab(await index.modules()).getTabImageAttachment(ue);
+	static async getMatieresEmbed(userModules) {
+		const attachment = await new ModulesTab(await index.getModules()).getTabImageAttachment(userModules);
 		const embed = new Discord.MessageEmbed()
 			.attachFiles(attachment)
 			.setColor("#afdab9")
 			.setImage("attachment://image.png")
 			.setFooter("Répondez avec le numéro correspondant.")
 			.setDescription("Cliquez sur l'image pour l'agrandir.")
-			.setAuthor(`Choisissez une matière du semestre ${semester} :`, "https://www.hubday.fr/favicon/apple-touch-icon.png");
+			.setAuthor("Choisissez une matière :", "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png");
 		return embed;
 	}
 
@@ -43,7 +43,7 @@ class Embeds {
 	 */
 	static getMenuEmbed(BOT_ACTIONS) {
 		const embed = new Discord.MessageEmbed()
-			.setAuthor("Menu des commandes", "https://www.hubday.fr/favicon/apple-touch-icon.png")
+			.setAuthor("Menu des commandes", "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png")
 			.setColor("#afdab9")
 			.setFooter("Réagissez avec l'émoji correspondant à l'action souhaitée.");
 
@@ -60,10 +60,10 @@ class Embeds {
 	 * @param titre Le titre de l'embed 
 	 * @param description La description de l'embed (facultatif)
 	 */
-	static getDefaultEmbed(titre, description = null, footer = null) {
+	static getDefaultEmbed(titre, description = null, footer = null, color = "#afdab9") {
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(titre, "https://www.hubday.fr/favicon/apple-touch-icon.png")
-			.setColor("#afdab9");
+			.setAuthor(titre, "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png")
+			.setColor(color);
 
 		if (description != null)
 			embed.setDescription(description);
@@ -75,7 +75,7 @@ class Embeds {
 
 	static getEmojiFormEmbed(titre, emojiList, description = null, footer = null) {
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(titre, "https://www.hubday.fr/favicon/apple-touch-icon.png")
+			.setAuthor(titre, "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png")
 			.setColor("#afdab9");
 		if (description != null)
 			embed.setDescription(description);
@@ -83,7 +83,7 @@ class Embeds {
 			embed.setFooter(footer);
 
 		emojiList.forEach(param => {
-			embed.addField(param.description, param.emoji);
+			embed.addField(param.emoji + "‌‌ ‌‌ "  + param.description, "‌‌ " , true);
 		});
 		return embed;
 	}
