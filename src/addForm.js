@@ -5,11 +5,11 @@ const FIREBASE_CONFIG = require("../configFirebase.json");
 const Firebase = require("./firebase.js");
 const dataBase = new Firebase(FIREBASE_CONFIG);
 
-const ModulesTab = require("./modulesTab.js");
+// const ModulesTab = require("./modulesTab.js");
 
 const index = require("./index.js");
 const Utils = require("./utils");
-const Devoir = require("./Devoir");
+const Homework = require("./Homework");
 
 class AddForm {
 
@@ -48,9 +48,9 @@ class AddForm {
 		const numModule = await this.getResponse(user, matEmbed, filter);
 		if (numModule === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-		const _MODULE = tabMod[numModule - 1];
+		const _SUBJECT = tabMod[numModule - 1];
 
-		this.logForm(user, ` 1) module num : ${numModule}`);
+		this.logForm(user, ` 1) subjectId : ${numModule}`);
 		// ==============================================================
 
 
@@ -59,26 +59,26 @@ class AddForm {
 		// ==============================================================
 		filter = m => m.author.id === user.id;
 		const labelEmbed = Embed.getDefaultEmbed(
-			"Description du devoir de " + (_MODULE.shortName ? _MODULE.shortName : _MODULE.name),
-			"Vous pouvez indiquer plusieurs tâches à effectuer",
-			"Répondez sous la forme :\n tache 1 | tache 2 | tache 3 | ...",
-			_MODULE.color,
+			`Nouveau devoir pour le cours de ${_SUBJECT.displayId} - ${_SUBJECT.displayName}`,
+			"Veuillez indiquer la liste des tâches à effectuer pour ce devoir",
+			"Répondez sous la forme :\n tâche 1 | tâche 2 | tâche 3 | ...",
+			_SUBJECT.color,
 		);
 
 		const labelResponse = await this.getResponse(user, labelEmbed, filter);
 		if (labelResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-		const _LABELS = [];
+		const _TASKS = [];
 		if (labelResponse.includes("|")) {
 			labelResponse.split("|").forEach(element => {
-				_LABELS.push(element.trim());
+				_TASKS.push(element.trim());
 			});
 		}
 		else {
-			_LABELS.push(labelResponse.trim());
+			_TASKS.push(labelResponse.trim());
 		}
 
-		this.logForm(user, ` 2) labels : ${_LABELS}`);
+		this.logForm(user, ` 2) tasks : ${_TASKS}`);
 		// ==============================================================
 
 
@@ -86,10 +86,10 @@ class AddForm {
 		// Ask for date
 		// ==============================================================
 		let dateEmbed = Embed.getDefaultEmbed(
-			"Date de remise du devoir",
-			"Ajoutez la date sous la forme JJ/MM",
+			"Échéance du devoir",
+			"Indiquer la date sous la forme JJ/MM/AAAA",
 			null,
-			_MODULE.color
+			_SUBJECT.color
 		);
 		let valid = false;
 		let _DATE;
@@ -97,13 +97,17 @@ class AddForm {
 			const dateResponse = await this.getResponse(user, dateEmbed, filter = m => m.author.id === user.id);
 			if (dateResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-			if (Utils.dateValidFormat(dateResponse) && Utils.dateValid(dateResponse)) {
+			const date = Utils.dateValid(dateResponse);
+
+			if (date != null) {
 				valid = true;
-				_DATE = Utils.convertDateIso(dateResponse);
+				_DATE = Utils.convertDateIso(date);
 			} else {
 				dateEmbed = Embed.getDefaultEmbed(
 					"Date invalide",
-					"Ajoutez la date sous la forme JJ/MM"
+					"Ajoutez la date sous la forme JJ/MM/AAAA",
+					null,
+					_SUBJECT.color
 				);
 			}
 		}
@@ -116,24 +120,33 @@ class AddForm {
 		// Ask for group
 		// ==============================================================
 		let emojiAction = [
-			{ "emoji": "⏏️", "value": 1, "description": "Toute la classe" },
-			{ "emoji": "🔽", "value": 2, "description": "Mon groupe de TP" },
+			{ "emoji": "👌", "value": 1, "description": "Classe entière" },
+			{ "emoji": "☝️", "value": 2, "description": "Groupe prime" },
+			{ "emoji": "✌️", "value": 3, "description": "Groupe seconde" },
 		];
 
 		const groupResponse = await this.getEmojisResponse(
 			user,
 			emojiAction,
-			Embed.getEmojiFormEmbed("A qui est destiné ce devoir ?", emojiAction, "‌‌ ", "Réagissez avec l'émoji correspondant à l'action souhaitée.")
+			Embed.getEmojiFormEmbed("Quel groupe est concerné par ce devoir ?", emojiAction, "‌‌ ", "Réagissez avec l'émoji correspondant à l'action souhaitée.")
 		);
 		if (groupResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-		const _GROUP = groupResponse == 1 ? "entier" : hubdayUser[Object.keys(hubdayUser)[0]][`subgroup${GROUPNUM}`];
+		let _GROUP = null;
+		switch (groupResponse) {
+			case 2:
+				_GROUP = "prime";
+				break;
+			case 3:
+				_GROUP = "seconde";
+				break;
+		}
 
 		this.logForm(user, ` 4) group : ${_GROUP}`);
 		// ==============================================================
 
 
-		
+
 		// Ask for delivery
 		// ==============================================================
 		emojiAction = [
@@ -142,15 +155,15 @@ class AddForm {
 
 		const deliveryResponse = await this.getResponse(
 			user,
-			Embed.getEmojiFormEmbed("Intitulé de la remise ? (facultatif)", emojiAction, "Vous pouvez indiquer le nom de la remise", "Réagissez avec l'émoji pour passer ou répondez."),
+			Embed.getEmojiFormEmbed("Ajouter des détails à ce devoir ? (facultatif)", emojiAction, "Ici, vous pouvez indiquer des consignes de remise ou d'autres détails", "Réagissez avec l'émoji pour passer ou répondez."),
 			filter = m => m.author.id === user.id,
 			emojiAction,
 		);
 		if (deliveryResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-		const _DELIVERY = deliveryResponse == -1 ? null : deliveryResponse;
+		const _DETAILS = deliveryResponse == -1 ? null : deliveryResponse;
 
-		this.logForm(user, ` 5) delivery : ${_DELIVERY}`);
+		this.logForm(user, ` 5) details : ${_DETAILS}`);
 		// ==============================================================
 
 
@@ -162,26 +175,27 @@ class AddForm {
 		];
 		valid = false;
 		let _LINK = null;
-		while(!valid){
-			const linkResponse = await this.getResponse(
-				user,
-				Embed.getEmojiFormEmbed("Lien de la remise ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji pour passer ou répondez avec un lien."),
-				filter = m => m.author.id === user.id,
-				emojiAction
-			);
-			if (linkResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }		
-			if(linkResponse == -1){
-				valid = true;
-				_LINK = null;
-			}else if(Utils.validURL(linkResponse)){
-				_LINK = linkResponse;
-				valid = true;
-			}else{
-				user.send(Embed.getDefaultEmbed("Répondez avec un lien moodle uniquement !"));
+		if(_DETAILS) {
+			while (!valid) {
+				const linkResponse = await this.getResponse(
+					user,
+					Embed.getEmojiFormEmbed("Ajouter un lien ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji pour passer ou répondez avec un lien."),
+					filter = m => m.author.id === user.id,
+					emojiAction
+				);
+				if (linkResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
+				if (linkResponse == -1) {
+					valid = true;
+				} else if (Utils.validURL(linkResponse)) {
+					_LINK = linkResponse;
+					valid = true;
+				} else {
+					user.send(Embed.getDefaultEmbed("Répondez avec un lien valide !"));
+				}
 			}
 		}
 
-		this.logForm(user, ` 6) link : ${_LINK}`);
+		this.logForm(user, ` 5 bis) link : ${_LINK}`);
 		// ==============================================================
 
 
@@ -191,7 +205,7 @@ class AddForm {
 		emojiAction = [
 			{ "emoji": "📈", "value": true, "description": "Devoir noté" },
 			{ "emoji": "📉", "value": false, "description": "Devoir non noté" },
-			{ "emoji": "❌", "value": -1, "description": "Ne pas spécifier" },
+			{ "emoji": "❌", "value": -1, "description": "Non renseigné" },
 		];
 
 		const gradeResponse = await this.getEmojisResponse(
@@ -201,19 +215,26 @@ class AddForm {
 		);
 		if (gradeResponse === null) { console.warn("Get response error (Timeout or Exception)"); return; }
 
-		const _GRADE = (gradeResponse === -1 ? null : gradeResponse);
+		const _NOTATION = (gradeResponse === -1 ? null : gradeResponse);
 
-		this.logForm(user, ` 7) grade : ${_GRADE}`);
+		this.logForm(user, ` 6) grade : ${_NOTATION}`);
 		// ==============================================================
 
 
-		const devoir = new Devoir(_MODULE, _LABELS, _DATE, _GROUP, _DELIVERY, _LINK, _GRADE, null);
+		const homework = new Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION, /*lessonId*/ null);
 
 		this.logForm(user, "== Add form ended ==");
 		index.handleUser(user.id, true);
-
-		user.send(devoir.getEmbed());
+		
+		await homework.persist(group ,dataBase);
+		
+		user.send(homework.getEmbed());
 	}
+
+
+
+
+
 
 	/**
 	 * Envois un message a l'utilisateur, attend sa réponse et return la reponse en question
@@ -240,7 +261,7 @@ class AddForm {
 								}
 							});
 							resolve(null);
-						}).catch(() => {});
+						}).catch(() => { });
 					}
 
 					msg.channel.awaitMessages(filter, {
@@ -250,7 +271,7 @@ class AddForm {
 					}).then(answer => {
 						resolve(answer.first().content);
 					}).catch(() => {
-						if(index.isUserHandled(user.id))
+						if (index.isUserHandled(user.id))
 							user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
 						msg.delete().catch((e) => console.error(e));
 						index.handleUser(user.id, true);
@@ -285,7 +306,7 @@ class AddForm {
 						});
 						resolve(null);
 					}).catch(() => {
-						if(index.isUserHandled(user.id))
+						if (index.isUserHandled(user.id))
 							user.send(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
 						msg.delete().catch((e) => console.error(e));
 						index.handleUser(user.id, true);
@@ -303,22 +324,39 @@ class AddForm {
 	 * @return la liste des modules ainsi que l'embed comportant le tableau de tous les modules
 	 */
 	static async getUeTab(group, options) {
-		const modulesDict = await index.getModules();
-		
+		console.log("GROUPE : " + group);
+		const modulesDict = await index.getSubjects();
+
+		var userSubjects = [];
+
+		for (var entry of Object.entries(modulesDict)) {
+			var subject = {
+				id: entry[0],
+				...entry[1]
+			};
+
+			if (subject.teachingUnit != "") {
+				if (subject.groups.filter(g => group.startsWith(g)).length > 0 &&
+					(subject.options == null || subject.options.filter(o => options.includes(o)).length > 0)) {
+					userSubjects.push(subject);
+				}
+			}
+		}/*
+
 		let modulesArray = [];
 		for (var idModule of Object.keys(modulesDict)) {
 			let mod = modulesDict[idModule];
 			mod.id = idModule;
 			modulesArray.push(mod);
 		}
-		
+
 		const userModules = await modulesArray.filter(m => {
 			return group.startsWith(m.group) && (m.option === undefined || m.option.filter(value => options.includes(value)).length > 0);
-		});
+		});*/
 
-		const matEmbed = await Embed.getMatieresEmbed(userModules);
+		const matEmbed = await Embed.getMatieresEmbed(userSubjects);
 
-		return { tabMod: userModules, matEmbed };
+		return { tabMod: userSubjects, matEmbed };
 	}
 
 	static logForm(user, log) {

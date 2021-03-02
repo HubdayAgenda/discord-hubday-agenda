@@ -1,18 +1,19 @@
 {
     "accueil": {
-        "alias": [
+        "aliases": [
             "Accueil"
         ],
         "color": "#2ecc71",
         "displayId": "",
         "displayName": "",
         "icon": "accueil",
+        "moodle": "",
         "name": "Accueil",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "anglaisOption": {
-        "alias": [
+        "aliases": [
             "Parcours International - INFO",
             "Anglais PIN",
             "Anglais PCL",
@@ -22,1662 +23,1832 @@
         "color": "#d35400",
         "displayId": "PIN",
         "displayName": "Anglais Option",
-        "group": [
+        "groups": [
             "S2A",
             "S3A"
         ],
         "icon": "anglais",
+        "moodle": "",
         "name": "Anglais option",
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
     "ds": {
-        "alias": [
+        "aliases": [
             "Devoir Surveillé"
         ],
         "color": "#2c3e50",
         "displayId": "",
         "displayName": "",
         "icon": "evaluation",
+        "moodle": "",
         "name": "Devoir surveillé",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "forumPoursuiteEtudes": {
-        "alias": [
+        "aliases": [
             "FORUM DES STAGES"
         ],
         "color": "#2ecc71",
         "displayId": "",
         "displayName": "",
         "icon": "stage",
+        "moodle": "",
         "name": "Forum des stages",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "forumStages": {
-        "alias": [
+        "aliases": [
             "FORUM POURSUITE D'ETUDES"
         ],
         "color": "#2ecc71",
         "displayId": "",
         "displayName": "",
         "icon": "stage",
+        "moodle": "",
         "name": "Forum poursuite d'études",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1101": {
         "color": "#9b59b6",
         "displayId": "",
         "displayName": "",
         "icon": "systeme",
+        "moodle": "",
         "name": "Archi. & Système",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1101-a": {
-        "alias": [
+        "aliases": [
             "M1101 Système"
         ],
         "color": "#9b59b6",
         "displayId": "M1101A",
         "displayName": "Système",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "systeme",
+        "moodle": "",
         "name": "M1101 Système",
         "shortName": "",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1101-b": {
-        "alias": [
+        "aliases": [
             "M1101 Archi"
         ],
         "color": "#9b59b6",
         "displayId": "M1101B",
         "displayName": "Architecture",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "archi",
+        "moodle": "",
         "name": "M1101 Archi",
         "shortName": "Archi",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1102": {
         "color": "#3498db",
         "displayId": "",
         "displayName": "",
         "icon": "algo-prog",
+        "moodle": "",
         "name": "Algo-Prog",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1102-a": {
-        "alias": [
+        "aliases": [
             "M1102 Algo-Prog 1"
         ],
         "color": "#3498db",
         "displayId": "M1102",
         "displayName": "Algorithmique-Programmation",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "algo-prog",
+        "moodle": "",
         "name": "M1102 Algo-Prog 1",
         "shortName": "Algo-Prog",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1102-b": {
-        "alias": [
+        "aliases": [
             "M1102 Projet"
         ],
         "color": "#3498db",
         "displayId": "",
         "displayName": "",
         "icon": "projet",
+        "moodle": "",
         "name": "M1102 Projet",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1102-c": {
-        "alias": [
+        "aliases": [
             "M1102 Prog++"
         ],
         "color": "#3498db",
         "displayId": "",
         "displayName": "",
         "icon": "algo-prog",
+        "moodle": "",
         "name": "M1102 Prog++",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1103": {
         "color": "#1abc9c",
         "displayId": "",
         "displayName": "",
         "icon": "algo-prog2",
+        "moodle": "",
         "name": "Algo-Prog 2",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1103-a": {
-        "alias": [
+        "aliases": [
             "M1103 Algo-Prog 2"
         ],
         "color": "#1abc9c",
         "displayId": "M1103",
         "displayName": "Algorithmique-Programmation 2",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "algo-prog2",
+        "moodle": "",
         "name": "M1103 Algo-Prog 2",
         "shortName": "Algo-Prog 2",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1103-b": {
-        "alias": [
+        "aliases": [
             "M1103 Projet"
         ],
         "color": "#1abc9c",
         "displayId": "",
         "displayName": "",
         "icon": "projet2",
+        "moodle": "",
         "name": "M1103 Projet",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1103-c": {
-        "alias": [
+        "aliases": [
             "M1103 Prog++"
         ],
         "color": "#1abc9c",
         "displayId": "",
         "displayName": "",
         "icon": "algo-prog2",
+        "moodle": "",
         "name": "M1103 Prog++",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m1104": {
-        "alias": [
+        "aliases": [
             "M1104 ACSI-BD"
         ],
         "color": "#2ecc71",
         "displayId": "M1104",
         "displayName": "ACSI-BD",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "bd",
+        "moodle": "",
         "name": "M1104 ACSI-BD",
         "shortName": "",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1105": {
-        "alias": [
+        "aliases": [
             "M1105 Web"
         ],
         "color": "#f1c40f",
         "displayId": "M1105",
         "displayName": "Web",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "web",
+        "moodle": "",
         "name": "M1105 Web",
         "shortName": "",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1106": {
-        "alias": [
+        "aliases": [
             "M1106 PT1"
         ],
         "color": "#e67e22",
         "displayId": "M1106",
         "displayName": "Projet Tuteuré 1",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "pt1",
+        "moodle": "",
         "name": "M1106 PT1",
         "shortName": "PT1",
-        "ue": "UE 1-1"
+        "teachingUnit": "UE 1-1"
     },
     "m1201": {
-        "alias": [
+        "aliases": [
             "M1201 Maths discrètes"
         ],
         "color": "#8e44ad",
         "displayId": "M1201",
         "displayName": "Mathématiques discrètes",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "maths-discretes",
+        "moodle": "",
         "name": "M1201 Maths discrètes",
         "shortName": "Maths discrètes",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1202": {
-        "alias": [
+        "aliases": [
             "M1202 Algèbre linéaire"
         ],
         "color": "#2980b9",
         "displayId": "M1202",
         "displayName": "Algèbre linéaire",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "algebre-lineaire",
+        "moodle": "",
         "name": "M1202 Algèbre linéaire",
         "shortName": "",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1203": {
-        "alias": [
+        "aliases": [
             "M1203 Env. économique"
         ],
         "color": "#16a085",
         "displayId": "M1203",
         "displayName": "Environnement Économique",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "environnement-eco",
+        "moodle": "",
         "name": "M1203 Env. Économique",
         "shortName": "Env. Économique",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1204": {
-        "alias": [
+        "aliases": [
             "M1204 Fonc. organisations"
         ],
         "color": "#27ae60",
         "displayId": "M1204",
         "displayName": "Fonctionnement des Orgnaisations",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "organisation",
+        "moodle": "",
         "name": "M1204 Fonc. Organisations",
         "shortName": "Fonc. Organisations",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1205": {
-        "alias": [
+        "aliases": [
             "M1205 Expression"
         ],
         "color": "#f39c12",
         "displayId": "M1205",
         "displayName": "Expression - Communication",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "expression",
+        "moodle": "",
         "name": "M1205 Expression",
         "shortName": "Expression",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1206": {
-        "alias": [
+        "aliases": [
             "M1206 Anglais"
         ],
         "color": "#d35400",
         "displayId": "M1206",
         "displayName": "Anglais",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "anglais",
+        "moodle": "",
         "name": "M1206 Anglais",
         "shortName": "",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m1207": {
-        "alias": [
+        "aliases": [
             "M1207 PPP"
         ],
         "color": "#c0392b",
         "displayId": "M1207",
         "displayName": "Projet personnel professionnel",
-        "group": [
+        "groups": [
             "S1"
         ],
         "icon": "ppp",
+        "moodle": "",
         "name": "M1207 PPP",
         "shortName": "PPP",
-        "ue": "UE 1-2"
+        "teachingUnit": "UE 1-2"
     },
     "m2101": {
-        "alias": [
+        "aliases": [
             "M2101 Prog bas niveau"
         ],
         "color": "#9b59b6",
         "displayId": "M2101",
         "displayName": "Programmation bas niveau",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "prog-bas-niveau",
+        "moodle": "",
         "name": "M2101 Prog bas niveau",
         "shortName": "Prog bas niveau",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2102": {
-        "alias": [
+        "aliases": [
             "M2102 Réseaux"
         ],
         "color": "#3498db",
         "displayId": "M2102",
         "displayName": "Réseaux",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "reseaux",
+        "moodle": "",
         "name": "M2102 Réseaux",
         "shortName": "",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2103": {
-        "alias": [
+        "aliases": [
             "M2103 Prog OO"
         ],
         "color": "#1abc9c",
         "displayId": "M2103",
         "displayName": "Programmation orientée objet",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "prog-oo",
+        "moodle": "",
         "name": "M2103 Prog OO",
         "shortName": "Prog OO",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2103-git": {
-        "alias": [
-            "M2103 Versioning"
+        "aliases": [
+            "M2103 Versioning",
+            "M2103 - Versioning"
         ],
         "color": "#1abc9c",
         "displayId": "",
         "displayName": "",
         "icon": "git",
+        "moodle": "",
         "name": "M2103 Versionning",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m2104": {
-        "alias": [
+        "aliases": [
             "M2104 Conception OO"
         ],
         "color": "#2ecc71",
         "displayId": "M2104",
         "displayName": "Conception orientée objet",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "conception-oo",
+        "moodle": "",
         "name": "M2104 Conception OO",
         "shortName": "Conception OO",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2105": {
-        "alias": [
+        "aliases": [
             "M2105 IHM"
         ],
         "color": "#f1c40f",
         "displayId": "M2105",
         "displayName": "IHM",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "ihm",
+        "moodle": "",
         "name": "M2105 IHM",
         "shortName": "",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2106": {
-        "alias": [
+        "aliases": [
             "M2106 BD"
         ],
         "color": "#e67e22",
         "displayId": "M2106",
         "displayName": "Bases de données",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "bd",
+        "moodle": "",
         "name": "M2106 BD",
         "shortName": "BD",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2107": {
-        "alias": [
+        "aliases": [
             "M2107 PT2"
         ],
         "color": "#e74c3c",
         "displayId": "M2107",
         "displayName": "Projet Tuteuré 2",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "pt2",
+        "moodle": "",
         "name": "M2107 PT2",
         "shortName": "PT2",
-        "ue": "UE 2-1"
+        "teachingUnit": "UE 2-1"
     },
     "m2201": {
         "color": "#8e44ad",
         "displayId": "",
         "displayName": "",
         "icon": "graphes-langages",
+        "moodle": "",
         "name": "Graphes & Langages",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m2201-a": {
-        "alias": [
+        "aliases": [
             "M2201 Graphes"
         ],
         "color": "#8e44ad",
         "displayId": "M2201A",
         "displayName": "Graphes",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "graphes-langages",
+        "moodle": "",
         "name": "M2201 Graphes",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2201-b": {
-        "alias": [
+        "aliases": [
             "M2201 langage"
         ],
         "color": "#8e44ad",
         "displayId": "M2201B",
         "displayName": "Langage",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "graphes-langages",
+        "moodle": "",
         "name": "M2201 langage",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2202": {
-        "alias": [
+        "aliases": [
             "M2202 Analyse"
         ],
         "color": "#2980b9",
         "displayId": "M2202",
         "displayName": "Analyse",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "analyse",
+        "moodle": "",
         "name": "M2202 Analyse",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2203": {
-        "alias": [
+        "aliases": [
             "SIEF-Droit"
         ],
         "color": "#16a085",
         "displayId": "",
         "displayName": "",
         "icon": "droit",
+        "moodle": "",
         "name": "SIEF & Droit",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m2203-a": {
-        "alias": [
+        "aliases": [
             "M2203 Droit"
         ],
         "color": "#16a085",
         "displayId": "M2203A",
         "displayName": "Droit",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "droit",
+        "moodle": "",
         "name": "M2203 Droit",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2203-b": {
-        "alias": [
+        "aliases": [
             "M2203 SIEF"
         ],
         "color": "#16a085",
         "displayId": "M2203B",
         "displayName": "SIEF",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "sief",
+        "moodle": "",
         "name": "M2203 SIEF",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2204": {
-        "alias": [
+        "aliases": [
             "M2204 Méthodes agiles",
             "Gestion de projet"
         ],
         "color": "#27ae60",
         "displayId": "M2204",
         "displayName": "Méthodes agiles",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "gestion-projet",
+        "moodle": "",
         "name": "M2204 Méthodes agiles",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2205": {
-        "alias": [
+        "aliases": [
             "M2205 Expression"
         ],
         "color": "#f39c12",
         "displayId": "M2205",
         "displayName": "Expression - Communication",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "expression",
+        "moodle": "",
         "name": "M2205 Expression",
         "shortName": "Expression",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2206": {
-        "alias": [
+        "aliases": [
             "M2206 Anglais"
         ],
         "color": "#d35400",
         "displayId": "M2206",
         "displayName": "Anglais",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "anglais",
+        "moodle": "",
         "name": "M2206 Anglais",
         "shortName": "",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m2207": {
-        "alias": [
+        "aliases": [
             "M2207 PPP"
         ],
         "color": "#c0392b",
         "displayId": "M2207",
         "displayName": "Projet personnel professionnel 2",
-        "group": [
+        "groups": [
             "S2"
         ],
         "icon": "ppp",
+        "moodle": "",
         "name": "M2207 PPP",
         "shortName": "PPP 2",
-        "ue": "UE 2-2"
+        "teachingUnit": "UE 2-2"
     },
     "m3101": {
         "color": "#9b59b6",
         "displayId": "",
         "displayName": "",
         "icon": "systemes-exploitation",
+        "moodle": "",
         "name": "Systèmes d'exploitation",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m3101-a": {
-        "alias": [
+        "aliases": [
             "M3101 Prog système"
         ],
         "color": "#9b59b6",
         "displayId": "M3101A",
         "displayName": "Programmation système",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "prog-systeme",
+        "moodle": "",
         "name": "M3101 Prog système",
         "shortName": "Prog. système",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3101-b": {
-        "alias": [
+        "aliases": [
             "M3101 Systèmes d'exploitation"
         ],
         "color": "#9b59b6",
         "displayId": "M3101B",
         "displayName": "Systèmes d’exploitation",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "systemes-exploitation",
+        "moodle": "",
         "name": "M3101 Systèmes d'exploitation",
         "shortName": "Syst. exploitation",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3102": {
-        "alias": [
+        "aliases": [
             "M3102 Réseaux"
         ],
         "color": "#3498db",
         "displayId": "M3102",
         "displayName": "Services réseaux",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "reseaux",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=2006",
         "name": "M3102 Réseaux",
         "shortName": "Réseaux",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3103": {
         "color": "#1abc9c",
         "displayId": "",
         "displayName": "",
         "icon": "algorithmique",
+        "moodle": "",
         "name": "C & Algorithmique",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m3103-a": {
-        "alias": [
+        "aliases": [
             "M3103 Algorithmique"
         ],
         "color": "#1abc9c",
         "displayId": "M3103A",
         "displayName": "Algorithmique",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "algorithmique",
+        "moodle": "",
         "name": "M3103 Algorithmique",
         "shortName": "Algo.",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3103-b": {
-        "alias": [
+        "aliases": [
             "M3103 C"
         ],
         "color": "#1abc9c",
         "displayId": "M3103B",
         "displayName": "Programmation C",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "prog-c",
+        "moodle": "",
         "name": "M3103 C",
         "shortName": "Prog. C",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3104": {
-        "alias": [
+        "aliases": [
             "M3104 Prog web (serveur)"
         ],
         "color": "#2ecc71",
         "displayId": "M3104",
         "displayName": "Programmation web côté serveur",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "prog-web-serveur",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=3885",
         "name": "M3104 Prog web (serveur)",
         "shortName": "Prog. web (serveur)",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3105": {
-        "alias": [
+        "aliases": [
             "M3105 Conception et Prog Objet"
         ],
         "color": "#f1c40f",
         "displayId": "M3105",
         "displayName": "Conception et Prog Objet",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "conception-prog-oo",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=1712",
         "name": "M3105 Conception et Prog Objet",
         "shortName": "",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3106": {
-        "alias": [
+        "aliases": [
             "M3106 BD avancées"
         ],
         "color": "#e67e22",
         "displayId": "M3106",
         "displayName": "Bases de données avancées",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "bd",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=1860",
         "name": "M3106 BD avancées",
         "shortName": "BD avancées",
-        "ue": "UE 3-1"
+        "teachingUnit": "UE 3-1"
     },
     "m3201": {
-        "alias": [
+        "aliases": [
             "M3201 Probas stats"
         ],
         "color": "#8e44ad",
         "displayId": "M3201",
         "displayName": "Probabilités & Statistiques",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "probas-stats",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=3048",
         "name": "M3201 Probas stats",
         "shortName": "Probas stats",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3202": {
-        "alias": [
+        "aliases": [
             "M3202 Modélisations math."
         ],
         "color": "#2980b9",
         "displayId": "M3202",
         "displayName": "Modélisations mathématiques",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "modelisation-math",
+        "moodle": "",
         "name": "M3202 Modélisations math.",
         "shortName": "Modélisations math.",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3203": {
-        "alias": [
+        "aliases": [
             "M3203 Droit"
         ],
         "color": "#16a085",
         "displayId": "M3203",
         "displayName": "Droit",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "droit",
+        "moodle": "",
         "name": "M3203 Droit",
         "shortName": "",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3204": {
-        "alias": [
+        "aliases": [
             "M3204 Gestion des SI"
         ],
         "color": "#27ae60",
         "displayId": "M3204",
         "displayName": "Gestion des systèmes d'information",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "gestion-si",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=2529",
         "name": "M3204 Gestion des SI",
         "shortName": "Gestion des SI",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3205": {
-        "alias": [
+        "aliases": [
             "M3205 Expression"
         ],
         "color": "#f39c12",
         "displayId": "M3205",
         "displayName": "Expression - Communication",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "expression",
+        "moodle": "https://moodle1.u-bordeaux.fr/enrol/index.php?id=6277",
         "name": "M3205 Expression",
         "shortName": "Expression",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3206": {
-        "alias": [
+        "aliases": [
             "M3206 Anglais"
         ],
         "color": "#d35400",
         "displayId": "M3206",
         "displayName": "Anglais",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "anglais",
+        "moodle": "",
         "name": "M3206 Anglais",
         "shortName": "",
-        "ue": "UE 3-2"
+        "teachingUnit": "UE 3-2"
     },
     "m3301": {
-        "alias": [
+        "aliases": [
             "M3301 Gestion de projet"
         ],
         "color": "#8e44ad",
         "displayId": "M3301",
         "displayName": "Gestion de projet",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "gestion-projet",
+        "moodle": "https://moodle1.u-bordeaux.fr/course/view.php?id=3635",
         "name": "M3301 Gestion de projet",
         "shortName": "",
-        "ue": "UE 3-3"
+        "teachingUnit": "UE 3-3"
     },
     "m3302": {
         "color": "#2980b9",
         "displayId": "M3302",
         "displayName": "Projet Tuteuré 3",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "pt3",
+        "moodle": "",
         "name": "PT3",
         "shortName": "PT3",
-        "ue": "UE 3-3"
+        "teachingUnit": "UE 3-3"
     },
     "m3302-a": {
-        "alias": [
+        "aliases": [
             "M3302 PT - Conception"
         ],
         "color": "#2980b9",
         "displayId": "",
         "displayName": "",
         "icon": "pt3",
+        "moodle": "",
         "name": "M3302 PT – Conception",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m3302-b": {
-        "alias": [
+        "aliases": [
             "M3302 PT - Gestion"
         ],
         "color": "#2980b9",
         "displayId": "",
         "displayName": "",
         "icon": "pt3",
+        "moodle": "",
         "name": "M3302 PT – Gestion",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m3303": {
-        "alias": [
+        "aliases": [
             "M3303 PPP - Compétences pro"
         ],
         "color": "#128a73",
         "displayId": "M3303",
         "displayName": "PPP – Compétences pro",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "ppp",
+        "moodle": "",
         "name": "P3303 PPP – Compétences pro",
         "shortName": "PPP3",
-        "ue": "UE 3-3"
+        "teachingUnit": "UE 3-3"
     },
     "m4101": {
         "color": "#9b59b6",
         "displayId": "",
         "displayName": "",
         "icon": "",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4101c-1-a": {
-        "alias": [
+        "aliases": [
             "M4101C Admin"
         ],
         "color": "#9b59b6",
         "displayId": "M4101C",
         "displayName": "Admin",
-        "group": [
+        "groups": [
             "S4p1"
         ],
         "icon": "admin",
+        "moodle": "",
         "name": "M4101C Admin",
         "shortName": "",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4101c-2-a": {
-        "alias": [
+        "aliases": [
             "M4101C Image"
         ],
         "color": "#9b59b6",
         "displayId": "M4101C",
         "displayName": "Image",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "image",
+        "moodle": "",
         "name": "M4101C Image",
         "shortName": "",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4102": {
         "color": "#3498db",
         "displayId": "",
         "displayName": "",
         "icon": "",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4102c-1-a": {
-        "alias": [
+        "aliases": [
             "M4102C Prog répartie"
         ],
         "color": "#3498db",
         "displayId": "M4102C",
         "displayName": "Programmation répartie",
-        "group": [
+        "groups": [
             "S4p1"
         ],
         "icon": "prog-repartie",
+        "moodle": "",
         "name": "M4102C Prog répartie",
         "shortName": "Prog. répartie",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4102c-2-a": {
-        "alias": [
+        "aliases": [
             "M4102C Algo distribuée"
         ],
         "color": "#3498db",
         "displayId": "M4102CA",
         "displayName": "Algorithmique distribuée",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "algo-distribuee",
+        "moodle": "",
         "name": "M4102C Algo distribuée",
         "shortName": "Algo. distribuée",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4102c-2-b": {
-        "alias": [
+        "aliases": [
             "M4102C Robotique"
         ],
         "color": "#3498db",
         "displayId": "M4102CB",
         "displayName": "Robotique",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "robotique",
+        "moodle": "",
         "name": "M4102C Robotique",
         "shortName": "",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4103c": {
-        "alias": [
+        "aliases": [
             "M4103C Prog web (client)"
         ],
         "color": "#1abc9c",
         "displayId": "M4103C",
         "displayName": "Programmation web côté client",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "prog-web-client",
+        "moodle": "",
         "name": "M4103C Prog web (client)",
         "shortName": "Prog. web (client)",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4104c": {
-        "alias": [
+        "aliases": [
             "M4104C Prog mobile"
         ],
         "color": "#2ecc71",
         "displayId": "",
         "displayName": "",
         "icon": "prog-mobile-android",
+        "moodle": "",
         "name": "M4104C Prog mobile",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4104c-a": {
-        "alias": [
-            "M4104C Prog mobile - Android"
+        "aliases": [
+            "M4104C Prog mobile (Android)",
+            "M4104CA - Prog. mobile - Android"
         ],
         "color": "#2ecc71",
         "displayId": "M4104CA",
         "displayName": "Programmation mobile - Android",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "prog-mobile-android",
+        "moodle": "",
         "name": "Android",
-        "option": [
+        "options": [
             "android"
         ],
-        "shortName": "Prog. mobile - Android",
-        "ue": "UE 4-1"
+        "shortName": "Prog. mobile (Android)",
+        "teachingUnit": "UE 4-1"
     },
     "m4104c-b": {
-        "alias": [
-            "M4104C Prog mobile - VR"
+        "aliases": [
+            "M4104C Prog mobile (VR)",
+            "M4104CB - Prog. mobile - VR"
         ],
         "color": "#2ecc71",
         "displayId": "M4104CB",
         "displayName": "Programmation mobile - Réalité Virtuelle",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "prog-mobile-vr",
+        "moodle": "",
         "name": "Réalité virtuelle",
-        "option": [
+        "options": [
             "vr"
         ],
-        "shortName": "Prog. mobile - VR",
-        "ue": "UE 4-1"
+        "shortName": "Prog. mobile (VR)",
+        "teachingUnit": "UE 4-1"
     },
     "m4105c": {
-        "alias": [
+        "aliases": [
             "M4105C JEE"
         ],
         "color": "#f1c40f",
         "displayId": "M4105C",
         "displayName": "Java JEE",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "jee",
+        "moodle": "",
         "name": "M4105C JEE",
         "shortName": "JEE",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4106": {
-        "alias": [
+        "aliases": [
             "M4106 PT"
         ],
         "color": "#e67e22",
         "displayId": "M4106",
         "displayName": "Projet Tuteuré 4",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT",
         "shortName": "PT4",
-        "ue": "UE 4-1"
+        "teachingUnit": "UE 4-1"
     },
     "m4106-a": {
-        "alias": [
+        "aliases": [
             "M4106 PT - Gestion"
         ],
         "color": "#e67e22",
         "displayId": "",
         "displayName": "",
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT - Gestion",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4106-b": {
-        "alias": [
+        "aliases": [
             "M4106 PT - Présentation"
         ],
         "color": "#e67e22",
         "displayId": "",
         "displayName": "",
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT – Présentation",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4106-c": {
-        "alias": [
+        "aliases": [
             "M4106 PT - Qualité"
         ],
         "color": "#e67e22",
         "displayId": "",
         "displayName": "",
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT – Qualité",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4106-d": {
-        "alias": [
+        "aliases": [
             "M4106 PT - Réalisation"
         ],
         "color": "#e67e22",
         "displayId": "",
         "displayName": "",
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT – Réalisation",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4106-e": {
-        "alias": [
+        "aliases": [
             "M4106 PT - Soutenances"
         ],
         "color": "#e67e22",
         "displayId": "",
         "displayName": "",
         "icon": "pt4",
+        "moodle": "",
         "name": "M4106 PT - Soutenances",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4201c": {
         "color": "#8e44ad",
         "displayId": "",
         "displayName": "",
         "icon": "",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4201c-1-a": {
-        "alias": [
+        "aliases": [
             "M4201C Création d'entreprise"
         ],
         "color": "#8e44ad",
         "displayId": "M4201C",
         "displayName": "Création d'entreprise",
-        "group": [
+        "groups": [
             "S4p1"
         ],
         "icon": "organisation",
+        "moodle": "",
         "name": "M4201C Création d'entreprise",
         "shortName": "",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4201c-2-a": {
-        "alias": [
+        "aliases": [
             "M4201C Qualité logicielle"
         ],
         "color": "#8e44ad",
         "displayId": "M4201C",
         "displayName": "Qualité logicielle",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "qualite-logicielle",
+        "moodle": "",
         "name": "M4201C Qualité logicielle",
         "shortName": "",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4202-2-b": {
-        "alias": [
+        "aliases": [
             "M4202C Crypto"
         ],
         "color": "#2980b9",
         "displayId": "M4202B",
         "displayName": "Cryptographie",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "crypto",
+        "moodle": "",
         "name": "M4202C Crypto",
         "shortName": "Crypto",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4202-2-c": {
-        "alias": [
+        "aliases": [
             "M4202C Groupes"
         ],
         "color": "#2980b9",
         "displayId": "M4202C",
         "displayName": "Groupes",
-        "group": [
+        "groups": [
             "S4p2"
         ],
         "icon": "groupes",
+        "moodle": "",
         "name": "M4202C Groupes",
         "shortName": "",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4202c": {
         "color": "#2980b9",
         "displayId": "",
         "displayName": "",
         "icon": "",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "m4202c-a": {
-        "alias": [
+        "aliases": [
             "M4202C IA"
         ],
         "color": "#2980b9",
         "displayId": "M4202A",
         "displayName": "Intelligences Artificelles",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "ia",
+        "moodle": "",
         "name": "M4202C IA",
         "shortName": "IA",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4203": {
-        "alias": [
+        "aliases": [
             "M4203 Expression"
         ],
         "color": "#f39c12",
         "displayId": "M4203",
         "displayName": "Expression - Communication",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "expression",
+        "moodle": "",
         "name": "M4203 Expression",
         "shortName": "Expression",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "m4204": {
-        "alias": [
+        "aliases": [
             "M4204 Anglais"
         ],
         "color": "#d35400",
         "displayId": "M4204",
         "displayName": "Anglais",
-        "group": [
+        "groups": [
             "S4"
         ],
         "icon": "anglais",
+        "moodle": "",
         "name": "M4204 Anglais",
         "shortName": "",
-        "ue": "UE 4-2"
+        "teachingUnit": "UE 4-2"
     },
     "mathsSti2d": {
-        "alias": [
+        "aliases": [
             "Complément maths STI2D"
         ],
         "color": "#9b59b6",
         "displayId": "",
         "displayName": "",
         "icon": "sti2d",
+        "moodle": "",
         "name": "Complément maths STI2D",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "optionS1": {
-        "alias": [
+        "aliases": [
             "Sport ou Théa ou club innov-1"
         ],
         "color": "#bdc3c7",
         "displayId": "",
         "displayName": "",
         "icon": "sport",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "optionS2": {
-        "alias": [
+        "aliases": [
             "Sport ou Théa ou club innov-2"
         ],
         "color": "#bdc3c7",
         "displayId": "",
         "displayName": "",
         "icon": "sport",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "optionS3": {
-        "alias": [
+        "aliases": [
             "Sport ou Théa ou club innov-3"
         ],
         "color": "#bdc3c7",
         "displayId": "",
         "displayName": "",
         "icon": "sport",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "optionS4": {
-        "alias": [
+        "aliases": [
             "Sport ou Théa ou club innov-4"
         ],
         "color": "#bdc3c7",
         "displayId": "",
         "displayName": "",
         "icon": "sport",
+        "moodle": "",
         "name": "",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
-    "pr1a": {
-        "alias": [
+    "pr1": {
+        "color": "#e67e22",
+        "displayId": "PR1",
+        "displayName": "Parcours Robotique",
+        "groups": [
+            "S1"
+        ],
+        "icon": "robotique/robotique",
+        "moodle": "",
+        "name": "Parcours Robotique",
+        "options": [
+            "roboticS1"
+        ],
+        "shortName": "",
+        "teachingUnit": "Options"
+    },
+    "pr2a": {
+        "aliases": [
             "Conception elec"
         ],
         "color": "#2ecc71",
-        "displayId": "PR1A",
+        "displayId": "PR2A",
         "displayName": "Conception électronique",
-        "group": [
-            "S1"
+        "groups": [
+            "S2"
         ],
         "icon": "robotique/conception-elec",
+        "moodle": "",
         "name": "Conception électronique",
-        "option": [
-            "roboticS1"
+        "options": [
+            "roboticS2"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
-    "pr1b": {
-        "alias": [
+    "pr2b": {
+        "aliases": [
             "Conception méca"
         ],
         "color": "#f1c40f",
-        "displayId": "PR1B",
+        "displayId": "PR2B",
         "displayName": "Conception mécanique",
-        "group": [
-            "S1"
+        "groups": [
+            "S2"
         ],
         "icon": "robotique/conception-meca",
+        "moodle": "",
         "name": "Conception mécanique",
-        "option": [
-            "roboticS1"
+        "options": [
+            "roboticS2"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
-    "pr1c": {
-        "alias": [
+    "pr2c": {
+        "aliases": [
             "Navigation"
         ],
         "color": "#16a085",
-        "displayId": "PR1C",
+        "displayId": "PR2C",
         "displayName": "Navigation",
-        "group": [
-            "S1"
+        "groups": [
+            "S2"
         ],
         "icon": "robotique/navigation",
+        "moodle": "",
         "name": "Navigation",
-        "option": [
-            "roboticS1"
+        "options": [
+            "roboticS2"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
-    "pr1d": {
-        "alias": [
+    "pr2d": {
+        "aliases": [
             "Programmation"
         ],
         "color": "#f39c12",
-        "displayId": "PR1D",
+        "displayId": "PR2D",
         "displayName": "Programmation",
-        "group": [
-            "S1"
+        "groups": [
+            "S2"
         ],
         "icon": "robotique/programmation",
+        "moodle": "",
         "name": "Programmation",
-        "option": [
-            "roboticS1"
+        "options": [
+            "roboticS2"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
+    },
+    "pr2e": {
+        "color": "#e74c3c",
+        "displayId": "PR2E",
+        "displayName": "Systèmes embarqués",
+        "groups": [
+            "S2"
+        ],
+        "icon": "robotique/systemes-embarques",
+        "moodle": "",
+        "name": "Systèmes embarqués",
+        "options": [
+            "roboticS2"
+        ],
+        "shortName": "",
+        "teachingUnit": "Options"
     },
     "pr3a": {
-        "alias": [
+        "aliases": [
             "La robotique"
         ],
         "color": "#e74c3c",
         "displayId": "PR3A",
         "displayName": "La Robotique et l'éthique",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "robotique/la-robotique-ethique",
+        "moodle": "",
         "name": "La Robotique et l'éthique",
-        "option": [
+        "options": [
             "roboticS3"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
     "pr3b": {
-        "alias": [
+        "aliases": [
             "Outils mathematiques Robotique"
         ],
         "color": "#27ae60",
         "displayId": "PR3B",
         "displayName": "Outils mathématiques pour la robotique",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "robotique/outils-mathematiques",
+        "moodle": "",
         "name": "Outils mathématiques pour la robotique",
-        "option": [
+        "options": [
             "roboticS3"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
     "pr3c": {
-        "alias": [
+        "aliases": [
             "PARCOURS ROBOTIQUE",
             "Matière à préciser"
         ],
         "color": "#e67e22",
         "displayId": "PR3C",
         "displayName": "Parcours Robotique",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "robotique/robotique",
+        "moodle": "",
         "name": "Parcours Robotique",
-        "option": [
+        "options": [
             "roboticS3"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
     "pr3d": {
-        "alias": [
+        "aliases": [
             "Robotique Industrielle"
         ],
         "color": "#e67e22",
         "displayId": "PR3D",
         "displayName": "Robotique Industrielle",
-        "group": [
+        "groups": [
             "S3"
         ],
         "icon": "robotique/robotique-industrielle",
+        "moodle": "",
         "name": "Robotique Industrielle",
-        "option": [
+        "options": [
             "roboticS3"
         ],
         "shortName": "",
-        "ue": "Options"
+        "teachingUnit": "Options"
     },
     "pr4a": {
-        "alias": [
+        "aliases": [
             "Analyse d'images"
         ],
         "color": "#9b59b6",
         "displayId": "PR4A",
         "displayName": "Analyse d’images",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/analyse-images",
+        "moodle": "",
         "name": "Analyse d’images",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4b": {
-        "alias": [
+        "aliases": [
             "Anglais"
         ],
         "color": "#3498db",
         "displayId": "PR4B",
         "displayName": "Anglais",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/anglais",
+        "moodle": "",
         "name": "Anglais",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4c": {
-        "alias": [
+        "aliases": [
             "Automatisme"
         ],
         "color": "#1abc9c",
         "displayId": "PR4C",
         "displayName": "Automatisme",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/automatisme",
+        "moodle": "",
         "name": "Automatisme",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4d": {
-        "alias": [
+        "aliases": [
             "Expression Communication"
         ],
         "color": "#e67e22",
         "displayId": "PR4D",
         "displayName": "Expression Communication",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/expression-communication",
+        "moodle": "",
         "name": "Expression Communication",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4e": {
-        "alias": [
-            "Mécanique & Protoypage"
+        "aliases": [
+            "Mécanique & Protoypage",
+            "Mécanique & Prototypage"
         ],
         "color": "#8e44ad",
         "displayId": "PR4E",
         "displayName": "Mécanique & Prototypage",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/mecanique-prototypage",
+        "moodle": "",
         "name": "Mécanique & Prototypage",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4f": {
-        "alias": [
+        "aliases": [
             "Méthodes d'apprentissage"
         ],
         "color": "#2980b9",
         "displayId": "PR4F",
         "displayName": "Méthodes d’apprentissage",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/methodes-apprentissage",
+        "moodle": "",
         "name": "Méthodes d’apprentissage",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4g": {
-        "alias": [
+        "aliases": [
             "Normes et sécurité"
         ],
         "color": "#27ae60",
         "displayId": "PR4G",
         "displayName": "Normes et sécurité",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/normes-securite",
+        "moodle": "",
         "name": "Normes et sécurité",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4h": {
-        "alias": [
+        "aliases": [
             "Projet"
         ],
         "color": "#d35400",
         "displayId": "PR4H",
         "displayName": "Projet",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/projet",
+        "moodle": "",
         "name": "Projet",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4i": {
-        "alias": [
+        "aliases": [
             "Systèmes embarqués"
         ],
         "color": "#c0392b",
         "displayId": "PR4I",
         "displayName": "Systèmes embarqués",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/systemes-embarques",
+        "moodle": "",
         "name": "Systèmes embarqués",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
     },
     "pr4j": {
-        "alias": [
+        "aliases": [
             "WorkShop"
         ],
         "color": "#9b59b6",
         "displayId": "PR4J",
         "displayName": "WorkShop",
-        "group": [
+        "groups": [
             "roboticS4"
         ],
         "icon": "robotique/workshop",
+        "moodle": "",
         "name": "WorkShop",
         "shortName": "",
-        "ue": "Parcours Robotique S4"
+        "teachingUnit": "Parcours Robotique S4"
+    },
+    "pr4k": {
+        "aliases": [
+            "Entrepreneuriat"
+        ],
+        "color": "#3498db",
+        "displayId": "PR4K",
+        "displayName": "Entrepreneuriat",
+        "groups": [
+            "roboticS4"
+        ],
+        "icon": "organisation",
+        "moodle": "",
+        "name": "Entrepreneuriat",
+        "shortName": "",
+        "teachingUnit": "Parcours Robotique S4"
     },
     "prEvaluation": {
-        "alias": [
+        "aliases": [
             "Evaluation"
         ],
         "color": "#2c3e50",
         "displayId": "",
         "displayName": "",
         "icon": "robotique/evaluation",
+        "moodle": "",
         "name": "Évaluation",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "prReunion": {
-        "alias": [
+        "aliases": [
             "Réunion Robotique"
         ],
         "color": "#2ecc71",
         "displayId": "",
         "displayName": "",
         "icon": "robotique/reunion-robotique",
+        "moodle": "",
         "name": "Réunion Robotique",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     },
     "tutorat": {
-        "alias": [
+        "aliases": [
             "Tutorat"
         ],
         "color": "#e74c3c",
         "displayId": "",
         "displayName": "",
         "icon": "tutorat",
+        "moodle": "",
         "name": "Tutorat",
         "shortName": "",
-        "ue": ""
+        "teachingUnit": ""
     }
 }

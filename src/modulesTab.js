@@ -38,7 +38,7 @@ class ModuleTab {
 	getModulesByUE(ue) {
 		let tab = [];
 		for (var mod in this.modules) {
-			if (this.modules[mod].ue == ue) {
+			if (this.modules[mod].teachingUnit == ue) {
 				tab.push(this.modules[mod]);
 			}
 		}

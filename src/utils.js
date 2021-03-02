@@ -1,5 +1,7 @@
+const moment = require("moment");
 
 class Utils {
+
 
 	/**
 	  * Remplace le nombre de jours par une string selon certaines conditions
@@ -51,57 +53,75 @@ class Utils {
 		}
 	}
 
-	static dateValidFormat(date) {
-		if (date.length !== 5)
-			return false;
+	// static dateValidFormat(date) {
+	// 	if (date.length !== 5)
+	// 		return false;
 
-		const splitArr = date.split("/");
-		if (splitArr.length !== 2)
-			return false;
+	// 	const splitArr = date.split("/");
+	// 	if (splitArr.length !== 2)
+	// 		return false;
 
-		if (+splitArr[0] !== parseInt(splitArr[0]))
-			return false;
+	// 	if (+splitArr[0] !== parseInt(splitArr[0]))
+	// 		return false;
 
-		if (+splitArr[1] !== parseInt(splitArr[1]))
-			return false;
+	// 	if (+splitArr[1] !== parseInt(splitArr[1]))
+	// 		return false;
 
-		if (parseInt(splitArr[0]) > 31 || parseInt(splitArr[0]) <= 0)
-			return false;
+	// 	if (parseInt(splitArr[0]) > 31 || parseInt(splitArr[0]) <= 0)
+	// 		return false;
 
-		if (parseInt(splitArr[1]) > 12 || parseInt(splitArr[1]) <= 0)
-			return false;
+	// 	if (parseInt(splitArr[1]) > 12 || parseInt(splitArr[1]) <= 0)
+	// 		return false;
 
-		return true;
-	}
+	// 	return true;
+	// }
+
 
 	static convertDateIso(date) {
-		let dateDevoir = date;
-		// Crée un tableau de taille 2, à l'index 0 on a le jour et à l'index 1 on a le mois 
-		const splitArr = dateDevoir.split("/");
-		const dayDevoir = parseInt(splitArr[0]);
-		const monthDevoir = parseInt(splitArr[1]);
-		return dateDevoir = new Date(2021, monthDevoir - 1, dayDevoir + 1);
+		return moment(date).format("YYYY-MM-DD");
 	}
-	
+
+	// static convertDateIso(date) {
+	// 	let dateDevoir = date;
+	// 	// Crée un tableau de taille 2, à l'index 0 on a le jour et à l'index 1 on a le mois 
+	// 	const splitArr = dateDevoir.split("/");
+	// 	const dayDevoir = parseInt(splitArr[0]);
+	// 	const monthDevoir = parseInt(splitArr[1]);
+	// 	return dateDevoir = new Date(2021, monthDevoir - 1, dayDevoir + 1);
+	// }
+
 	static convertIsoToDate(iso) {
 		return `${("0" + iso.getDate()).slice(-2)}/${("0" + (iso.getMonth() + 1)).slice(-2)}`;
 	}
 
 	static dateValid(date) {
-		const dateDevoir = this.convertDateIso(date);
-		let today = new Date();
-		today.setHours(0, 0, 0);
-		let diffDate = Math.round((dateDevoir - today) / (1000 * 60 * 60 * 24)) - 1;
-		return (diffDate >= 0);
+		const SEMESTER_TRANSITION_DATE = new Date("2021-01-24");
+		const YEAR_START_DATE = new Date("2020-09-06 00:00:00");
+		const YEAR_END_DATE = new Date("2021-06-30 23:59:59");
+
+		const today = new Date();
+
+		var homeworkDate = moment(date, "DD/MM/YYYY").toDate();
+
+		if ((today > SEMESTER_TRANSITION_DATE && homeworkDate > SEMESTER_TRANSITION_DATE && homeworkDate < YEAR_END_DATE)
+			|| (today <= SEMESTER_TRANSITION_DATE && homeworkDate > YEAR_START_DATE && homeworkDate < SEMESTER_TRANSITION_DATE)) {
+			return homeworkDate;
+		} else {
+			return null;
+		}
+
+
+		// let diffDate = Math.round((dateDevoir - today) / (1000 * 60 * 60 * 24)) - 1;
+		// return (diffDate >= 0);
 	}
 
 	static validURL(str) {
-		let pattern = new RegExp("^(https?:\\/\\/)?"+ // protocol
-		"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|"+ // domain name
-		"((\\d{1,3}\\.){3}\\d{1,3}))"+ // OR ip (v4) address
-		"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*"+ // port and path
-		"(\\?[;&a-z\\d%_.~+=-]*)?"+ // query string
-		"(\\#[-a-z\\d_]*)?$","i"); // fragment locator
+		let pattern = new RegExp("^(https?:\\/\\/)?" + // protocol
+			"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+			"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+			"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+			"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+			"(\\#[-a-z\\d_]*)?$", "i"); // fragment locator
 		return (!!pattern.test(str));
 	}
 }

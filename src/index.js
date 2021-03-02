@@ -1,6 +1,9 @@
 require("better-logging")(console);
 
 // Icone d'un module : 'https://www.hubday.fr/img/modules/png/' + module.icon + '.png'
+// Cours d'un groupe pour une journée : /planning/S2A-prime/YYYY-MM-DD
+
+// https://www.hubday.fr/dashboard#homework/id/view
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -14,26 +17,27 @@ const dataBase = new Firebase(FIREBASE_CONFIG);
 const Embed = require("./Embed.js");
 
 const AddForm = require("./addForm");
+const Homework = require("./Homework");
 
 // const Devoir = require("./Devoir");
 // const Utils = require("./utils");
 
 /**
- * Modules db object {}
+ * Subjects db object {}
  */
 let MODULES = null;
 
 /**
  * Télécharge la liste de modules à partir de la db si elle n'est pas encore stockée
- * (Soit normalement une fois au lancement)
+ * (Soit normalement une fois au lancement ou au refresh à l'aide d'une commande)
  * @return Le contenu des modules
  */
-const getModules = async () => {
+const getSubjects = async () => {
 	if (MODULES === null) {
-		// const modules = await dataBase.getDbData("modules");
-		const modules = require("./modules.json");
-		console.log("[DB] Modules retrieved : " + Object.keys(modules).length);
-		return modules;
+		//const subjects = await dataBase.getDbData("subjects");
+		const subjects = require("./subjects.json");
+		console.log("[DB] Modules retrieved : " + Object.keys(subjects).length);
+		return subjects;
 	}
 	return MODULES;
 };
@@ -134,7 +138,7 @@ client.on("ready", async () => {
 	});
 
 	console.log("========================================");
-	MODULES = await getModules();
+	MODULES = await getSubjects();
 	console.log("========================================");
 	console.log("             Bot started !              ");
 	console.log("========================================");
@@ -213,7 +217,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 
 client.login(DISCORD_CONFIG.token);
 
-exports.getModules = getModules;
+exports.getSubjects = getSubjects;
 exports.handleUser = handleUser;
 exports.isUserHandled = isUserHandled;
 
@@ -267,10 +271,11 @@ client.on("message", msg => {
 		// }
 		if (msg.author.id !== client.user.id && !USER_LOAD.includes(msg.author.id)) {
 			// msg.author.send(Embed.getHelpEmbed());
+
 			handleUser(msg.author.id);
 			AddForm.startAddForm(msg.author);
 
-			// const modul_ = {
+			// const subject = {
 			// 	"alias": [
 			// 		"M1202 Algèbre linéaire"
 			// 	],
@@ -285,17 +290,18 @@ client.on("message", msg => {
 			// 	"shortName": "",
 			// 	"ue": "UE 1-2"
 			// };
+
 			// msg.author.send(
-			// 	new Devoir(
-			// 		modul_,
+			// 	new Homework(
+			// 		subject,
 			// 		[
 			// 			"Exerice pages 16 à 18", 
 			// 			"Envoyer les réponses sur moodle", 
 			// 			"Manger des patates"
 			// 		],
-			// 		Utils.convertDateIso("21/02"),
+			// 		"2021-03-10",
 			// 		"entier",
-			// 		"Remise moodle",
+			// 		"Demander a Mr Fossé pour la remise",
 			// 		"https://moodle1.u-bordeaux.fr/",
 			// 		true,
 			// 		null
@@ -334,7 +340,7 @@ client.on("message", msg => {
 	// switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
 	// 	case "test":
 	// 		// msg.channel.send(Embed.getHelpEmbed());
-	// 		//getModules();
+	// 		//getSubjects();
 	// 		// console.log(msg.author.id);
 	// 		//console.log(await fb.getDbDataWithFilter("users", "discordId", msg.author.id))
 	// 		const users = await fb.getDbData("users");

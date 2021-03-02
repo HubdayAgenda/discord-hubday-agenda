@@ -21,11 +21,11 @@ class Embeds {
 
 	/**
 	 * Création de l'embed pour l'affichage du tableau des matières
-	 * @param userModules
+	 * @param userSubjects
 	 * @return l'embed mis en forme
 	 */
-	static async getMatieresEmbed(userModules) {
-		const attachment = await new ModulesTab(await index.getModules()).getTabImageAttachment(userModules);
+	static async getMatieresEmbed(userSubjects) {
+		const attachment = await new ModulesTab(await index.getSubjects()).getTabImageAttachment(userSubjects);
 		const embed = new Discord.MessageEmbed()
 			.attachFiles(attachment)
 			.setColor("#afdab9")

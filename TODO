@@ -1,21 +1,14 @@
-OK - Help message
-
-- defaultEmbed -> fonction tempMessage("titre", "description", temps)
-
-OK- Convention forme devoir
-
-- Formulaire ajout
-OK    - Slash cmd lancement reponse mp 
-FIX    - Recup UE utilisateur
-FIX    - Recup modules
-OK    - Choix matiere (Embed & tab done)
-OK    - Choix description
-OK    - Choix date
-OK    - creation classe devoir
-    - Envois sur bd hubday
-
 - Sync db avec salons
 
 - system de debug via cmd pour dev
 
-- Demander l'année pour éviter le problème du changement d'année décembre/janvier
+OK - Demander l'année pour éviter le problème du changement d'année décembre/janvier
+
+- Conversion typescript
+- Demander l'heure de remise (deadline)
+- Afficher la couleur du module dans tout les embeds
+- Try / Catch de partout (gérer le plus grand nombre d'erreurs)
+    - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
+- Webhook de bug report
+- Utiliser l'ID pour créer le lien
+- Ajouter le lesson ID
