@@ -3,27 +3,47 @@
         "es2021": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 12
+        "ecmaVersion": 12,
+        "sourceType": "module"
     },
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "rules": {
+        "no-trailing-spaces": "error",
         "indent": [
             "error",
-            "tab",
-            { "SwitchCase": 1 }
+            "tab"
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "unix"
         ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "@typescript-eslint/no-explicit-any": ["error", { "ignoreRestArgs": true }],
+        // "require-jsdoc": ["error", {
+        //     "require": {
+        //         "FunctionDeclaration": true,
+        //         "MethodDefinition": true,
+        //         "ClassDeclaration": true,
+        //         "ArrowFunctionExpression": true,
+        //         "FunctionExpression": true
+        //     }
+        // }],
+        "eol-last": "error",
+        "@typescript-eslint/no-empty-function": 0
     }
 }

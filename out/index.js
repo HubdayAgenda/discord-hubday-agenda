@@ -1,31 +1,22 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BOT_ACTIONS = exports.isUserHandled = exports.handleUser = exports.getSubjects = void 0;
+exports.BOT_ACTIONS = exports.isUserHandled = exports.handleUser = void 0;
 require("better-logging")(console);
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const DISCORD_CONFIG = require("../config.json");
 const Embed = require("./embed");
 const AddForm = require("./addForm");
-const fireBase = require("./firebase");
-/**
- * Subjects db object {}
- */
-let SUBJECTS = null;
-/**
- * Télécharge la liste de modules à partir de la db si elle n'est pas encore stockée
- * (Soit normalement une fois au lancement ou au refresh à l'aide d'une commande)
- * @return Le contenu des modules
- */
-exports.getSubjects = async () => {
-    if (SUBJECTS === null) {
-        const subjects = await fireBase.getDbData("subjects");
-        // const subjects = require("./subjects.json");
-        console.log("[DB] Modules retrieved : " + Object.keys(subjects).length);
-        return subjects;
-    }
-    return SUBJECTS;
-};
+// import { Homework } from './Classes_Interfaces/Homework';
 /**
  * Liste des id discords des utilisateurs en train d'utiliser le bot
  */
@@ -39,7 +30,7 @@ let USER_LOAD = [];
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-exports.handleUser = (id, remove = false) => {
+const handleUser = (id, remove = false) => {
     if (USER_LOAD.includes(id)) {
         if (remove) {
             USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
@@ -53,22 +44,24 @@ exports.handleUser = (id, remove = false) => {
     else if (!remove) {
         USER_LOAD.push(id);
         console.info(`[UserLoad : ${USER_LOAD.length}] New user handled with id : ` + id);
-        async () => {
+        () => __awaiter(void 0, void 0, void 0, function* () {
             setTimeout(() => {
                 exports.handleUser(id, true);
                 console.warn(`[UserLoad : ${USER_LOAD.length}] User automatically unhandled with id : ` + id + "(timeout)");
             }, 120000);
-        };
+        });
     }
 };
+exports.handleUser = handleUser;
 /**
  *
  * @param id l'id de l'utilisateur a rechercher
  * @return vrai si l'utilisateur est enregistré
  */
-exports.isUserHandled = (id) => {
+const isUserHandled = (id) => {
     return USER_LOAD.includes(id);
 };
+exports.isUserHandled = isUserHandled;
 /**
  * Actions du bot, choisissable depuis un message de menu (Premier MP du bot après /agenda)
  *  - name : (requis) nom de l'action (sera affiché)
@@ -100,7 +93,7 @@ exports.BOT_ACTIONS = [
         }
     }
 ];
-client.on("ready", async () => {
+client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     // /**
     //  * Enregistrement de la commande /agenda
     //  */
@@ -114,11 +107,9 @@ client.on("ready", async () => {
     // 	(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
     // });
     console.log("========================================");
-    SUBJECTS = await exports.getSubjects();
-    console.log("========================================");
     console.log("             Bot started !              ");
     console.log("========================================");
-    const status = async () => {
+    const status = () => __awaiter(void 0, void 0, void 0, function* () {
         setTimeout(() => {
             var _a;
             (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("/agenda");
@@ -128,9 +119,9 @@ client.on("ready", async () => {
                 status();
             }, 20000);
         }, 20000);
-    };
+    });
     status();
-});
+}));
 /**
  * Des que la commande /agenda est exécutée : ouvre le menu et attend la reponse (via reactions)
  * Des que une réactions au menu est réçu, l'action correspondante est éxécutée

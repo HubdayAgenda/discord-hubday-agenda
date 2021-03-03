@@ -9,12 +9,16 @@
     "canvas": "^2.6.1",
     "canvas-table": "0.0.8",
     "discord.js": "^12.5.1",
+    "eslint": "^7.21.0",
     "glob": "^7.1.6",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1"
   },
   "scripts": {
-    "start": "tsc && node ./out/index.js"
+    "start": "tsc && node ./out/index.js",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -22,6 +26,8 @@
     "@types/node": "^11.15.12",
     "@types/node-fetch": "^2.5.8",
     "@types/ws": "^7.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
     "jest": "^26.0.1",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^25.5.0",

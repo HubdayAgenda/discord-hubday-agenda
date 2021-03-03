@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startAddForm = void 0;
 /* eslint-disable no-unreachable */
@@ -7,18 +16,19 @@ const FIREBASE_CONFIG = require("../configFirebase.json");
 const fireBase = require("./firebase");
 const Utils = require("./utils");
 const index_1 = require("./index");
-const Homework_1 = require("./Homework");
+const Homework_1 = require("./Classes_Interfaces/Homework");
+const Subject_1 = require("./Classes_Interfaces/Subject");
 /**
  * Contient l'entièreté des questions nécéssaires à la création d'un devoir
  * A la fin du formulaire un nouveau devoir est créé
  * @param user l'utilisateur concerné par le formulaire
  */
-exports.startAddForm = async (user) => {
+const startAddForm = (user) => __awaiter(void 0, void 0, void 0, function* () {
     logForm(user, "== Add form started ==");
     const GROUPNUM = 2;
     // Retrieve user from DB
     // ==============================================================
-    const hubdayUserResults = await fireBase.getDbDataWithFilter("users", "discordId", user.id);
+    const hubdayUserResults = yield fireBase.getDbDataWithFilter("users", "discordId", user.id);
     const hubdayUser = hubdayUserResults[Object.keys(hubdayUserResults)[0]];
     if (Object.keys(hubdayUser).length == 0) {
         console.warn("User not found");
@@ -27,15 +37,15 @@ exports.startAddForm = async (user) => {
     const group = hubdayUser[`group${GROUPNUM}`];
     const options = hubdayUser["options"] !== undefined ? hubdayUser["options"] : [];
     // ==============================================================
-    const userSubjects = await getUserSubjects(group, options);
-    const matEmbed = await Embed.getMatieresEmbed(userSubjects);
+    const userSubjects = yield getUserSubjects(group, options);
+    const matEmbed = yield Embed.getMatieresEmbed(userSubjects);
     // Ask for module		
     // ==============================================================
     let filter = m => m.author.id === user.id
         && !Number.isNaN(parseInt(m.content))
         && (parseInt(m.content) < Object.keys(userSubjects).length + 1)
         && (parseInt(m.content) > 0);
-    const numModule = await getResponse(user, matEmbed, filter);
+    const numModule = yield getResponse(user, matEmbed, filter);
     if (numModule === null) {
         console.warn("Get response error (Timeout or Exception)");
         return;
@@ -47,7 +57,7 @@ exports.startAddForm = async (user) => {
     // ==============================================================
     filter = m => m.author.id === user.id;
     const labelEmbed = Embed.getDefaultEmbed(`Nouveau devoir pour le cours de ${_SUBJECT.displayId} - ${_SUBJECT.displayName}`, "Veuillez indiquer la liste des tâches à effectuer pour ce devoir", "Répondez sous la forme :\n tâche 1 | tâche 2 | tâche 3 | ...", _SUBJECT.color);
-    const labelResponse = await getResponse(user, labelEmbed, filter);
+    const labelResponse = yield getResponse(user, labelEmbed, filter);
     if (labelResponse === null) {
         console.warn("Get response error (Timeout or Exception)");
         return;
@@ -69,7 +79,7 @@ exports.startAddForm = async (user) => {
     let valid = false;
     let _DATE;
     while (!valid) {
-        const dateResponse = await getResponse(user, dateEmbed, filter = m => m.author.id === user.id);
+        const dateResponse = yield getResponse(user, dateEmbed, filter = m => m.author.id === user.id);
         if (dateResponse === null) {
             console.warn("Get response error (Timeout or Exception)");
             return;
@@ -92,7 +102,7 @@ exports.startAddForm = async (user) => {
         { "emoji": "☝️", "value": 2, "description": "Groupe prime" },
         { "emoji": "✌️", "value": 3, "description": "Groupe seconde" },
     ];
-    const groupResponse = await getEmojisResponse(user, emojiAction, Embed.getEmojiFormEmbed("Quel groupe est concerné par ce devoir ?", emojiAction, "‌‌ ", "Réagissez avec l'émoji correspondant à l'action souhaitée."));
+    const groupResponse = yield getEmojisResponse(user, emojiAction, Embed.getEmojiFormEmbed("Quel groupe est concerné par ce devoir ?", emojiAction, "‌‌ ", "Réagissez avec l'émoji correspondant à l'action souhaitée."));
     if (groupResponse === null) {
         console.warn("Get response error (Timeout or Exception)");
         return;
@@ -113,7 +123,7 @@ exports.startAddForm = async (user) => {
     emojiAction = [
         { "emoji": "❌", "value": -1, "description": "Ne pas spécifier" },
     ];
-    const deliveryResponse = await getResponse(user, Embed.getEmojiFormEmbed("Ajouter des détails à ce devoir ? (facultatif)", emojiAction, "Ici, vous pouvez indiquer des consignes de remise ou d'autres détails", "Réagissez avec l'émoji pour passer ou répondez."), filter = m => m.author.id === user.id, emojiAction);
+    const deliveryResponse = yield getResponse(user, Embed.getEmojiFormEmbed("Ajouter des détails à ce devoir ? (facultatif)", emojiAction, "Ici, vous pouvez indiquer des consignes de remise ou d'autres détails", "Réagissez avec l'émoji pour passer ou répondez."), filter = m => m.author.id === user.id, emojiAction);
     if (deliveryResponse === null) {
         console.warn("Get response error (Timeout or Exception)");
         return;
@@ -130,7 +140,7 @@ exports.startAddForm = async (user) => {
     let _LINK = null;
     if (_DETAILS) {
         while (!valid) {
-            const linkResponse = await getResponse(user, Embed.getEmojiFormEmbed("Ajouter un lien ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji pour passer ou répondez avec un lien."), filter = m => m.author.id === user.id, emojiAction);
+            const linkResponse = yield getResponse(user, Embed.getEmojiFormEmbed("Ajouter un lien ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji pour passer ou répondez avec un lien."), filter = m => m.author.id === user.id, emojiAction);
             if (linkResponse === null) {
                 console.warn("Get response error (Timeout or Exception)");
                 return;
@@ -156,7 +166,7 @@ exports.startAddForm = async (user) => {
         { "emoji": "📉", "value": false, "description": "Devoir non noté" },
         { "emoji": "❌", "value": -1, "description": "Non renseigné" },
     ];
-    const gradeResponse = await getEmojisResponse(user, emojiAction, Embed.getEmojiFormEmbed("Le devoir est-il noté ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji correspondant à l'action souhaitée."));
+    const gradeResponse = yield getEmojisResponse(user, emojiAction, Embed.getEmojiFormEmbed("Le devoir est-il noté ? (facultatif)", emojiAction, null, "Réagissez avec l'émoji correspondant à l'action souhaitée."));
     if (gradeResponse === null) {
         console.warn("Get response error (Timeout or Exception)");
         return;
@@ -164,12 +174,13 @@ exports.startAddForm = async (user) => {
     const _NOTATION = (gradeResponse === -1 ? null : gradeResponse);
     logForm(user, ` 6) grade : ${_NOTATION}`);
     // ==============================================================
-    const homework = new Homework_1.Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION, /*lessonId*/ null);
+    const homework = new Homework_1.Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION);
     logForm(user, "== Add form ended ==");
     index_1.handleUser(user.id, true);
-    await homework.persist(group);
+    yield homework.persist(group);
     user.send(homework.getEmbed());
-};
+});
+exports.startAddForm = startAddForm;
 /**
  * Envois un message a l'utilisateur, attend sa réponse et return la reponse en question
  * @param user L'utilisateur concerné
@@ -178,7 +189,7 @@ exports.startAddForm = async (user) => {
  * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
  * @return la reponse ou null si aucune n'est donée
  */
-const getResponse = async (user, messageContent, filter, emojiActions = null) => {
+const getResponse = (user, messageContent, filter, emojiActions = null) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise(function (resolve) {
         user.send(messageContent).then((msg) => {
             if (emojiActions !== null) {
@@ -212,7 +223,7 @@ const getResponse = async (user, messageContent, filter, emojiActions = null) =>
             });
         }).catch(e => console.error(e));
     });
-};
+});
 /**
  * Envois un message à l'utilisateur et met une liste d'emojis en dessous comme choix de reponses
  * @param user l'utilisateur concerné
@@ -220,7 +231,7 @@ const getResponse = async (user, messageContent, filter, emojiActions = null) =>
  * @param messageContent le contenu du message composant la question
  * @return la reponse ou null si aucune reponse n'est donnée
  */
-const getEmojisResponse = async (user, emojiActions, messageContent) => {
+const getEmojisResponse = (user, emojiActions, messageContent) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise(function (resolve) {
         user.send(messageContent).then((msg) => {
             emojiActions.forEach(element => {
@@ -244,16 +255,16 @@ const getEmojisResponse = async (user, emojiActions, messageContent) => {
             });
         }).catch(e => console.error(e));
     });
-};
+});
 /**
  * Retourne la liste des modules à partir d'un group et une option
  * @param group le group des modules a retourner
  * @param options les options des modules a retourner
  * @return la liste des modules ainsi que l'embed comportant le tableau de tous les modules
  */
-const getUserSubjects = async (group, options) => {
+const getUserSubjects = (group, options) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("GROUPE : " + group);
-    const subjects = await index_1.getSubjects();
+    const subjects = yield Subject_1.getSubjects();
     var userSubjects = [];
     for (var entry of Object.entries(subjects)) {
         var subject = entry[1];
@@ -265,7 +276,7 @@ const getUserSubjects = async (group, options) => {
         }
     }
     return userSubjects;
-};
+});
 const logForm = (user, log) => {
     console.info(`[AddForm - ${user.username}]    ${log}`);
 };

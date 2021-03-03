@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as Discord from 'discord.js';
 
-const { CanvasTable } = require("canvas-table");
-const { createCanvas } = require("canvas");
+const { CanvasTable } = require('canvas-table');
+const { createCanvas } = require('canvas');
 
-import { ISubject } from './Homework';
+import { ISubject } from './Classes_Interfaces/Subject';
 
 /**
  * Création du canvas avec les matières et les UE
@@ -22,10 +23,10 @@ export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Disco
 		options
 	});
 	await ct.generateTable();
-	await ct.renderToFile("test-table.png");
+	await ct.renderToFile('test-table.png');
 
-	return new Discord.MessageAttachment(canvas.toBuffer(), "image.png");
-}
+	return new Discord.MessageAttachment(canvas.toBuffer(), 'image.png');
+};
 
 /**
  * Transforme une liste de module sous une forme utilisée pour générer un tableau
@@ -33,41 +34,41 @@ export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Disco
  * @return Les modules sous forme lisible pour canvas-table
  */
 export const modulesToTabData = (subjects: ISubject[]) => {
-	let data = [];
+	const data = [];
 	let i = 1;
-	data.push(["", "", ""]);
+	data.push(['', '', '']);
 	subjects.forEach((subject: ISubject) => {
-		const ligne = [i.toString(), subject.displayId + " - " + subject.displayName];
+		const ligne = [i.toString(), subject.displayId + ' - ' + subject.displayName];
 		data.push(ligne);
 		i++;
 	});
-	data.push(["", "", ""]);
+	data.push(['', '', '']);
 	return data;
-}
+};
 
 /**
  * Affichage des colonnes pour le canvas
  */
 const columns = [
 	{
-		title: "Numéro",
+		title: 'Numéro',
 		options: {
-			textAlign: "center",
+			textAlign: 'center',
 			fontSize: 18,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "#afdab9",
+			fontWeight: 'bold',
+			fontFamily: 'arial',
+			color: '#afdab9',
 			lineHeight: 21,
 		}
 	},
 	{
-		title: "Module",
+		title: 'Module',
 		options: {
-			textAlign: "left",
+			textAlign: 'left',
 			fontSize: 18,
-			fontWeight: "bold",
-			fontFamily: "arial",
-			color: "white",
+			fontWeight: 'bold',
+			fontFamily: 'arial',
+			color: 'white',
 			lineHeight: 21,
 		},
 	},
@@ -78,17 +79,17 @@ const columns = [
  */
 const options = {
 	devicePixelRatio: 1,
-	background: "#2f3136",
+	background: '#2f3136',
 	borders: {
-		table: { color: "#bababa", width: 2 },
+		table: { color: '#bababa', width: 2 },
 	},
 	fit: true,
 	options: {
-		textAlign: "center",
+		textAlign: 'center',
 	},
 	header: {
 		fontSize: 16,
-		fontFamily: "arial",
-		color: "#afdab9",
+		fontFamily: 'arial',
+		color: '#afdab9',
 	},
 };

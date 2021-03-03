@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validURL = exports.dateValid = exports.convertIsoToDate = exports.convertDateIso = exports.gatherResponse = exports.libelleJour = void 0;
 const moment = require("moment");
@@ -7,7 +16,7 @@ const moment = require("moment");
   * @param jours le nombre de jours avant la remise
   * @return un libellé particulier si le nombre de jour correspond a un nombre particulier, sinon return le nombre de jours
 */
-exports.libelleJour = (jours) => {
+const libelleJour = (jours) => {
     if (jours === 0)
         return "Pour aujourd'hui";
     else if (jours === 1)
@@ -35,22 +44,24 @@ exports.libelleJour = (jours) => {
     else
         return `Pour dans ${jours} jours`;
 };
-exports.gatherResponse = async (response) => {
+exports.libelleJour = libelleJour;
+const gatherResponse = (response) => __awaiter(void 0, void 0, void 0, function* () {
     const { headers } = response;
     const contentType = headers.get("content-type");
     if (contentType.includes("application/json")) {
-        return await response.json();
+        return yield response.json();
     }
     else if (contentType.includes("application/text")) {
-        return await response.text();
+        return yield response.text();
     }
     else if (contentType.includes("text/html")) {
-        return await response.text();
+        return yield response.text();
     }
     else {
-        return await response.text();
+        return yield response.text();
     }
-};
+});
+exports.gatherResponse = gatherResponse;
 // static dateValidFormat(date) {
 // 	if (date.length !== 5)
 // 		return false;
@@ -67,9 +78,10 @@ exports.gatherResponse = async (response) => {
 // 		return false;
 // 	return true;
 // }
-exports.convertDateIso = (date) => {
+const convertDateIso = (date) => {
     return moment(date).format("YYYY-MM-DD");
 };
+exports.convertDateIso = convertDateIso;
 // static convertDateIso(date) {
 // 	let dateDevoir = date;
 // 	// Crée un tableau de taille 2, à l'index 0 on a le jour et à l'index 1 on a le mois 
@@ -78,10 +90,11 @@ exports.convertDateIso = (date) => {
 // 	const monthDevoir = parseInt(splitArr[1]);
 // 	return dateDevoir = new Date(2021, monthDevoir - 1, dayDevoir + 1);
 // }
-exports.convertIsoToDate = (iso) => {
+const convertIsoToDate = (iso) => {
     return `${("0" + iso.getDate()).slice(-2)}/${("0" + (iso.getMonth() + 1)).slice(-2)}`;
 };
-exports.dateValid = (date) => {
+exports.convertIsoToDate = convertIsoToDate;
+const dateValid = (date) => {
     const SEMESTER_TRANSITION_DATE = new Date("2021-01-24");
     const YEAR_START_DATE = new Date("2020-09-06 00:00:00");
     const YEAR_END_DATE = new Date("2021-06-30 23:59:59");
@@ -97,7 +110,8 @@ exports.dateValid = (date) => {
     // let diffDate = Math.round((dateDevoir - today) / (1000 * 60 * 60 * 24)) - 1;
     // return (diffDate >= 0);
 };
-exports.validURL = (str) => {
+exports.dateValid = dateValid;
+const validURL = (str) => {
     let pattern = new RegExp("^(https?:\\/\\/)?" + // protocol
         "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
         "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
@@ -106,4 +120,5 @@ exports.validURL = (str) => {
         "(\\#[-a-z\\d_]*)?$", "i"); // fragment locator
     return (!!pattern.test(str));
 };
+exports.validURL = validURL;
 //# sourceMappingURL=utils.js.map

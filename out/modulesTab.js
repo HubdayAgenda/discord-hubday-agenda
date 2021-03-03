@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modulesToTabData = exports.getTabImageAttachment = void 0;
 const Discord = require("discord.js");
@@ -9,7 +18,7 @@ const { createCanvas } = require("canvas");
  * @param userModules
  * @return la canvas mis en forme
  */
-exports.getTabImageAttachment = async (subjects) => {
+const getTabImageAttachment = (subjects) => __awaiter(void 0, void 0, void 0, function* () {
     const canvas = createCanvas(1965 / 3, 25 * subjects.length + 100);
     const data = exports.modulesToTabData(subjects);
     const ct = new CanvasTable(canvas, {
@@ -17,16 +26,17 @@ exports.getTabImageAttachment = async (subjects) => {
         columns,
         options
     });
-    await ct.generateTable();
-    await ct.renderToFile("test-table.png");
+    yield ct.generateTable();
+    yield ct.renderToFile("test-table.png");
     return new Discord.MessageAttachment(canvas.toBuffer(), "image.png");
-};
+});
+exports.getTabImageAttachment = getTabImageAttachment;
 /**
  * Transforme une liste de module sous une forme utilisée pour générer un tableau
  * @param subjects liste des modules a afficher dans le tableau
  * @return Les modules sous forme lisible pour canvas-table
  */
-exports.modulesToTabData = (subjects) => {
+const modulesToTabData = (subjects) => {
     let data = [];
     let i = 1;
     data.push(["", "", ""]);
@@ -38,6 +48,7 @@ exports.modulesToTabData = (subjects) => {
     data.push(["", "", ""]);
     return data;
 };
+exports.modulesToTabData = modulesToTabData;
 /**
  * Affichage des colonnes pour le canvas
  */
