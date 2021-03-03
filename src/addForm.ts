@@ -35,7 +35,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	 * @TODO : passer à une variable pour configure le semestre à utiliser
 	 */
 	const userSubjects : ISubject[] = await hubdayUser.getSubjects(2);
-	const matEmbed = await Embed.getMatieresEmbed(userSubjects);
+	const subjectEmbed = await Embed.getMatieresEmbed(userSubjects);
 
 	// Ask what subject the homework is about
 	// ==============================================================
@@ -44,10 +44,10 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		&& (parseInt(m.content) < Object.keys(userSubjects).length + 1)
 		&& (parseInt(m.content) > 0);
 
-	const subjectNb: number | null = await getResponse(user, matEmbed, filter);
-	if (subjectNb === null) { console.warn('Get response error (Timeout or Exception)'); return; }
+	const subjectNb = await getResponse(user, subjectEmbed, filter);
+	if (subjectNb === null || typeof parseInt(subjectNb.toString()) != 'number') { console.warn(`Get response error (Timeout or number Exception) - ${typeof subjectNb}`); return; }
 
-	const _SUBJECT = userSubjects[subjectNb - 1];
+	const _SUBJECT = userSubjects[parseInt(subjectNb.toString()) - 1];
 
 	/**
 	 * @TODO : passer l'interface ISubject à une classe Subject et ajouter une méthode getDisplayName(short : boolean)
@@ -70,7 +70,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	if (tasksResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
 	const _TASKS : string[] = [];
-	tasksResponse.split('|').forEach((task: string) => {
+	tasksResponse.toString().split('|').forEach((task: string) => {
 		_TASKS.push(task.trim());
 	});
 
@@ -92,7 +92,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		const dateResponse = await getResponse(user, dateEmbed, filter = m => m.author.id === user.id);
 		if (dateResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-		const date = Utils.dateValid(dateResponse);
+		const date = Utils.dateValid(dateResponse.toString());
 
 		if (date != null) {
 			valid = true;
@@ -155,7 +155,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	);
 	if (deliveryResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _DETAILS: string | null = deliveryResponse == -1 ? null : deliveryResponse;
+	const _DETAILS: string | null = deliveryResponse == -1 ? null : deliveryResponse.toString();
 
 	logForm(user, ` 5) details : ${_DETAILS}`);
 	// ==============================================================
@@ -168,7 +168,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
 	];
 	valid = false;
-	let _LINK = null;
+	let _LINK: null | string = null;
 	if (_DETAILS) {
 		while (!valid) {
 			const linkResponse = await getResponse(
@@ -180,7 +180,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 			if (linkResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 			if (linkResponse == -1) {
 				valid = true;
-			} else if (Utils.validURL(linkResponse)) {
+			} else if (typeof linkResponse == 'string' && Utils.validURL(linkResponse.toString())) {
 				_LINK = linkResponse;
 				valid = true;
 			} else {
@@ -209,7 +209,10 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	);
 	if (gradeResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _NOTATION = (gradeResponse === -1 ? null : gradeResponse);
+	let _NOTATION: null | boolean = null;
+	if(gradeResponse != -1){
+		_NOTATION = gradeResponse ? true : false;
+	}
 
 	logForm(user, ` 6) grade : ${_NOTATION}`);
 	// ==============================================================
@@ -237,7 +240,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
  * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
  * @return la reponse ou null si aucune n'est donée
  */
-const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<string | any | null> => {
+const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<null | number | boolean | string> => {
 	return new Promise(
 		function (resolve) {
 			user.send(messageContent).then((msg) => {
@@ -246,7 +249,7 @@ const getResponse = async (user: Discord.User, messageContent: string | Discord.
 						msg.react(element.emoji).catch(() => console.info('React on deleted message'));
 					});
 
-					const filter = (reaction: any, reactUser: Discord.User) => { return reactUser.id === user.id; };
+					const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
 					msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
 						emojiActions.forEach(action => {
 							if (action.emoji == collected.first()?.emoji.name) {
@@ -282,7 +285,7 @@ const getResponse = async (user: Discord.User, messageContent: string | Discord.
  * @param messageContent le contenu du message composant la question
  * @return la reponse ou null si aucune reponse n'est donnée
  */
-const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<any> => {
+const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<null | number | boolean> => {
 	return new Promise(
 		function (resolve) {
 			user.send(messageContent).then((msg) => {
@@ -290,7 +293,7 @@ const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[
 					msg.react(element.emoji).catch(() => console.info('React on deleted message'));
 				});
 
-				const filter = (reaction: any, reactUser: Discord.User) => { return reactUser.id === user.id; };
+				const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
 				msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
 					emojiActions.forEach(action => {
 						if (action.emoji == collected.first()?.emoji.name) {

@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 
 const client = new Discord.Client();
 
-const DISCORD_CONFIG = require('../config.json');
+import * as DISCORD_CONFIG from './config.json';
 
 import * as Embed from './embed';
 import * as AddForm from './addForm';
@@ -27,7 +27,7 @@ const USER_LOAD: string[] = [];
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-export const handleUser = (id: string, remove = false) => {
+export const handleUser = (id: string, remove = false): number | void => {
 	if (USER_LOAD.includes(id)) {
 		if (remove) {
 			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
@@ -53,14 +53,14 @@ export const handleUser = (id: string, remove = false) => {
  * @param id l'id de l'utilisateur a rechercher
  * @return vrai si l'utilisateur est enregistré
  */
-export const isUserHandled = (id: string) => {
+export const isUserHandled = (id: string): boolean => {
 	return USER_LOAD.includes(id);
 };
 
 export interface IbotAction {
 	name: string,
 	emoji: string;
-	action: void | null | any;
+	action: null | ((arg0: Discord.User) => void);
 }
 
 /**
@@ -88,7 +88,7 @@ export const BOT_ACTIONS: IbotAction[] = [
 	{
 		'name': 'Reporter un bug',
 		'emoji': '📣',
-		'action': (user: Discord.User) => {
+		'action': (user: Discord.User): void => {
 			user.send(
 				Embed.getDefaultEmbed('Voici ou reporter un bug du bot :', 'https://github.com/tjobit/discord-hubday-agenda/issues/new')
 			).catch(e => console.error(e));
@@ -157,7 +157,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
 			// et avec seulement les emojis du menu
-			const filter = (reaction: any, reactUser: any) => {
+			const filter = (reaction: Discord.MessageReaction, reactUser: Discord.User) => {
 				return emojis.includes(reaction.emoji.name) &&
 					reactUser.id === userId;
 			};
@@ -175,6 +175,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => console.error(e));
 							msg.delete().catch((e) => console.error(e));
 							// On renvois le menu dans le cas d'une action non valide
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							setTimeout(() => { onBotCommand(userId, true); }, 1000);
 						}
 					}

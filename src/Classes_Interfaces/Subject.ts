@@ -1,4 +1,5 @@
 import * as fireBase from '../firebase';
+import * as subjectsLocalFile from './subjects.json';
 
 export interface ISubject {
 	id: string
@@ -15,8 +16,14 @@ export interface ISubject {
 	teachingUnit: string
 }
 
-const getFromLocalFile = false;
+/**
+ * True -> ne télécharge pas le fichier contenant l'ensemble des modules a chaque lancement du bot
+ */
+const getFromLocalFile = true;
 
+/**
+ * Liste des modules présents pour toutes classe et tout niveau confondus
+ */
 const SUBJECTS: ISubject[] | null = null;
 
 /**
@@ -26,7 +33,7 @@ const SUBJECTS: ISubject[] | null = null;
  */
 export const getSubjects = async (): Promise<ISubject[]> => {
 	if (SUBJECTS === null) {
-		const subjects = getFromLocalFile ? require('./subjects.json') : await fireBase.getDbData('subjects');
+		const subjects = getFromLocalFile ? subjectsLocalFile : await fireBase.getDbData('subjects');
 		console.log('[DB] Modules retrieved : ' + Object.keys(subjects).length);
 		return subjects;
 	}

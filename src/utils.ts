@@ -1,27 +1,7 @@
-import moment = require('moment');
-
-export const gatherResponse = async (response: any) => {
-	const {
-		headers
-	} = response;
-	const contentType = headers.get('content-type');
-	if (contentType.includes('application/json')) {
-		return await response.json();
-	} else if (contentType.includes('application/text')) {
-		return await response.text();
-	} else if (contentType.includes('text/html')) {
-		return await response.text();
-	} else {
-		return await response.text();
-	}
-};
+import * as moment from 'moment';
 
 export const convertDateIso = (date: Date): string => {
 	return moment(date).format('YYYY-MM-DD');
-};
-
-export const convertIsoToDate = (iso: any): string => {
-	return `${('0' + iso.getDate()).slice(-2)}/${('0' + (iso.getMonth() + 1)).slice(-2)}`;
 };
 
 export const dateValid = (date: string): Date | null => {
