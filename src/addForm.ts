@@ -222,7 +222,7 @@ export const startAddForm = async (user: Discord.User) => {
 	// ==============================================================
 
 
-	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION, /*lessonId*/ null);
+	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION);
 
 	logForm(user, "== Add form ended ==");
 	handleUser(user.id, true);

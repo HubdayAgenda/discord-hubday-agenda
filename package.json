@@ -20,6 +20,7 @@
     "@types/glob": "^7.1.1",
     "@types/jest": "^25.2.1",
     "@types/node": "^11.15.12",
+    "@types/node-fetch": "^2.5.8",
     "@types/ws": "^7.4.0",
     "jest": "^26.0.1",
     "reflect-metadata": "^0.1.13",

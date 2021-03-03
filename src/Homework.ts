@@ -17,17 +17,70 @@ export interface ISubject {
 }
 
 export class Homework {
+
+	/**
+	 * Le module de ce devoir
+	 */
 	subject: ISubject;
+
+	/**
+	 * L'id de ce devoir (null par defaut, l'id est donné par la db hubday via persist)
+	 * @see persyst
+	 */
 	id: string | null;
+
+	/**
+	 * Liste des tâches pour ce devoir
+	 * (Au moins une nécéssaire)
+	 */
 	tasks: string[];
+
+	/**
+	 * Date du devoir
+	 * /!\ sous la forme : YYYY-MM-DD
+	 */
 	date: string;
+
+	/**
+	 * Type du groupe
+	 * "prime" ou "seconde" ou null
+	 */
 	group: string | null;
+
+	/**
+	 * Details pour ce devoir (facultatif)
+	 */
 	details: string | null;
+
+	/**
+	 * Lien associé à ce devoir 
+	 * (Nécéssite que details ne soit pas null)
+	 */
 	link: string;
+
+	/**
+	 * Indique si ce devoir est noté
+	 * null = non spécifié
+	 */
 	notation: boolean | null;
+
+	/**
+	 * L'id du cours associé à ce devoir
+	 */
 	lessonId: string | null;
 
-	constructor(subject: ISubject, tasks: string[], date: string, /*deadline,*/ group: string | null, details: string | null, link: string, notation: boolean | null, lessonId: string | null) {
+	/**
+	 * Créer un nouveau devoir et l'envoyer sur la base de donnée Hubday
+	 * @param subject Module du devoir
+	 * @param tasks liste des taches du devoir
+	 * @param date date de remise du devoir
+	 * @param group group concerné
+	 * @param details details du devoir
+	 * @param link lien lié au details du devoir
+	 * @param notation indique si le devoir est noté
+	 * @param lessonId id de la lesson associé au devoir
+	 */
+	constructor(subject: ISubject, tasks: string[], date: string, /*deadline,*/ group: string | null, details: string | null, link: string, notation: boolean | null) {
 		this.id = null;
 		this.subject = subject;
 		this.tasks = tasks;
@@ -37,13 +90,14 @@ export class Homework {
 		this.details = details;
 		this.link = link;
 		this.notation = notation;
-		this.lessonId = lessonId;
+		this.lessonId = null;
 	}
 
 	/**
 	 * Créer un embed a partir de ce devoir avec toutes ses informations
+	 * @return l'embed de ce devoir
 	 */
-	getEmbed() {
+	getEmbed(): Discord.MessageEmbed {
 		const embed = new Discord.MessageEmbed()
 			.setColor(this.subject.color)
 			.setTitle(`${this.subject.displayId} - ${this.subject.displayName}`)
@@ -72,7 +126,11 @@ export class Homework {
 		return embed;
 	}
 
-	getJSON() {
+	/**
+	 * Retourne ce devoir sous forme JSON
+	 * @return objet json de ce devoir
+	 */
+	getJSON(): object {
 		return {
 			"id": this.id,
 			"subject": this.subject.id,
@@ -86,6 +144,10 @@ export class Homework {
 		};
 	}
 
+	/**
+	 * Envois ce devoir sur la base de donnée Hubday ou le met à jour si il est déjà enregistré
+	 * @param group group concerné par ce devoir
+	 */
 	async persist(group: string) {
 		if (this.id === null) { // Nouveau devoir
 			const result = await fireBase.postDbData(`homeworks/${group}`, this.getJSON());

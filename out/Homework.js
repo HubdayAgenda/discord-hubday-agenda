@@ -42,6 +42,10 @@ class Homework {
         embed.setDescription(description);
         return embed;
     }
+    /**
+     * Retourne ce devoir sous forme JSON
+     * @return objet json de ce devoir
+     */
     getJSON() {
         return {
             "id": this.id,
@@ -55,7 +59,15 @@ class Homework {
             "link": this.link,
         };
     }
+    /**
+     * Envois ce devoir sur la base de donnée Hubday ou le met à jour si il est déjà enregistré
+     * @param group group concerné par ce devoir
+     */
     async persist(group) {
+        console.log("--------------------------");
+        console.log(this.group);
+        console.log(group);
+        console.log("--------------------------");
         if (this.id === null) { // Nouveau devoir
             const result = await fireBase.postDbData(`homeworks/${group}`, this.getJSON());
             this.id = result.name;
