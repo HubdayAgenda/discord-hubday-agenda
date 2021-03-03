@@ -1,13 +1,13 @@
 import * as Discord from 'discord.js';
 import * as fireBase from '../firebase';
-import { ISubject } from './Subject';
+import { Subject } from './Subject';
 
 export class Homework {
 
 	/**
 	 * Le module de ce devoir
 	 */
-	subject: ISubject;
+	subject: Subject;
 
 	/**
 	 * L'id de ce devoir (null par defaut, l'id est donné par la db hubday via persist)
@@ -26,6 +26,12 @@ export class Homework {
 	 * /!\ sous la forme : YYYY-MM-DD
 	 */
 	date: string;
+
+	/**
+	 * Heure de remise du devoir
+	 * /!\ sous la forme : HH:MM
+	 */
+	deadline: string | null;
 
 	/**
 	 * Type du groupe
@@ -66,12 +72,12 @@ export class Homework {
 	 * @param notation indique si le devoir est noté
 	 * @param lessonId id de la lesson associé au devoir
 	 */
-	constructor(subject: ISubject, tasks: string[], date: string, /*deadline,*/ group: string | null, details: string | null, link: string | null, notation: boolean | null) {
+	constructor(subject: Subject, tasks: string[], date: string, deadline: string | null, group: string | null, details: string | null, link: string | null, notation: boolean | null) {
 		this.id = null;
 		this.subject = subject;
 		this.tasks = tasks;
 		this.date = date;
-		//this.deadline = deadline;
+		this.deadline = deadline;
 		this.group = group;
 		this.details = details;
 		this.link = link;
@@ -86,7 +92,7 @@ export class Homework {
 	getEmbed(): Discord.MessageEmbed {
 		const embed = new Discord.MessageEmbed()
 			.setColor(this.subject.color)
-			.setTitle(`${this.subject.displayId} - ${this.subject.displayName}`)
+			.setTitle(`${this.subject.displayId} - ${this.subject.getDisplayName()}`)
 			.setURL('https://www.hubday.fr/dashboard#subject/' + this.subject.id)
 			.setAuthor('Devoir enregistré avec succès ! [Voir]', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png', 'https://www.hubday.fr/dashboard#homework/' + this.id + '/view')
 			.setFooter('Échéance', 'https://images.emojiterra.com/google/android-nougat/512px/23f1.png')
@@ -123,7 +129,7 @@ export class Homework {
 			'subject': this.subject.id,
 			'tasks': this.tasks,
 			'date': this.date,
-			//"deadline": "16:10:00",
+			'deadline': this.deadline,
 			'group': this.group,
 			'notation': this.notation,
 			'details': this.details,

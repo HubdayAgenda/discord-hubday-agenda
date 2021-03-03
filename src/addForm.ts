@@ -1,11 +1,11 @@
 import * as Embed from './embed';
-import * as fireBase from './firebase';
 import * as Utils from './utils';
 import { handleUser, isUserHandled } from './index';
 import { Homework } from './Classes_Interfaces/Homework';
-import { ISubject, getSubjects } from './Classes_Interfaces/Subject';
+import { Subject } from './Classes_Interfaces/Subject';
 import { User } from './Classes_Interfaces/User';
 import * as Discord from 'discord.js';
+import { config } from './config';
 
 export interface IemojiAction {
 	emoji: string,
@@ -23,18 +23,15 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Retrieve user from DB or cache
 	// ==============================================================
-	const hubdayUser : User | null = await User.getFromDiscordId(user.id);
+	const hubdayUser: User | null = await User.getFromDiscordId(user.id);
 	if (hubdayUser === null) {
-		console.error('User not found');
+		user.send(Embed.getDefaultEmbed('Vous n\'avez pas été reconnu comme membre hubday', 'Vous devez rejoindre ce serveur discord pour que le bot vous reconnaisse: https://discord.iut-info.cf'));
 		return;
 	}
 
 	// Retrieve user subjects from DB or cache
 	// ==============================================================
-	/**
-	 * @TODO : passer à une variable pour configure le semestre à utiliser
-	 */
-	const userSubjects : ISubject[] = await hubdayUser.getSubjects(2);
+	const userSubjects: Subject[] = await hubdayUser.getSubjects(config.dates.semester);
 	const subjectEmbed = await Embed.getMatieresEmbed(userSubjects);
 
 	// Ask what subject the homework is about
@@ -47,12 +44,9 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const subjectNb = await getResponse(user, subjectEmbed, filter);
 	if (subjectNb === null || typeof parseInt(subjectNb.toString()) != 'number') { console.warn(`Get response error (Timeout or number Exception) - ${typeof subjectNb}`); return; }
 
-	const _SUBJECT = userSubjects[parseInt(subjectNb.toString()) - 1];
+	const _SUBJECT: Subject = userSubjects[parseInt(subjectNb.toString()) - 1];
 
-	/**
-	 * @TODO : passer l'interface ISubject à une classe Subject et ajouter une méthode getDisplayName(short : boolean)
-	 */
-	logForm(user, ` 1) subject : ${_SUBJECT.id} (${_SUBJECT.displayId} - ${_SUBJECT.displayName})`);
+	logForm(user, ` 1) subject : ${_SUBJECT.id} (${_SUBJECT.getDisplayName()})`);
 	// ==============================================================
 
 
@@ -60,7 +54,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	// ==============================================================
 	filter = m => m.author.id === user.id;
 	const labelEmbed = Embed.getDefaultEmbed(
-		`Nouveau devoir pour le cours de ${_SUBJECT.displayId} - ${_SUBJECT.displayName}`,
+		`Nouveau devoir pour le cours de ${_SUBJECT.getDisplayName()}`,
 		'Veuillez indiquer la liste des tâches à effectuer pour ce devoir',
 		'Répondez sous la forme :\n tâche 1 | tâche 2 | tâche 3 | ...',
 		_SUBJECT.color,
@@ -69,13 +63,14 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const tasksResponse = await getResponse(user, labelEmbed, filter);
 	if (tasksResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _TASKS : string[] = [];
+	const _TASKS: string[] = [];
 	tasksResponse.toString().split('|').forEach((task: string) => {
 		_TASKS.push(task.trim());
 	});
 
 	logForm(user, ` 2) tasks : ${_TASKS}`);
 	// ==============================================================
+
 
 
 	// Ask for homework date
@@ -111,9 +106,41 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	// ==============================================================
 
 
-	// Ask for group
+
+	// Ask for deadline
 	// ==============================================================
 	let emojiAction: IemojiAction[] = [
+		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
+	];
+	valid = false;
+	let _DEADLINE: string | null = null;
+
+	while (!valid) {
+		const deadlineResponse = await getResponse(
+			user,
+			Embed.getEmojiFormEmbed('Indiquer une heure de remise ?', emojiAction, 'Donnez l\'heure sous la forme HH:MM', 'Réagissez avec l\'émoji pour passer ou répondez.', _SUBJECT.color),
+			filter = m => m.author.id === user.id,
+			emojiAction,
+		);
+		if (deadlineResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
+		if (Utils.hourValid(deadlineResponse.toString())) {
+			valid = true;
+			_DEADLINE = deadlineResponse.toString() + ':00';
+		} else if (deadlineResponse == -1) {
+			valid = true;
+		} else {
+			user.send(Embed.getDefaultEmbed('Répondez avec une heure valide !', null, null, _SUBJECT.color));
+		}
+	}
+
+	logForm(user, ` 4) deadline : ${_DEADLINE}`);
+	// ==============================================================
+
+
+
+	// Ask for group
+	// ==============================================================
+	emojiAction = [
 		{ 'emoji': '👌', 'value': 1, 'description': 'Classe entière' },
 		{ 'emoji': '☝️', 'value': 2, 'description': 'Groupe prime' },
 		{ 'emoji': '✌️', 'value': 3, 'description': 'Groupe seconde' },
@@ -122,7 +149,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const groupResponse = await getEmojisResponse(
 		user,
 		emojiAction,
-		Embed.getEmojiFormEmbed('Quel groupe est concerné par ce devoir ?', emojiAction, '‌‌ ', 'Réagissez avec l\'émoji correspondant à l\'action souhaitée.')
+		Embed.getEmojiFormEmbed('Quel groupe est concerné par ce devoir ?', emojiAction, '‌‌ ', 'Réagissez avec l\'émoji correspondant à l\'action souhaitée.', _SUBJECT.color)
 	);
 	if (groupResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
@@ -136,7 +163,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		break;
 	}
 
-	logForm(user, ` 4) group : ${_GROUP}`);
+	logForm(user, ` 5) group : ${_GROUP}`);
 	// ==============================================================
 
 
@@ -149,7 +176,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	const deliveryResponse = await getResponse(
 		user,
-		Embed.getEmojiFormEmbed('Ajouter des détails à ce devoir ? (facultatif)', emojiAction, 'Ici, vous pouvez indiquer des consignes de remise ou d\'autres détails', 'Réagissez avec l\'émoji pour passer ou répondez.'),
+		Embed.getEmojiFormEmbed('Ajouter des détails à ce devoir ? (facultatif)', emojiAction, 'Ici, vous pouvez indiquer des consignes de remise ou d\'autres détails', 'Réagissez avec l\'émoji pour passer ou répondez.', _SUBJECT.color),
 		filter = m => m.author.id === user.id,
 		emojiAction,
 	);
@@ -157,7 +184,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	const _DETAILS: string | null = deliveryResponse == -1 ? null : deliveryResponse.toString();
 
-	logForm(user, ` 5) details : ${_DETAILS}`);
+	logForm(user, ` 6) details : ${_DETAILS}`);
 	// ==============================================================
 
 
@@ -173,7 +200,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		while (!valid) {
 			const linkResponse = await getResponse(
 				user,
-				Embed.getEmojiFormEmbed('Ajouter un lien ? (facultatif)', emojiAction, null, 'Réagissez avec l\'émoji pour passer ou répondez avec un lien.'),
+				Embed.getEmojiFormEmbed('Ajouter un lien ? (facultatif)', emojiAction, null, 'Réagissez avec l\'émoji pour passer ou répondez avec un lien.', _SUBJECT.color),
 				filter = m => m.author.id === user.id,
 				emojiAction
 			);
@@ -184,12 +211,12 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 				_LINK = linkResponse;
 				valid = true;
 			} else {
-				user.send(Embed.getDefaultEmbed('Répondez avec un lien valide !'));
+				user.send(Embed.getDefaultEmbed('Répondez avec un lien valide !', null, null, _SUBJECT.color));
 			}
 		}
 	}
 
-	logForm(user, ` 5 bis) link : ${_LINK}`);
+	logForm(user, ` 6 bis) link : ${_LINK}`);
 	// ==============================================================
 
 
@@ -205,28 +232,25 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const gradeResponse = await getEmojisResponse(
 		user,
 		emojiAction,
-		Embed.getEmojiFormEmbed('Le devoir est-il noté ? (facultatif)', emojiAction, null, 'Réagissez avec l\'émoji correspondant à l\'action souhaitée.')
+		Embed.getEmojiFormEmbed('Le devoir est-il noté ? (facultatif)', emojiAction, null, 'Réagissez avec l\'émoji correspondant à l\'action souhaitée.', _SUBJECT.color)
 	);
 	if (gradeResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
 	let _NOTATION: null | boolean = null;
-	if(gradeResponse != -1){
+	if (gradeResponse != -1) {
 		_NOTATION = gradeResponse ? true : false;
 	}
 
-	logForm(user, ` 6) grade : ${_NOTATION}`);
+	logForm(user, ` 7) grade : ${_NOTATION}`);
 	// ==============================================================
 
 
-	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _GROUP, _DETAILS, _LINK, _NOTATION);
+	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _DEADLINE, _GROUP, _DETAILS, _LINK, _NOTATION);
 
 	logForm(user, '== Add form ended ==');
 	handleUser(user.id, true);
 
-	/**
-	 * @TODO : passer à une variable pour configure le semestre à utiliser
-	 */
-	await homework.persist(hubdayUser.group2);
+	await homework.persist(config.dates.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
 
 	user.send(homework.getEmbed());
 };

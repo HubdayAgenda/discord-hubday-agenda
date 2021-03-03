@@ -28,6 +28,19 @@ export const getDbDataWithFilter = async (path: string, key: string, value: stri
 };
 
 /**
+ * Récupère des informations dans la base de donnée hubday avec un filtre compris entre deux valeurs
+ * @param path le chemin d'accès de la table concerné
+ * @param key clé
+ * @param start valeur de début
+ * @param end valeur de fin
+ * @return le résultat de la requete
+ */
+export const getDbDataWithLimits = async (path: string, key: string, start: string, end: string): Promise<any> => {
+	const response = await fetch.default(`${RTDB_URL}/${path}.json?orderBy="${key}"&startAt="${start}"&endAt="${end}"&auth=${RTDB_AUTH_TOKEN}`);
+	return await gatherResponse(response);
+};
+
+/**
  * Met à jour des informations dans la base de donnée hubday
  * @param path le chemin d'accès de la table concerné
  * @param data Le contenu a mettre à jour

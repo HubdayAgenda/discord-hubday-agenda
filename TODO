@@ -5,11 +5,14 @@
 OK - Demander l'année pour éviter le problème du changement d'année décembre/janvier
 
 OK - Conversion typescript
-- Demander l'heure de remise (deadline)
-- Un seul fichier de config -> discord + firebase + settings + bot version
-- Afficher la couleur du module dans tout les embeds
+OK - Demander l'heure de remise (deadline)
+OK - Un seul fichier de config -> discord + firebase + settings + bot version
+OK - Afficher la couleur du module dans tout les embeds
 - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
     - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
 - Webhook de bug report
-- Utiliser l'ID pour créer le lien
-- Ajouter le lesson ID
+OK - Utiliser l'ID pour créer le lien
+- Ajouter le lesson ID (subject.getLessonsOfDay)
+- Import fichier subjects.json avec require et donc seulement si nécéssaire
+- remettre en place les slash commands
+- Garder en mémoire les tableau générés

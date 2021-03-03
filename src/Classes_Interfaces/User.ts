@@ -1,5 +1,5 @@
 import * as fireBase from '../firebase';
-import { ISubject, getSubjects } from './Subject';
+import { Subject, getSubjects } from './Subject';
 
 interface Dictionary<T> {
 	[key: string]: T;
@@ -73,7 +73,7 @@ export class User {
 	/**
 	 * Groupe de premier semestre de l'utilisateur
 	 * Peut-être vide si l'utilisateur s'est connecté en invité de second semestre
-	 * @TODO : créer une interface 'IGroup' et passer à IGroup
+	 * @TODO : créer une interface 'IRole' et passer à IRole
 	 */
 	group1: string;
 
@@ -86,7 +86,7 @@ export class User {
 	/**
 	 * Groupe de second semestre de l'utilisateur
 	 * Peut-être vide si l'utilisateur s'est connecté en invité de premier semestre on s'il ne fait plus partie de l'IUT
-	 * @TODO : créer une interface 'IGroup' et passer à IGroup
+	 * @TODO : créer une interface 'IRole' et passer à IRole
 	 */
 	group2: string;
 
@@ -99,7 +99,7 @@ export class User {
 	/**
 	 * Les modules de l'utilisateur
 	 */
-	subjects: ISubject[] | null;
+	subjects: Subject[] | null;
 
 	constructor(idnum: string, displayName: string, email: string, personalEmails: string[] | null, photoURL: string, id: number, discordId: string, mattermostId: string, options: string[], roles: string[], permissions: string[], group1: string, subgroup1: string, group2: string, subgroup2: string) {
 		this.idnum = idnum;
@@ -125,18 +125,18 @@ export class User {
  	 * @param semester semestre pour lequel récupérer les matières
 	 * @return Liste des matières suivies par l'utilisateur durant ce semestre
 	 */
-	getSubjects = async (semester = 1): Promise<ISubject[]> => {
+	getSubjects = async (semester = 1): Promise<Subject[]> => {
 		if (this.subjects === null) {
 			const subjects = await getSubjects();
 
 			this.subjects = [];
 
-			for (const entry of Object.entries(subjects)) {
-				const subject = entry[1];
+			for (const subjectId of Object.keys(subjects)) {
+				const subject = subjects[subjectId];
 
 				if (subject.teachingUnit != '') {
 					if (subject.groups.filter((g: string) => (semester == 1 ? this.group1 : this.group2).startsWith(g)).length > 0 &&
-						(subject.options == null || subject.options.filter((o: string) => this.options.includes(o)).length > 0)) {
+						(subject.options.length == 0 || subject.options.filter((o: string) => this.options.includes(o)).length > 0)) {
 						this.subjects.push(subject);
 					}
 				}

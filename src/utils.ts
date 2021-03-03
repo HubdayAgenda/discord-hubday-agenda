@@ -1,23 +1,34 @@
 import * as moment from 'moment';
+import { config } from './config';
 
 export const convertDateIso = (date: Date): string => {
 	return moment(date).format('YYYY-MM-DD');
 };
 
 export const dateValid = (date: string): Date | null => {
-	const SEMESTER_TRANSITION_DATE = new Date('2021-01-24');
-	const YEAR_START_DATE = new Date('2020-09-06 00:00:00');
-	const YEAR_END_DATE = new Date('2021-06-30 23:59:59');
-
 	const today = new Date();
 
 	const homeworkDate = moment(date, 'DD/MM/YYYY').toDate();
 
-	if ((today > SEMESTER_TRANSITION_DATE && homeworkDate > SEMESTER_TRANSITION_DATE && homeworkDate < YEAR_END_DATE)
-		|| (today <= SEMESTER_TRANSITION_DATE && homeworkDate > YEAR_START_DATE && homeworkDate < SEMESTER_TRANSITION_DATE)) {
+	if ((today > config.dates.semesterTransition && homeworkDate > config.dates.semesterTransition && homeworkDate < config.dates.yearEnd)
+		|| (today <= config.dates.semesterTransition && homeworkDate > config.dates.yearStart && homeworkDate < config.dates.semesterTransition)) {
 		return homeworkDate;
 	}
 	return null;
+};
+
+export const hourValid = (hour: string): boolean => {
+	if(hour.includes(':')){
+		const split = hour.split(':');
+		if(split.length == 2){
+			const h = parseInt(split[0]);
+			const m = parseInt(split[1]);
+			if(!isNaN(h) && !isNaN(m)){
+				return (h >= 0 && h < 24 && m >= 0 && m < 60);
+			}
+		}
+	}
+	return false;
 };
 
 export const validURL = (str : string): boolean => {

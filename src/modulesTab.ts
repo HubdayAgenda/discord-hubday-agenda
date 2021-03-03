@@ -4,14 +4,14 @@ import * as Discord from 'discord.js';
 const { CanvasTable } = require('canvas-table');
 const { createCanvas } = require('canvas');
 
-import { ISubject } from './Classes_Interfaces/Subject';
+import { Subject } from './Classes_Interfaces/Subject';
 
 /**
  * Création du canvas avec les matières et les UE
  * @param userModules
  * @return la canvas mis en forme
  */
-export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Discord.MessageAttachment> => {
+export const getTabImageAttachment = async (subjects: Subject[]): Promise<Discord.MessageAttachment> => {
 
 	const canvas = createCanvas(1965 / 3, 25 * subjects.length + 100);
 
@@ -23,7 +23,6 @@ export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Disco
 		options
 	});
 	await ct.generateTable();
-	await ct.renderToFile('test-table.png');
 
 	return new Discord.MessageAttachment(canvas.toBuffer(), 'image.png');
 };
@@ -33,12 +32,12 @@ export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Disco
  * @param subjects liste des modules a afficher dans le tableau
  * @return Les modules sous forme lisible pour canvas-table
  */
-export const modulesToTabData = (subjects: ISubject[]): string[][] => {
+export const modulesToTabData = (subjects: Subject[]): string[][] => {
 	const data = [];
 	let i = 1;
 	data.push(['', '', '']);
-	subjects.forEach((subject: ISubject) => {
-		const ligne = [i.toString(), subject.displayId + ' - ' + subject.displayName];
+	subjects.forEach((subject: Subject) => {
+		const ligne = [i.toString(), subject.getDisplayName()];
 		data.push(ligne);
 		i++;
 	});

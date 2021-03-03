@@ -2,7 +2,7 @@ import * as Discord from 'discord.js';
 import * as index from './index';
 import * as modulesTab from './modulesTab';
 import { IemojiAction } from './addForm';
-import { ISubject } from './Classes_Interfaces/Subject';
+import { Subject } from './Classes_Interfaces/Subject';
 
 /**
  * Création de l'embed pour l'affichage du !help-agenda
@@ -25,7 +25,7 @@ export const getHelpEmbed = (): Discord.MessageEmbed => {
  * @param userSubjects
  * @return l'embed mis en forme
  */
-export const getMatieresEmbed = async (userSubjects: ISubject[]): Promise<Discord.MessageEmbed> => {
+export const getMatieresEmbed = async (userSubjects: Subject[]): Promise<Discord.MessageEmbed> => {
 	const attachment = await modulesTab.getTabImageAttachment(userSubjects);
 	const embed = new Discord.MessageEmbed()
 		.attachFiles([attachment])
@@ -85,10 +85,10 @@ export const getDefaultEmbed = (titre: string, description: string | null = null
  * @param footer Le footer de l'embed
  * @return l'embed pour cette question
  */
-export const getEmojiFormEmbed = (titre: string, emojiList: IemojiAction[], description: string | null = null, footer: string | null = null): Discord.MessageEmbed => {
+export const getEmojiFormEmbed = (titre: string, emojiList: IemojiAction[], description: string | null = null, footer: string | null = null, color = '#afdab9'): Discord.MessageEmbed => {
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(titre, 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png')
-		.setColor('#afdab9');
+		.setColor(color);
 	if (description != null)
 		embed.setDescription(description);
 	if (footer != null)
