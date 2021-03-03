@@ -1,0 +1,171 @@
+import * as fireBase from '../firebase';
+import { ISubject, getSubjects } from './Subject';
+
+interface Dictionary<T> {
+	[key: string]: T;
+}
+
+export class User {
+
+	/**
+	 * "Cache" contenant la liste des utilisateurs ayant déjà intéragit avec le bot
+	 */
+	static USERS_LIST : Dictionary<User> = {};
+
+	/**
+	 * L'idnum de cet utilisateur
+	 */
+	idnum: string;
+
+	/**
+	 * Le nom d'affichage de cet utilisateur (Prénom Nom)
+	 */
+	displayName: string;
+
+	/**
+	 * L'adresse e-mail raccourcie de cet utilisateur (idnum@u-bordeaux.fr)
+	 */
+	email: string;
+
+	/**
+	 * Liste d'adresses e-mail de cet utilisateur (utilisées pour le partage Google Drive)
+	 */
+	personalEmails: string[] | null;
+
+	/**
+	 * Emplacement de l'image de profil de l'utilisateur
+	 */
+	photoURL: string;
+
+	/**
+	 * L'id Linux de cet utilisateur
+	 */
+	id: number;
+
+	/**
+	 * L'id Discord de cet utilisateur
+	 */
+	discordId: string;
+
+	/**
+	 * L'id Mattermost de cet utilisateur
+	 */
+	mattermostId: string;
+
+	/**
+	 * Liste des groupes d'options de l'utilisateur
+	 * @TODO : créer une interface 'IRole' et passer à IRole[]
+	 */
+	options: string[];
+
+	/**
+	 * Liste des groupes de rôles de l'utilisateur
+	 * @TODO : créer une interface 'IRole' et passer à IRole[]
+	 */
+	roles: string[];
+
+	/**
+	 * Liste des groupes de permission de l'utilisateur
+	 * @TODO : créer une interface 'IRole' et passer à IRole[]
+	 */
+	permissions: string[];
+
+	/**
+	 * Groupe de premier semestre de l'utilisateur
+	 * Peut-être vide si l'utilisateur s'est connecté en invité de second semestre
+	 * @TODO : créer une interface 'IGroup' et passer à IGroup
+	 */
+	group1: string;
+
+	/**
+	 * Groupe TP de premier semestre de l'utilisateur ("prime" ou "seconde")
+	 * Renseigné que si 'group1' n'est pas vide
+	 */
+	subgroup1: string;
+
+	/**
+	 * Groupe de second semestre de l'utilisateur
+	 * Peut-être vide si l'utilisateur s'est connecté en invité de premier semestre on s'il ne fait plus partie de l'IUT
+	 * @TODO : créer une interface 'IGroup' et passer à IGroup
+	 */
+	group2: string;
+
+	/**
+	 * Groupe TP de second semestre de l'utilisateur ("prime", "seconde" ou vide dans le cas d'un étudiant de Robotique)
+	 * Renseigné que si 'group2' n'est pas vide
+	 */
+	subgroup2: string;
+
+	/**
+	 * Les modules de l'utilisateur
+	 */
+	subjects: ISubject[] | null;
+
+	constructor(idnum: string, displayName: string, email: string, personalEmails: string[] | null, photoURL: string, id: number, discordId: string, mattermostId: string, options: string[], roles: string[], permissions: string[], group1: string, subgroup1: string, group2: string, subgroup2: string) {
+		this.idnum = idnum;
+		this.displayName = displayName;
+		this.email = email;
+		this.personalEmails = personalEmails;
+		this.photoURL = photoURL;
+		this.id = id;
+		this.discordId = discordId;
+		this.mattermostId = mattermostId;
+		this.options = options;
+		this.roles = roles;
+		this.permissions = permissions;
+		this.group1 = group1;
+		this.subgroup1 = subgroup1;
+		this.group2 = group2;
+		this.subgroup2 = subgroup2;
+		this.subjects = null;
+	}
+
+	/**
+	 * Récupère la liste des matières d'un utilisateur pour le semestre demandé
+ 	 * @param semester semestre pour lequel récupérer les matières
+	 * @return Liste des matières suivies par l'utilisateur durant ce semestre
+	 */
+	getSubjects = async (semester = 1): Promise<ISubject[]> => {
+		if (this.subjects === null) {
+			const subjects = await getSubjects();
+
+			this.subjects = [];
+
+			for (const entry of Object.entries(subjects)) {
+				const subject = entry[1];
+
+				if (subject.teachingUnit != '') {
+					if (subject.groups.filter((g: string) => (semester == 1 ? this.group1 : this.group2).startsWith(g)).length > 0 &&
+						(subject.options == null || subject.options.filter((o: string) => this.options.includes(o)).length > 0)) {
+						this.subjects.push(subject);
+					}
+				}
+			}
+		}
+
+		return this.subjects;
+	}
+
+	/**
+	 * Récupère le profil d'un utilisateur depuis la base de données (ou le cache) à partir de son identifiant
+	 * @return L'utilisateur demandé
+	 */
+	static getFromDiscordId = async (discordId: string): Promise<User | null> => {
+		if (!(discordId in User.USERS_LIST)) {
+			const userProfiles = await fireBase.getDbDataWithFilter('users', 'discordId', discordId);
+			if (Object.keys(userProfiles).length > 0) {
+				const idnum = Object.keys(userProfiles)[0];
+
+				const user = {
+					idnum: idnum,
+					...userProfiles[idnum]
+				};
+
+				User.USERS_LIST[discordId] = new User(user.idnum, user.displayName, user.email, user.personalEmails, user.photoURL, user.id, user.discordId, user.mattermostId, user.options || [], user.roles || [], user.permissions || [], user.group1, user.subgroup1, user.group2, user.subgroup2);
+			} else {
+				return null;
+			}
+		}
+		return User.USERS_LIST[discordId];
+	};
+}

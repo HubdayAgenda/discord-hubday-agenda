@@ -137,6 +137,7 @@ export class Homework {
 	 */
 	async persist(group: string): Promise<void> {
 		if (this.id === null) { // Nouveau devoir
+			console.log(this.getJSON());
 			const result = await fireBase.postDbData(`homeworks/${group}`, this.getJSON());
 			this.id = result.name;
 		} else { // Devoir existant : mise à jour

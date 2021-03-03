@@ -4,6 +4,7 @@ import * as Utils from './utils';
 import { handleUser, isUserHandled } from './index';
 import { Homework } from './Classes_Interfaces/Homework';
 import { ISubject, getSubjects } from './Classes_Interfaces/Subject';
+import { User } from './Classes_Interfaces/User';
 import * as Discord from 'discord.js';
 
 export interface IemojiAction {
@@ -19,42 +20,43 @@ export interface IemojiAction {
  */
 export const startAddForm = async (user: Discord.User): Promise<void> => {
 	logForm(user, '== Add form started ==');
-	const GROUPNUM = 2;
 
-
-	// Retrieve user from DB
+	// Retrieve user from DB or cache
 	// ==============================================================
-	const hubdayUserResults = await fireBase.getDbDataWithFilter('users', 'discordId', user.id);
-	const hubdayUser = hubdayUserResults[Object.keys(hubdayUserResults)[0]];
-	if (Object.keys(hubdayUser).length == 0) {
-		console.warn('User not found');
+	const hubdayUser : User | null = await User.getFromDiscordId(user.id);
+	if (hubdayUser === null) {
+		console.error('User not found');
 		return;
 	}
-	const group = hubdayUser[`group${GROUPNUM}`];
-	const options = hubdayUser['options'] !== undefined ? hubdayUser['options'] : [];
-	// ==============================================================
 
-	const userSubjects = await getUserSubjects(group, options);
+	// Retrieve user subjects from DB or cache
+	// ==============================================================
+	/**
+	 * @TODO : passer à une variable pour configure le semestre à utiliser
+	 */
+	const userSubjects : ISubject[] = await hubdayUser.getSubjects(2);
 	const matEmbed = await Embed.getMatieresEmbed(userSubjects);
 
-	// Ask for module
+	// Ask what subject the homework is about
 	// ==============================================================
 	let filter: Discord.CollectorFilter = m => m.author.id === user.id
 		&& !Number.isNaN(parseInt(m.content))
 		&& (parseInt(m.content) < Object.keys(userSubjects).length + 1)
 		&& (parseInt(m.content) > 0);
 
-	const numModule: number | null = await getResponse(user, matEmbed, filter);
-	if (numModule === null) { console.warn('Get response error (Timeout or Exception)'); return; }
+	const subjectNb: number | null = await getResponse(user, matEmbed, filter);
+	if (subjectNb === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _SUBJECT = userSubjects[numModule - 1];
+	const _SUBJECT = userSubjects[subjectNb - 1];
 
-	logForm(user, ` 1) subjectId : ${numModule}`);
+	/**
+	 * @TODO : passer l'interface ISubject à une classe Subject et ajouter une méthode getDisplayName(short : boolean)
+	 */
+	logForm(user, ` 1) subject : ${_SUBJECT.id} (${_SUBJECT.displayId} - ${_SUBJECT.displayName})`);
 	// ==============================================================
 
 
-
-	//Ask for labels
+	// Request the list of tasks that make up the homework
 	// ==============================================================
 	filter = m => m.author.id === user.id;
 	const labelEmbed = Embed.getDefaultEmbed(
@@ -64,25 +66,19 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		_SUBJECT.color,
 	);
 
-	const labelResponse = await getResponse(user, labelEmbed, filter);
-	if (labelResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
+	const tasksResponse = await getResponse(user, labelEmbed, filter);
+	if (tasksResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _TASKS = [];
-	if (labelResponse.includes('|')) {
-		labelResponse.split('|').forEach((element: string) => {
-			_TASKS.push(element.trim());
-		});
-	}
-	else {
-		_TASKS.push(labelResponse.trim());
-	}
+	const _TASKS : string[] = [];
+	tasksResponse.split('|').forEach((task: string) => {
+		_TASKS.push(task.trim());
+	});
 
 	logForm(user, ` 2) tasks : ${_TASKS}`);
 	// ==============================================================
 
 
-
-	// Ask for date
+	// Ask for homework date
 	// ==============================================================
 	let dateEmbed = Embed.getDefaultEmbed(
 		'Échéance du devoir',
@@ -224,7 +220,10 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	logForm(user, '== Add form ended ==');
 	handleUser(user.id, true);
 
-	await homework.persist(group);
+	/**
+	 * @TODO : passer à une variable pour configure le semestre à utiliser
+	 */
+	await homework.persist(hubdayUser.group2);
 
 	user.send(homework.getEmbed());
 };
@@ -309,32 +308,6 @@ const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[
 			}).catch(e => console.error(e));
 		}
 	);
-};
-
-/**
- * Retourne la liste des modules à partir d'un group et une option
- * @param group le group des modules a retourner
- * @param options les options des modules a retourner
- * @return la liste des modules ainsi que l'embed comportant le tableau de tous les modules
- */
-const getUserSubjects = async (group: string, options: string[]): Promise<ISubject[]> => {
-	console.log('GROUPE : ' + group);
-
-	const subjects = await getSubjects();
-	const userSubjects: ISubject[] = [];
-
-	for (const entry of Object.entries(subjects)) {
-		const subject = entry[1];
-
-		if (subject.teachingUnit != '') {
-			if (subject.groups.filter((g: string) => group.startsWith(g)).length > 0 &&
-				(subject.options == null || subject.options.filter((o: string) => options.includes(o)).length > 0)) {
-				userSubjects.push(subject);
-			}
-		}
-	}
-
-	return userSubjects;
 };
 
 const logForm = (user: Discord.User, log: string | number | boolean) => {

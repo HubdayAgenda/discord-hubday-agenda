@@ -15,7 +15,7 @@ export interface ISubject {
 	teachingUnit: string
 }
 
-const getFromLocalFile = true;
+const getFromLocalFile = false;
 
 const SUBJECTS: ISubject[] | null = null;
 
