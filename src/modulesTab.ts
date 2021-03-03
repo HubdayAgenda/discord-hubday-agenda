@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as Discord from 'discord.js';
 
-import { createCanvas } from 'canvas';
-import { CanvasTable } from 'canvas-table';
+const { CanvasTable } = require('canvas-table');
+const { createCanvas } = require('canvas');
 
 import { ISubject } from './Classes_Interfaces/Subject';
 
