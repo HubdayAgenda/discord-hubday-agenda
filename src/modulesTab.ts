@@ -33,7 +33,7 @@ export const getTabImageAttachment = async (subjects: ISubject[]): Promise<Disco
  * @param subjects liste des modules a afficher dans le tableau
  * @return Les modules sous forme lisible pour canvas-table
  */
-export const modulesToTabData = (subjects: ISubject[]) => {
+export const modulesToTabData = (subjects: ISubject[]): string[][] => {
 	const data = [];
 	let i = 1;
 	data.push(['', '', '']);

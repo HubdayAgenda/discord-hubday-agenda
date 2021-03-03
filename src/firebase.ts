@@ -13,7 +13,7 @@ export const getDbData = async(path: string): Promise<any> => {
 	return responseData;
 };
 
-export const getDbDataWithFilter = async (path: string, key: any, value: any): Promise<any> => {
+export const getDbDataWithFilter = async (path: string, key: string, value: string): Promise<any> => {
 	const response = await fetch.default(`${RTDB_URL}/${path}.json?orderBy="${key}"&equalTo="${value}"&auth=${RTDB_AUTH_TOKEN}`);
 
 	const responseData = await Utils.gatherResponse(response);

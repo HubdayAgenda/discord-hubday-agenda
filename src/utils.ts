@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-export const gatherResponse = async (response: any) => {
+export const gatherResponse = async (response: any): Promise<any> => {
 	const {
 		headers
 	} = response;
@@ -18,10 +18,6 @@ export const gatherResponse = async (response: any) => {
 
 export const convertDateIso = (date: Date): string => {
 	return moment(date).format('YYYY-MM-DD');
-};
-
-export const convertIsoToDate = (iso: any): string => {
-	return `${('0' + iso.getDate()).slice(-2)}/${('0' + (iso.getMonth() + 1)).slice(-2)}`;
 };
 
 export const dateValid = (date: string): Date | null => {

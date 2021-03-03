@@ -27,7 +27,7 @@ const USER_LOAD: string[] = [];
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-export const handleUser = (id: string, remove = false) => {
+export const handleUser = (id: string, remove = false): number | void => {
 	if (USER_LOAD.includes(id)) {
 		if (remove) {
 			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
@@ -53,7 +53,7 @@ export const handleUser = (id: string, remove = false) => {
  * @param id l'id de l'utilisateur a rechercher
  * @return vrai si l'utilisateur est enregistré
  */
-export const isUserHandled = (id: string) => {
+export const isUserHandled = (id: string): boolean => {
 	return USER_LOAD.includes(id);
 };
 
@@ -88,7 +88,7 @@ export const BOT_ACTIONS: IbotAction[] = [
 	{
 		'name': 'Reporter un bug',
 		'emoji': '📣',
-		'action': (user: Discord.User) => {
+		'action': (user: Discord.User): void => {
 			user.send(
 				Embed.getDefaultEmbed('Voici ou reporter un bug du bot :', 'https://github.com/tjobit/discord-hubday-agenda/issues/new')
 			).catch(e => console.error(e));
