@@ -1,24 +1,31 @@
 {
   "name": "hubday-bot",
   "version": "0.0.1",
-  "main": "src/index",
-  "author": "MenuDocs",
+  "main": "out/index.js",
+  "author": "celian-rib - tjobit",
   "license": "MIT",
-  "devDependencies": {
-    "eslint": "^7.19.0",
-    "eslint-config-tesseract": "^0.0.2"
-  },
   "dependencies": {
-    "ascii-cats": "^1.1.1",
     "better-logging": "^4.4.0",
     "canvas": "^2.6.1",
     "canvas-table": "0.0.8",
-    "cron": "^1.8.2",
     "discord.js": "^12.5.1",
     "glob": "^7.1.6",
     "moment": "^2.29.1",
-    "node-fetch": "^2.6.1",
-    "path": "^0.12.7",
-    "util": "^0.12.3"
+    "node-fetch": "^2.6.1"
+  },
+  "scripts": {
+    "start": "tsc && node ./out/index.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^11.15.12",
+    "@types/ws": "^7.4.0",
+    "jest": "^26.0.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-jest": "^25.5.0",
+    "ts-node": "^8.9.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   }
 }

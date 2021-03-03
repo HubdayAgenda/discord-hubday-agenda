@@ -1,40 +1,33 @@
-const Discord = require("discord.js");
-// const Utils = require("./utils");
+import * as Discord from 'discord.js'
+import * as fireBase from './firebase';
 
-class Homework {
-	/*
-		-> module : string
-		-> labels : string[] -> minimum 1
-		-> date : new Date().toISOString()
-		-> group : string "" -> groupe entier | "prime | "seconde" -> groupe de l'utilisateur
+export interface ISubject {
+	id: string
+	aliases: string[];
+	color: string,
+	displayId: string,
+	displayName: string,
+	groups: string[],
+	icon: string,
+	moodle: string,
+	name: string,
+	options: string[]
+	shortName: string,
+	teachingUnit: string
+}
 
-		-> delivery : string (intitulé du lien)
-		-> link : string (lien Moodle, consignes) -> optionnel
-		-> notation : boolean
-		-> courseId : string -> proposer de lier a un cours si la date correspond a un cours
-	*/
+export class Homework {
+	subject: ISubject;
+	id: string | null;
+	tasks: string[];
+	date: string;
+	group: string | null;
+	details: string | null;
+	link: string;
+	notation: boolean | null;
+	lessonId: string | null;
 
-	/*
-		module -> subject : string (id de la matière correspondante)
-		labels -> tasks : string[] (liste de tâches d'un devoir, minimum 1 entrée)
-		date : string (date du devoir, au format AAAA-MM-JJ)
-		+ deadline : string (heure de remise, au format HH:MM:SS, nullable)
-		group : string (groupe concerné par le devoir, nullable) > :
-			- null : groupe TD
-			- "prime" : groupe TP
-			- "seconde" : groupe TP
-			- "idOption" : groupe d'option (android, vr, roboticS2...)
-		delivery -> details : string (détail, nom du lien, intitulé de la remise, nullable)
-		link : string (lien Moodle, consignes..., nullable)
-		notation : boolean (nullable) > :
-			- null : notation non connue/non renseignée
-			- true : devoir noté
-			- false: devoir non noté
-		courseId -> lessonId : string (id du cours associé, lié automatiquement si la date correspond, nullable, )
-		+ notes : string (texte multiligne, nullable)
-*/
-
-	constructor(subject, tasks, date, /*deadline,*/ group, details, link, notation, lessonId) {
+	constructor(subject: ISubject, tasks: string[], date: string, /*deadline,*/ group: string | null, details: string | null, link: string, notation: boolean | null, lessonId: string | null) {
 		this.id = null;
 		this.subject = subject;
 		this.tasks = tasks;
@@ -93,15 +86,12 @@ class Homework {
 		};
 	}
 
-
-	async persist(group,database) {
+	async persist(group: string) {
 		if (this.id === null) { // Nouveau devoir
-			const result = await database.postDbData(`homeworks/${group}`, this.getJSON());
+			const result = await fireBase.postDbData(`homeworks/${group}`, this.getJSON());
 			this.id = result.name;
 		} else { // Devoir existant : mise à jour
-			await database.putDbData(`homeworks/${group}/${this.id}`, this.getJSON());
+			await fireBase.putDbData(`homeworks/${group}/${this.id}`, this.getJSON());
 		}
 	}
 }
-
-module.exports = Homework;

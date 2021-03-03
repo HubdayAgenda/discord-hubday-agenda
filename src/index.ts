@@ -1,52 +1,41 @@
 require("better-logging")(console);
 
-// Icone d'un module : 'https://www.hubday.fr/img/modules/png/' + module.icon + '.png'
-// Cours d'un groupe pour une journée : /planning/S2A-prime/YYYY-MM-DD
+import * as Discord from 'discord.js';
 
-// https://www.hubday.fr/dashboard#homework/id/view
-
-const Discord = require("discord.js");
 const client = new Discord.Client();
+
 const DISCORD_CONFIG = require("../config.json");
 
-const FIREBASE_CONFIG = require("../configFirebase.json");
-const Firebase = require("./firebase.js");
-// eslint-disable-next-line no-unused-vars
-const dataBase = new Firebase(FIREBASE_CONFIG);
+import * as Embed from './embed';
+import * as AddForm from './addForm'
+import * as fireBase from './firebase'
 
-const Embed = require("./Embed.js");
-
-const AddForm = require("./addForm");
-const Homework = require("./Homework");
-
-// const Devoir = require("./Devoir");
-// const Utils = require("./utils");
+import { ISubject, Homework } from './Homework';
 
 /**
  * Subjects db object {}
  */
-let MODULES = null;
+let SUBJECTS: ISubject[] | null = null;
 
 /**
  * Télécharge la liste de modules à partir de la db si elle n'est pas encore stockée
  * (Soit normalement une fois au lancement ou au refresh à l'aide d'une commande)
  * @return Le contenu des modules
  */
-const getSubjects = async () => {
-	if (MODULES === null) {
-		//const subjects = await dataBase.getDbData("subjects");
-		const subjects = require("./subjects.json");
+export const getSubjects = async (): Promise<ISubject[]> => {
+	if (SUBJECTS === null) {
+		const subjects = await fireBase.getDbData("subjects");
+		// const subjects = require("./subjects.json");
 		console.log("[DB] Modules retrieved : " + Object.keys(subjects).length);
 		return subjects;
 	}
-	return MODULES;
+	return SUBJECTS;
 };
-
 
 /**
  * Liste des id discords des utilisateurs en train d'utiliser le bot
  */
-let USER_LOAD = [];
+let USER_LOAD: string[] = [];
 
 /**
  * Gère les utilisateurs discord en train d'utiliser le bot.
@@ -57,7 +46,7 @@ let USER_LOAD = [];
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-const handleUser = (id, remove = false) => {
+export const handleUser = (id: string, remove = false) => {
 	if (USER_LOAD.includes(id)) {
 		if (remove) {
 			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
@@ -83,10 +72,15 @@ const handleUser = (id, remove = false) => {
  * @param id l'id de l'utilisateur a rechercher
  * @return vrai si l'utilisateur est enregistré 
  */
-const isUserHandled = (id) => {
+export const isUserHandled = (id: string) => {
 	return USER_LOAD.includes(id);
 };
 
+export interface IbotAction {
+	name: string,
+	emoji: string;
+	action: void | null | any;
+}
 
 /**
  * Actions du bot, choisissable depuis un message de menu (Premier MP du bot après /agenda)
@@ -94,24 +88,26 @@ const isUserHandled = (id) => {
  *  - emoji : (requis) utilisé pour la selection de l'action via un message de menu
  *  - action : (facultatif) si present, envois vers une fonction à éxécuter
  */
-const BOT_ACTIONS = [
+export const BOT_ACTIONS: IbotAction[] = [
 	{
 		"name": "Ajouter un devoir",
 		"emoji": "✅",
-		"action": (user) => AddForm.startAddForm(user)
+		"action": (user: Discord.User) => AddForm.startAddForm(user)
 	},
 	{
 		"name": "Modifier un devoir",
 		"emoji": "💬",
+		"action": null
 	},
 	{
 		"name": "Supprimer un devoir",
 		"emoji": "❌",
+		"action": null
 	},
 	{
 		"name": "Reporter un bug",
 		"emoji": "📣",
-		"action": (user) => {
+		"action": (user: Discord.User) => {
 			user.send(
 				Embed.getDefaultEmbed("Voici ou reporter un bug du bot :", "https://github.com/tjobit/discord-hubday-agenda/issues/new")
 			).catch(e => console.error(e));
@@ -122,32 +118,31 @@ const BOT_ACTIONS = [
 
 
 client.on("ready", async () => {
+	// /**
+	//  * Enregistrement de la commande /agenda
+	//  */
+	// client.api.applications(client.user?.id).commands.post({
+	// 	data: { name: "agenda", description: "Permet de gérer les devoirs dans l'agenda Discord et Hudbay" }
+	// });
 
-	/**
-	 * Enregistrement de la commande /agenda
-	 */
-	client.api.applications(client.user.id).commands.post({
-		data: { name: "agenda", description: "Permet de gérer les devoirs dans l'agenda Discord et Hudbay" }
-	});
-
-	/**
-	 * Enregistrement listener des commandes
-	 */
-	client.ws.on("INTERACTION_CREATE", async interaction => {
-		(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
-	});
+	// /**
+	//  * Enregistrement listener des commandes
+	//  */
+	// client.ws.on("INTERACTION_CREATE", async interaction => {
+	// 	(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
+	// });
 
 	console.log("========================================");
-	MODULES = await getSubjects();
+	SUBJECTS = await getSubjects();
 	console.log("========================================");
 	console.log("             Bot started !              ");
 	console.log("========================================");
 
 	const status = async () => {
 		setTimeout(() => {
-			client.user.setActivity("/agenda");
+			client.user?.setActivity("/agenda");
 			setTimeout(() => {
-				client.user.setActivity("hubday.fr", { type: "WATCHING" });
+				client.user?.setActivity("hubday.fr", { type: "WATCHING" });
 				status();
 			}, 20000);
 		}, 20000);
@@ -161,7 +156,7 @@ client.on("ready", async () => {
  * Des que une réactions au menu est réçu, l'action correspondante est éxécutée
  * @param {*} userID 
  */
-const onBotCommand = (userId, byPassUserHandle = false) => {
+const onBotCommand = (userId: string, byPassUserHandle = false) => {
 	//Recupération de l'utilisateur qui a fais la commande
 	client.users.fetch(userId).then((user) => {
 		if (handleUser(userId) === -1 && !byPassUserHandle) {
@@ -175,7 +170,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 		user.send(Embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
 
 			//Creation des reactions du menu
-			const emojis = [];
+			const emojis: string[] = [];
 			BOT_ACTIONS.forEach(action => {
 				emojis.push(action.emoji);
 				msg.react(action.emoji).catch(() => console.info("React on deleted message"));
@@ -183,7 +178,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte) 
 			// et avec seulement les emojis du menu
-			const filter = (reaction, reactUser) => {
+			const filter = (reaction: any, reactUser: any) => {
 				return emojis.includes(reaction.emoji.name) &&
 					reactUser.id === userId;
 			};
@@ -192,7 +187,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 			msg.awaitReactions(filter, { max: 1, time: 60000, errors: ["time"] }).then(collected => {
 				//On cherche parmis les actions possible celle qui correspond à cet emoji
 				BOT_ACTIONS.forEach(action => {
-					if (collected.first().emoji.name == action.emoji) {
+					if (collected.first()?.emoji.name == action.emoji) {
 						//Si cette action possède une fonction valide, on l'execute
 						if (action.action) {
 							action.action(user);
@@ -217,9 +212,6 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
 
 client.login(DISCORD_CONFIG.token);
 
-exports.getSubjects = getSubjects;
-exports.handleUser = handleUser;
-exports.isUserHandled = isUserHandled;
 
 
 
@@ -269,7 +261,7 @@ client.on("message", msg => {
 		// if (msg.author.id !== client.user.id) {
 		// 	onBotCommand(msg.author.id);
 		// }
-		if (msg.author.id !== client.user.id && !USER_LOAD.includes(msg.author.id)) {
+		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
 			// msg.author.send(Embed.getHelpEmbed());
 
 			handleUser(msg.author.id);
