@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 
 const client = new Discord.Client();
 
-const DISCORD_CONFIG = require('../config.json');
+import * as DISCORD_CONFIG from './config.json';
 
 import * as Embed from './embed';
 import * as AddForm from './addForm';

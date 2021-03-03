@@ -9,6 +9,7 @@
 		"sourceMap": true,
 		"noImplicitAny": true,
 		"alwaysStrict": true,
+		"resolveJsonModule": true,
 		"typeRoots": [
             "./node_modules/@types"
         ]

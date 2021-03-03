@@ -10,17 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BOT_ACTIONS = exports.isUserHandled = exports.handleUser = void 0;
-require("better-logging")(console);
+/* eslint-disable @typescript-eslint/no-var-requires */
+require('better-logging')(console);
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const DISCORD_CONFIG = require("../config.json");
+const DISCORD_CONFIG = require('../config.json');
 const Embed = require("./embed");
 const AddForm = require("./addForm");
 // import { Homework } from './Classes_Interfaces/Homework';
 /**
  * Liste des id discords des utilisateurs en train d'utiliser le bot
  */
-let USER_LOAD = [];
+const USER_LOAD = [];
 /**
  * Gère les utilisateurs discord en train d'utiliser le bot.
  *
@@ -30,7 +31,7 @@ let USER_LOAD = [];
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-const handleUser = (id, remove = false) => {
+exports.handleUser = (id, remove = false) => {
     if (USER_LOAD.includes(id)) {
         if (remove) {
             USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
@@ -47,21 +48,19 @@ const handleUser = (id, remove = false) => {
         () => __awaiter(void 0, void 0, void 0, function* () {
             setTimeout(() => {
                 exports.handleUser(id, true);
-                console.warn(`[UserLoad : ${USER_LOAD.length}] User automatically unhandled with id : ` + id + "(timeout)");
+                console.warn(`[UserLoad : ${USER_LOAD.length}] User automatically unhandled with id : ` + id + '(timeout)');
             }, 120000);
         });
     }
 };
-exports.handleUser = handleUser;
 /**
  *
  * @param id l'id de l'utilisateur a rechercher
  * @return vrai si l'utilisateur est enregistré
  */
-const isUserHandled = (id) => {
+exports.isUserHandled = (id) => {
     return USER_LOAD.includes(id);
 };
-exports.isUserHandled = isUserHandled;
 /**
  * Actions du bot, choisissable depuis un message de menu (Premier MP du bot après /agenda)
  *  - name : (requis) nom de l'action (sera affiché)
@@ -70,30 +69,30 @@ exports.isUserHandled = isUserHandled;
  */
 exports.BOT_ACTIONS = [
     {
-        "name": "Ajouter un devoir",
-        "emoji": "✅",
-        "action": (user) => AddForm.startAddForm(user)
+        'name': 'Ajouter un devoir',
+        'emoji': '✅',
+        'action': (user) => AddForm.startAddForm(user)
     },
     {
-        "name": "Modifier un devoir",
-        "emoji": "💬",
-        "action": null
+        'name': 'Modifier un devoir',
+        'emoji': '💬',
+        'action': null
     },
     {
-        "name": "Supprimer un devoir",
-        "emoji": "❌",
-        "action": null
+        'name': 'Supprimer un devoir',
+        'emoji': '❌',
+        'action': null
     },
     {
-        "name": "Reporter un bug",
-        "emoji": "📣",
-        "action": (user) => {
-            user.send(Embed.getDefaultEmbed("Voici ou reporter un bug du bot :", "https://github.com/tjobit/discord-hubday-agenda/issues/new")).catch(e => console.error(e));
+        'name': 'Reporter un bug',
+        'emoji': '📣',
+        'action': (user) => {
+            user.send(Embed.getDefaultEmbed('Voici ou reporter un bug du bot :', 'https://github.com/tjobit/discord-hubday-agenda/issues/new')).catch(e => console.error(e));
             exports.handleUser(user.id, true);
         }
     }
 ];
-client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
+client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
     // /**
     //  * Enregistrement de la commande /agenda
     //  */
@@ -106,16 +105,16 @@ client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     // client.ws.on("INTERACTION_CREATE", async interaction => {
     // 	(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
     // });
-    console.log("========================================");
-    console.log("             Bot started !              ");
-    console.log("========================================");
+    console.log('========================================');
+    console.log('             Bot started !              ');
+    console.log('========================================');
     const status = () => __awaiter(void 0, void 0, void 0, function* () {
         setTimeout(() => {
             var _a;
-            (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("/agenda");
+            (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity('/agenda');
             setTimeout(() => {
                 var _a;
-                (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("hubday.fr", { type: "WATCHING" });
+                (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity('hubday.fr', { type: 'WATCHING' });
                 status();
             }, 20000);
         }, 20000);
@@ -131,7 +130,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
     //Recupération de l'utilisateur qui a fais la commande
     client.users.fetch(userId).then((user) => {
         if (exports.handleUser(userId) === -1 && !byPassUserHandle) {
-            user.send(Embed.getDefaultEmbed("Hop hop hop attention !", "Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !"))
+            user.send(Embed.getDefaultEmbed('Hop hop hop attention !', 'Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !'))
                 .catch(e => console.error(e));
             return;
         }
@@ -142,16 +141,16 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
             const emojis = [];
             exports.BOT_ACTIONS.forEach(action => {
                 emojis.push(action.emoji);
-                msg.react(action.emoji).catch(() => console.info("React on deleted message"));
+                msg.react(action.emoji).catch(() => console.info('React on deleted message'));
             });
-            //Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte) 
+            //Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
             // et avec seulement les emojis du menu
             const filter = (reaction, reactUser) => {
                 return emojis.includes(reaction.emoji.name) &&
                     reactUser.id === userId;
             };
             // On attend la reaction de l'utilisateur on prenant le filtre en compte (Max 60 secondes d'attente)
-            msg.awaitReactions(filter, { max: 1, time: 60000, errors: ["time"] }).then(collected => {
+            msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
                 //On cherche parmis les actions possible celle qui correspond à cet emoji
                 exports.BOT_ACTIONS.forEach(action => {
                     var _a;
@@ -162,7 +161,7 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
                             msg.delete().catch((e) => console.error(e));
                         }
                         else {
-                            msg.reply(Embed.getDefaultEmbed("Désolé cette commande n'est pas encore disponible")).catch(e => console.error(e));
+                            msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => console.error(e));
                             msg.delete().catch((e) => console.error(e));
                             // On renvois le menu dans le cas d'une action non valide
                             setTimeout(() => { onBotCommand(userId, true); }, 1000);
@@ -170,20 +169,20 @@ const onBotCommand = (userId, byPassUserHandle = false) => {
                     }
                 });
             }).catch(() => {
-                msg.reply(Embed.getDefaultEmbed("Annulation", "Temps de réponse trop long")).catch(e => console.error(e));
+                msg.reply(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => console.error(e));
                 msg.delete().catch((e) => console.error(e));
                 exports.handleUser(userId, true);
             });
-        }).catch(() => { console.error("Impossible d'envoyer un message privé à cet utilisateur"); });
-    }).catch(() => console.error("Utilisateur introuvable ou erreur interne (onBotCommand)"));
+        }).catch(() => { console.error('Impossible d\'envoyer un message privé à cet utilisateur'); });
+    }).catch(() => console.error('Utilisateur introuvable ou erreur interne (onBotCommand)'));
 };
 client.login(DISCORD_CONFIG.token);
 /**
  * Dev ====================================================================================================================
  */
-client.on("message", msg => {
+client.on('message', msg => {
     var _a;
-    if (msg.channel.type === "dm") {
+    if (msg.channel.type === 'dm') {
         // if (msg.author.id !== client.user.id) {
         // 	onBotCommand(msg.author.id);
         // }
@@ -210,8 +209,8 @@ client.on("message", msg => {
             // 	new Homework(
             // 		subject,
             // 		[
-            // 			"Exerice pages 16 à 18", 
-            // 			"Envoyer les réponses sur moodle", 
+            // 			"Exerice pages 16 à 18",
+            // 			"Envoyer les réponses sur moodle",
             // 			"Manger des patates"
             // 		],
             // 		"2021-03-10",

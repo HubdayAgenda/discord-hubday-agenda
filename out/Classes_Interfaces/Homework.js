@@ -44,22 +44,22 @@ class Homework {
         const embed = new Discord.MessageEmbed()
             .setColor(this.subject.color)
             .setTitle(`${this.subject.displayId} - ${this.subject.displayName}`)
-            .setURL("https://www.hubday.fr/dashboard#subject/" + this.subject.id)
-            .setAuthor("Devoir enregistré avec succès ! [Voir]", "https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png", "https://www.hubday.fr/dashboard#homework/" + this.id + "/view")
-            .setFooter("Échéance", "https://images.emojiterra.com/google/android-nougat/512px/23f1.png")
+            .setURL('https://www.hubday.fr/dashboard#subject/' + this.subject.id)
+            .setAuthor('Devoir enregistré avec succès ! [Voir]', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png', 'https://www.hubday.fr/dashboard#homework/' + this.id + '/view')
+            .setFooter('Échéance', 'https://images.emojiterra.com/google/android-nougat/512px/23f1.png')
             .setTimestamp(new Date(this.date));
-        let description = "";
+        let description = '';
         if (this.details !== null) {
             if (this.details !== null)
                 description += (`[${this.details}](${this.link})\n`);
             else
-                description += this.details + "\n";
+                description += this.details + '\n';
         }
         this.tasks.forEach(element => {
             description += `\n🔳 ${element}\n`;
         });
-        description += (this.notation !== null ? (this.notation ? "\n📈 Devoir noté\n" : "\n📉 Devoir non noté\n") : "");
-        description += "‌‌ ";
+        description += (this.notation !== null ? (this.notation ? '\n📈 Devoir noté\n' : '\n📉 Devoir non noté\n') : '');
+        description += '‌‌ ';
         embed.setDescription(description);
         return embed;
     }
@@ -67,17 +67,18 @@ class Homework {
      * Retourne ce devoir sous forme JSON
      * @return objet json de ce devoir
      */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     getJSON() {
         return {
-            "id": this.id,
-            "subject": this.subject.id,
-            "tasks": this.tasks,
-            "date": this.date,
+            'id': this.id,
+            'subject': this.subject.id,
+            'tasks': this.tasks,
+            'date': this.date,
             //"deadline": "16:10:00",
-            "group": this.group,
-            "notation": this.notation,
-            "details": this.details,
-            "link": this.link,
+            'group': this.group,
+            'notation': this.notation,
+            'details': this.details,
+            'link': this.link,
         };
     }
     /**

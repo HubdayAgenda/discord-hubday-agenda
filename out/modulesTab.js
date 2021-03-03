@@ -10,15 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modulesToTabData = exports.getTabImageAttachment = void 0;
+/* eslint-disable @typescript-eslint/no-var-requires */
 const Discord = require("discord.js");
-const { CanvasTable } = require("canvas-table");
-const { createCanvas } = require("canvas");
+const { CanvasTable } = require('canvas-table');
+const { createCanvas } = require('canvas');
 /**
  * Création du canvas avec les matières et les UE
  * @param userModules
  * @return la canvas mis en forme
  */
-const getTabImageAttachment = (subjects) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTabImageAttachment = (subjects) => __awaiter(void 0, void 0, void 0, function* () {
     const canvas = createCanvas(1965 / 3, 25 * subjects.length + 100);
     const data = exports.modulesToTabData(subjects);
     const ct = new CanvasTable(canvas, {
@@ -27,51 +28,49 @@ const getTabImageAttachment = (subjects) => __awaiter(void 0, void 0, void 0, fu
         options
     });
     yield ct.generateTable();
-    yield ct.renderToFile("test-table.png");
-    return new Discord.MessageAttachment(canvas.toBuffer(), "image.png");
+    yield ct.renderToFile('test-table.png');
+    return new Discord.MessageAttachment(canvas.toBuffer(), 'image.png');
 });
-exports.getTabImageAttachment = getTabImageAttachment;
 /**
  * Transforme une liste de module sous une forme utilisée pour générer un tableau
  * @param subjects liste des modules a afficher dans le tableau
  * @return Les modules sous forme lisible pour canvas-table
  */
-const modulesToTabData = (subjects) => {
-    let data = [];
+exports.modulesToTabData = (subjects) => {
+    const data = [];
     let i = 1;
-    data.push(["", "", ""]);
+    data.push(['', '', '']);
     subjects.forEach((subject) => {
-        const ligne = [i.toString(), subject.displayId + " - " + subject.displayName];
+        const ligne = [i.toString(), subject.displayId + ' - ' + subject.displayName];
         data.push(ligne);
         i++;
     });
-    data.push(["", "", ""]);
+    data.push(['', '', '']);
     return data;
 };
-exports.modulesToTabData = modulesToTabData;
 /**
  * Affichage des colonnes pour le canvas
  */
 const columns = [
     {
-        title: "Numéro",
+        title: 'Numéro',
         options: {
-            textAlign: "center",
+            textAlign: 'center',
             fontSize: 18,
-            fontWeight: "bold",
-            fontFamily: "arial",
-            color: "#afdab9",
+            fontWeight: 'bold',
+            fontFamily: 'arial',
+            color: '#afdab9',
             lineHeight: 21,
         }
     },
     {
-        title: "Module",
+        title: 'Module',
         options: {
-            textAlign: "left",
+            textAlign: 'left',
             fontSize: 18,
-            fontWeight: "bold",
-            fontFamily: "arial",
-            color: "white",
+            fontWeight: 'bold',
+            fontFamily: 'arial',
+            color: 'white',
             lineHeight: 21,
         },
     },
@@ -81,18 +80,18 @@ const columns = [
  */
 const options = {
     devicePixelRatio: 1,
-    background: "#2f3136",
+    background: '#2f3136',
     borders: {
-        table: { color: "#bababa", width: 2 },
+        table: { color: '#bababa', width: 2 },
     },
     fit: true,
     options: {
-        textAlign: "center",
+        textAlign: 'center',
     },
     header: {
         fontSize: 16,
-        fontFamily: "arial",
-        color: "#afdab9",
+        fontFamily: 'arial',
+        color: '#afdab9',
     },
 };
 //# sourceMappingURL=modulesTab.js.map

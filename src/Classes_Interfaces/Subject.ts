@@ -1,4 +1,5 @@
 import * as fireBase from '../firebase';
+import * as subjectsLocalFile from './subjects.json';
 
 export interface ISubject {
 	id: string
@@ -26,7 +27,7 @@ const SUBJECTS: ISubject[] | null = null;
  */
 export const getSubjects = async (): Promise<ISubject[]> => {
 	if (SUBJECTS === null) {
-		const subjects = getFromLocalFile ? require('./subjects.json') : await fireBase.getDbData('subjects');
+		const subjects = getFromLocalFile ? subjectsLocalFile : await fireBase.getDbData('subjects');
 		console.log('[DB] Modules retrieved : ' + Object.keys(subjects).length);
 		return subjects;
 	}

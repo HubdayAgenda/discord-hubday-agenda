@@ -11,20 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSubjects = void 0;
 const fireBase = require("../firebase");
+const subjectsLocalFile = require("./subjects.json");
 const getFromLocalFile = true;
-let SUBJECTS = null;
+const SUBJECTS = null;
 /**
  * Télécharge la liste de modules à partir de la db si elle n'est pas encore stockée
  * (Soit normalement une fois au lancement ou au refresh à l'aide d'une commande)
  * @return Le contenu des modules
  */
-const getSubjects = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSubjects = () => __awaiter(void 0, void 0, void 0, function* () {
     if (SUBJECTS === null) {
-        const subjects = getFromLocalFile ? require("./subjects.json") : yield fireBase.getDbData("subjects");
-        console.log("[DB] Modules retrieved : " + Object.keys(subjects).length);
+        const subjects = getFromLocalFile ? subjectsLocalFile : yield fireBase.getDbData('subjects');
+        console.log('[DB] Modules retrieved : ' + Object.keys(subjects).length);
         return subjects;
     }
     return SUBJECTS;
 });
-exports.getSubjects = getSubjects;
 //# sourceMappingURL=Subject.js.map

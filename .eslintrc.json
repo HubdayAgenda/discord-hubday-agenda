@@ -33,7 +33,6 @@
             "error",
             "always"
         ],
-        "@typescript-eslint/no-explicit-any": ["error", { "ignoreRestArgs": true }],
         // "require-jsdoc": ["error", {
         //     "require": {
         //         "FunctionDeclaration": true,
@@ -43,6 +42,7 @@
         //         "FunctionExpression": true
         //     }
         // }],
+        "@typescript-eslint/no-explicit-any": 0,
         "eol-last": "error",
         "@typescript-eslint/no-empty-function": 0
     }
