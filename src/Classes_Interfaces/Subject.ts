@@ -16,8 +16,14 @@ export interface ISubject {
 	teachingUnit: string
 }
 
+/**
+ * True -> ne télécharge pas le fichier contenant l'ensemble des modules a chaque lancement du bot
+ */
 const getFromLocalFile = true;
 
+/**
+ * Liste des modules présents pour toutes classe et tout niveau confondus
+ */
 const SUBJECTS: ISubject[] | null = null;
 
 /**

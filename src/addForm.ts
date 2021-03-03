@@ -24,6 +24,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Retrieve user from DB
 	// ==============================================================
+	// TO DO : donner un type aux variables de cette partie a partir d'une interface User
 	const hubdayUserResults = await fireBase.getDbDataWithFilter('users', 'discordId', user.id);
 	const hubdayUser = hubdayUserResults[Object.keys(hubdayUserResults)[0]];
 	if (Object.keys(hubdayUser).length == 0) {
@@ -37,6 +38,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const userSubjects = await getUserSubjects(group, options);
 	const matEmbed = await Embed.getMatieresEmbed(userSubjects);
 
+
 	// Ask for module
 	// ==============================================================
 	let filter: Discord.CollectorFilter = m => m.author.id === user.id
@@ -44,12 +46,12 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		&& (parseInt(m.content) < Object.keys(userSubjects).length + 1)
 		&& (parseInt(m.content) > 0);
 
-	const numModule: number | null = await getResponse(user, matEmbed, filter);
-	if (numModule === null) { console.warn('Get response error (Timeout or Exception)'); return; }
+	const numModule = await getResponse(user, matEmbed, filter);
+	if (numModule === null || typeof parseInt(numModule.toString()) != 'number') { console.warn(`Get response error (Timeout or number Exception) - ${typeof numModule}`); return; }
 
-	const _SUBJECT = userSubjects[numModule - 1];
+	const _SUBJECT = userSubjects[parseInt(numModule.toString()) - 1];
 
-	logForm(user, ` 1) subjectId : ${numModule}`);
+	logForm(user, ` 1) subjectId : ${_SUBJECT}`);
 	// ==============================================================
 
 
@@ -68,13 +70,13 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	if (labelResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
 	const _TASKS = [];
-	if (labelResponse.includes('|')) {
-		labelResponse.split('|').forEach((element: string) => {
+	if (labelResponse.toString().includes('|')) {
+		labelResponse.toString().split('|').forEach((element: string) => {
 			_TASKS.push(element.trim());
 		});
 	}
 	else {
-		_TASKS.push(labelResponse.trim());
+		_TASKS.push(labelResponse.toString().trim());
 	}
 
 	logForm(user, ` 2) tasks : ${_TASKS}`);
@@ -96,7 +98,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		const dateResponse = await getResponse(user, dateEmbed, filter = m => m.author.id === user.id);
 		if (dateResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-		const date = Utils.dateValid(dateResponse);
+		const date = Utils.dateValid(dateResponse.toString());
 
 		if (date != null) {
 			valid = true;
@@ -159,7 +161,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	);
 	if (deliveryResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _DETAILS: string | null = deliveryResponse == -1 ? null : deliveryResponse;
+	const _DETAILS: string | null = deliveryResponse == -1 ? null : deliveryResponse.toString();
 
 	logForm(user, ` 5) details : ${_DETAILS}`);
 	// ==============================================================
@@ -172,7 +174,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
 	];
 	valid = false;
-	let _LINK = null;
+	let _LINK: null | string = null;
 	if (_DETAILS) {
 		while (!valid) {
 			const linkResponse = await getResponse(
@@ -184,7 +186,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 			if (linkResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 			if (linkResponse == -1) {
 				valid = true;
-			} else if (Utils.validURL(linkResponse)) {
+			} else if (typeof linkResponse == 'string' && Utils.validURL(linkResponse.toString())) {
 				_LINK = linkResponse;
 				valid = true;
 			} else {
@@ -213,7 +215,10 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	);
 	if (gradeResponse === null) { console.warn('Get response error (Timeout or Exception)'); return; }
 
-	const _NOTATION = (gradeResponse === -1 ? null : gradeResponse);
+	let _NOTATION: null | boolean = null;
+	if(gradeResponse != -1){
+		_NOTATION = gradeResponse ? true : false;
+	}
 
 	logForm(user, ` 6) grade : ${_NOTATION}`);
 	// ==============================================================
@@ -238,7 +243,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
  * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
  * @return la reponse ou null si aucune n'est donée
  */
-const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<string | any | null> => {
+const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<null | number | boolean | string> => {
 	return new Promise(
 		function (resolve) {
 			user.send(messageContent).then((msg) => {
@@ -247,7 +252,7 @@ const getResponse = async (user: Discord.User, messageContent: string | Discord.
 						msg.react(element.emoji).catch(() => console.info('React on deleted message'));
 					});
 
-					const filter = (reaction: any, reactUser: Discord.User) => { return reactUser.id === user.id; };
+					const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
 					msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
 						emojiActions.forEach(action => {
 							if (action.emoji == collected.first()?.emoji.name) {
@@ -283,7 +288,7 @@ const getResponse = async (user: Discord.User, messageContent: string | Discord.
  * @param messageContent le contenu du message composant la question
  * @return la reponse ou null si aucune reponse n'est donnée
  */
-const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<any> => {
+const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<null | number | boolean> => {
 	return new Promise(
 		function (resolve) {
 			user.send(messageContent).then((msg) => {
@@ -291,7 +296,7 @@ const getEmojisResponse = async (user: Discord.User, emojiActions: IemojiAction[
 					msg.react(element.emoji).catch(() => console.info('React on deleted message'));
 				});
 
-				const filter = (reaction: any, reactUser: Discord.User) => { return reactUser.id === user.id; };
+				const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
 				msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
 					emojiActions.forEach(action => {
 						if (action.emoji == collected.first()?.emoji.name) {

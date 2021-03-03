@@ -42,7 +42,7 @@
         //         "FunctionExpression": true
         //     }
         // }],
-        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-explicit-any": "error",
         "eol-last": "error",
         "@typescript-eslint/no-empty-function": 0
     }

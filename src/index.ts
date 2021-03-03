@@ -60,7 +60,7 @@ export const isUserHandled = (id: string): boolean => {
 export interface IbotAction {
 	name: string,
 	emoji: string;
-	action: void | null | any;
+	action: null | ((arg0: Discord.User) => void);
 }
 
 /**
@@ -157,7 +157,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
 			// et avec seulement les emojis du menu
-			const filter = (reaction: any, reactUser: any) => {
+			const filter = (reaction: Discord.MessageReaction, reactUser: Discord.User) => {
 				return emojis.includes(reaction.emoji.name) &&
 					reactUser.id === userId;
 			};
@@ -175,6 +175,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => console.error(e));
 							msg.delete().catch((e) => console.error(e));
 							// On renvois le menu dans le cas d'une action non valide
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							setTimeout(() => { onBotCommand(userId, true); }, 1000);
 						}
 					}

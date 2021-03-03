@@ -39,7 +39,7 @@ export const getMatieresEmbed = async (userSubjects: ISubject[]): Promise<Discor
 
 /**
  * Création de l'embed pour l'affichage du menu des commandes
- * @param BOT_ACTIONS JSON contenant les emoji, les noms etc correspondant aux commandes
+ * @param BOT_ACTIONS JSON contenant les emojis, les noms etc correspondant aux commandes
  * @return l'embed mis en forme
  */
 export const getMenuEmbed = (BOT_ACTIONS: index.IbotAction[]): Discord.MessageEmbed => {
@@ -59,7 +59,10 @@ export const getMenuEmbed = (BOT_ACTIONS: index.IbotAction[]): Discord.MessageEm
 /**
  * Retourne un embed tout simple avec juste un titre et une description
  * @param titre Le titre de l'embed
- * @param description La description de l'embed (facultatif)
+ * @param description La description de l'embed
+ * @param footer Le footer de l'embed
+ * @param color La couleur de l'embed
+ * @return l'embed final
  */
 export const getDefaultEmbed = (titre: string, description: string | null = null, footer: string | null = null, color = '#afdab9'): Discord.MessageEmbed => {
 	const embed = new Discord.MessageEmbed()
@@ -74,6 +77,14 @@ export const getDefaultEmbed = (titre: string, description: string | null = null
 	return embed;
 };
 
+/**
+ * Retourne un embed destiné au questions qui attendent une réponse sous forme de chox via emoji
+ * @param titre Le titre de l'embed
+ * @param emojiList La liste des emojis possible qui servent de réponse en réaction
+ * @param description La description de l'embed
+ * @param footer Le footer de l'embed
+ * @return l'embed pour cette question
+ */
 export const getEmojiFormEmbed = (titre: string, emojiList: IemojiAction[], description: string | null = null, footer: string | null = null): Discord.MessageEmbed => {
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(titre, 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png')
