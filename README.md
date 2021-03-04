@@ -30,13 +30,13 @@ Après cette étape, l'installation est terminée, mais il reste à configurer l
 Avant de pouvoir lancer le projet et l'essayer, il est nécessaire de saisir plusieurs variables d'environnement dans un fichier de configuration `env.local`.
 
 ## Options disponibles
-* **RTDB_URL** (*String, requis*): URL de connexion à la base de données Firebase Realtime Database.
+* **RTDB_URL** (*String, requis*): URL de connexion à la base de données Firebase Realtime Database, sans '/' à la fin.
 * **RTDB_AUTH_TOKEN** (*String, requis*): Jeton d'authentification de la base de données.
 * **DISCORD_BOT_TOKEN** (*String, requis*): Jeton d'authentification du bot Discord.
 
 ## Exemple de fichier de configuration `env.local`:
 ```env
-RTDB_URL="https://{firebase-project-name}.firebaseio.com/"
+RTDB_URL="https://{firebase-project-name}.firebaseio.com"
 RTDB_AUTH_TOKEN="XXXXxXxXxXXXXXxXXXxxxXXXXxXXXXXXxxxxxxX"
 DISCORD_BOT_TOKEN="XXXxXxXxXXXxXxXxXxXxXXXx.XXxxXX.XxxXXxX-XXXXxxxXxXxXxXxxxxx"
 ```

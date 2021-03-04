@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('better-logging')(console);
+const dotenv = require('dotenv');
+
+if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+	const result = dotenv.config({ path: 'env.local' });
+
+	if (result.error || process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+		console.error('Unable to retrieve environment variables from system or config file. Please define these or create a configuration file \'env.local\'.');
+		process.exit(1);
+	}
+}
 
 import * as Discord from 'discord.js';
 
-const client = new Discord.Client();
 
-import * as DISCORD_CONFIG from './config.json';
+const client = new Discord.Client();
 
 import * as Embed from './embed';
 import * as AddForm from './addForm';
@@ -190,7 +199,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 	}).catch(() => console.error('Utilisateur introuvable ou erreur interne (onBotCommand)'));
 };
 
-client.login(DISCORD_CONFIG.token);
+client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 

@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as fetch from 'node-fetch';
-import * as config from './configFirebase.json';
 
-const RTDB_AUTH_TOKEN = config.RTDB_AUTH_TOKEN;
-const RTDB_URL = config.RTDB_URL;
+const RTDB_AUTH_TOKEN = process.env.RTDB_AUTH_TOKEN;
+const RTDB_URL = process.env.RTDB_URL;
 
 /**
  * Récupère des informations dans la base de donnée hubday
  * @param path le chemin d'accès de la table concerné
  * @return le résultat de la requete
  */
-export const getDbData = async(path: string): Promise<any> => {
+export const getDbData = async (path: string): Promise<any> => {
 	const response = await fetch.default(RTDB_URL + '/' + path + '.json?auth=' + RTDB_AUTH_TOKEN);
 	return await gatherResponse(response);
 };

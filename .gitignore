@@ -5,3 +5,4 @@ configFirebase.json
 ./src/configFirebase.json
 ./out
 out
+env.local
