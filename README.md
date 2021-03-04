@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="490" height="92" src="src/assets/banner.jpg" alt="Logo botAgenda">
+  <img width="490" height="92" src="src/assets/banner.png" alt="Logo botAgenda">
 </p>
 
 ---
