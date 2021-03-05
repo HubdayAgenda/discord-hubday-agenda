@@ -1,18 +1,16 @@
-- Sync db avec salons
-
 - system de debug via cmd pour dev
+    - !agenda-version (version dans config)
+    - !agenda-help commande pour afficher embed d'aide
 
-OK - Demander l'année pour éviter le problème du changement d'année décembre/janvier
 
-OK - Conversion typescript
-OK - Demander l'heure de remise (deadline)
-OK - Un seul fichier de config -> discord + firebase + settings + bot version
-OK - Afficher la couleur du module dans tout les embeds
+
+
 - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
     - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
 - Webhook de bug report
-OK - Utiliser l'ID pour créer le lien
 - Ajouter le lesson ID (subject.getLessonsOfDay)
+
 - Import fichier subjects.json avec require et donc seulement si nécéssaire
 - remettre en place les slash commands
 - Garder en mémoire les tableau générés
+- Améliorer log pour prod et uniformiser (En ou fr ?)

@@ -35,13 +35,15 @@ Avant de pouvoir lancer le projet et l'essayer, il est nécessaire de saisir plu
 * **DISCORD_BOT_TOKEN** (*String, requis*): Jeton d'authentification du bot Discord.
 
 ## Exemple de fichier de configuration `env.local`:
-```env
+``` c
 RTDB_URL="https://{firebase-project-name}.firebaseio.com"
 RTDB_AUTH_TOKEN="XXXXxXxXxXXXXXxXXXxxxXXXXxXXXXXXxxxxxxX"
 DISCORD_BOT_TOKEN="XXXxXxXxXXXxXxXxXxXxXXXx.XXxxXX.XxxXXxX-XXXXxxxXxXxXxXxxxxx"
+DISCORD_BOT_VERSION="0.0.0"
+DISCORD_BOT_PREFIX="!"
 ```
 
-Une fois ce fichier de configuration créé, vous êtes prêt à tester le bot !
+Une fois ce fichier de configuration créé et configuré, vous êtes prêt à tester le bot !
 
 \
 🛠 Commandes disponibles

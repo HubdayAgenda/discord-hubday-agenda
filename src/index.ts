@@ -4,23 +4,24 @@ const dotenv = require('dotenv');
 
 if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
-
-	if (result.error || process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+	if (
+		result.error
+		|| process.env.DISCORD_BOT_TOKEN === undefined
+		|| process.env.RTDB_URL === undefined
+		|| process.env.RTDB_AUTH_TOKEN === undefined
+		|| process.env.DISCORD_BOT_VERSION === undefined
+		|| process.env.DISCORD_BOT_PREFIX === undefined
+	) {
 		console.error('Unable to retrieve environment variables from system or config file. Please define these or create a configuration file \'env.local\'.');
 		process.exit(1);
 	}
 }
 
-import * as Discord from 'discord.js';
-
-
-const client = new Discord.Client();
-
 import * as Embed from './embed';
 import * as AddForm from './addForm';
 
-// import { Homework } from './Classes_Interfaces/Homework';
-
+import * as Discord from 'discord.js';
+const client = new Discord.Client();
 
 /**
  * Liste des id discords des utilisateurs en train d'utiliser le bot
@@ -253,8 +254,10 @@ client.on('message', msg => {
 		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
 			// msg.author.send(Embed.getHelpEmbed());
 
-			handleUser(msg.author.id);
-			AddForm.startAddForm(msg.author);
+			onBotCommand(msg.author.id);
+
+			// handleUser(msg.author.id);
+			// AddForm.startAddForm(msg.author);
 
 			// const subject = {
 			// 	"alias": [
