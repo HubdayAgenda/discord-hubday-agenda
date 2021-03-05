@@ -8,6 +8,7 @@
     "better-logging": "^4.4.0",
     "canvas": "^2.6.1",
     "canvas-table": "0.0.8",
+    "discord-webhook-node": "^1.1.8",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",

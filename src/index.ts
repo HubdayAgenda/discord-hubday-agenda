@@ -19,7 +19,7 @@ if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === unde
 
 import * as Embed from './embed';
 import * as AddForm from './addForm';
-
+import { sendReportHook } from './webhooks';
 import * as Discord from 'discord.js';
 const client = new Discord.Client();
 
@@ -85,43 +85,41 @@ export const BOT_ACTIONS: IbotAction[] = [
 		'emoji': '✅',
 		'action': (user: Discord.User) => AddForm.startAddForm(user)
 	},
-	{
-		'name': 'Modifier un devoir',
-		'emoji': '💬',
-		'action': null
-	},
-	{
-		'name': 'Supprimer un devoir',
-		'emoji': '❌',
-		'action': null
-	},
+	// {
+	// 	'name': 'Modifier un devoir',
+	// 	'emoji': '💬',
+	// 	'action': null
+	// },
+	// {
+	// 	'name': 'Supprimer un devoir',
+	// 	'emoji': '❌',
+	// 	'action': null
+	// },
 	{
 		'name': 'Reporter un bug',
 		'emoji': '📣',
-		'action': (user: Discord.User): void => {
-			user.send(
-				Embed.getDefaultEmbed('Voici ou reporter un bug du bot :', 'https://github.com/tjobit/discord-hubday-agenda/issues/new')
-			).catch(e => console.error(e));
-			handleUser(user.id, true);
-		}
+		'action': (process.env.DISCORD_BUG_REPORT_WEBHOOK_URL !== undefined) ? ((user: Discord.User): void => {
+			sendReportHook(user);
+		}) : null
 	}
 ];
 
 
 client.on('ready', async () => {
-	// /**
-	//  * Enregistrement de la commande /agenda
-	//  */
+	/**
+	 * Enregistrement de la commande /agenda
+	 */
 	// client.api.applications(client.user?.id).commands.post({
 	// 	data: { name: "agenda", description: "Permet de gérer les devoirs dans l'agenda Discord et Hudbay" }
 	// });
 
-	// /**
-	//  * Enregistrement listener des commandes
-	//  */
+	/**
+	 * Enregistrement listener des commandes
+	 */
 	// client.ws.on("INTERACTION_CREATE", async interaction => {
 	// 	(interaction.data.name.toLowerCase() === "agenda") && onBotCommand(interaction.member ? interaction.member.user.id : interaction.user.id);
 	// });
+
 
 	console.log('========================================');
 	console.log('             Bot started !              ');
@@ -140,10 +138,43 @@ client.on('ready', async () => {
 });
 
 
+client.on('message', msg => {
+	if (msg.channel.type === 'dm') {
+
+
+		// TEST -> LANCER LE MENU DIRECT AVEC
+		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
+			onBotCommand(msg.author.id);
+		}
+
+
+
+		if (process.env.DISCORD_BOT_PREFIX != undefined) {
+			// On regarde si le message commence bien par le prefix (!)
+			if (!msg.content.startsWith(process.env.DISCORD_BOT_PREFIX))//Si le message ne commence pas par le prefix du config.json
+				return;
+
+			switch (msg.content.substr(1).split(' ')[0]) {
+			case 'agenda-version':
+				if (process.env.DISCORD_BOT_VERSION != undefined)
+					msg.author.send(process.env.DISCORD_BOT_VERSION);
+				break;
+
+			case 'agenda-help':
+				msg.author.send(Embed.getHelpEmbed());
+				break;
+			}
+		}
+	}
+});
+
 /**
- * Des que la commande /agenda est exécutée : ouvre le menu et attend la reponse (via reactions)
- * Des que une réactions au menu est réçu, l'action correspondante est éxécutée
- * @param {*} userID
+ * Methode exécutée dès que la commande '/agenda' est effectuée par un utilisateur.
+ * - Affiche un menu de selection d'action (Via emojis et grace à BOT_ACTIONS)
+ * - Quand une action est selectionnée, sa method conrrespondante est éxécutée
+ * @param userId l'id discord de l'utilisateur qui a effectué la commande
+ * @param byPassUserHandle annule l'enregistrement de l'utilisateut qu'utilisateur qui utilise le bot
+ * (Utile pour commandes pas dispo qui réaffichent le menu)
  */
 const onBotCommand = (userId: string, byPassUserHandle = false) => {
 	//Recupération de l'utilisateur qui a fais la commande
@@ -201,138 +232,3 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 };
 
 client.login(process.env.DISCORD_BOT_TOKEN);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Dev ====================================================================================================================
- */
-client.on('message', msg => {
-	if (msg.channel.type === 'dm') {
-
-		// if (msg.author.id !== client.user.id) {
-		// 	onBotCommand(msg.author.id);
-		// }
-		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
-			// msg.author.send(Embed.getHelpEmbed());
-
-			onBotCommand(msg.author.id);
-
-			// handleUser(msg.author.id);
-			// AddForm.startAddForm(msg.author);
-
-			// const subject = {
-			// 	"alias": [
-			// 		"M1202 Algèbre linéaire"
-			// 	],
-			// 	"color": "#2980b9",
-			// 	"displayId": "M1202",
-			// 	"displayName": "Algèbre linéaire",
-			// 	"group": [
-			// 		"S1"
-			// 	],
-			// 	"icon": "algebre-lineaire",
-			// 	"name": "M1202 Algèbre linéaire",
-			// 	"shortName": "",
-			// 	"ue": "UE 1-2"
-			// };
-
-			// msg.author.send(
-			// 	new Homework(
-			// 		subject,
-			// 		[
-			// 			"Exerice pages 16 à 18",
-			// 			"Envoyer les réponses sur moodle",
-			// 			"Manger des patates"
-			// 		],
-			// 		"2021-03-10",
-			// 		"entier",
-			// 		"Demander a Mr Fossé pour la remise",
-			// 		"https://moodle1.u-bordeaux.fr/",
-			// 		true,
-			// 		null
-			// 	).getEmbed()
-			// );
-		}
-
-		// let tab = [];
-		// const users = await dataBase.getDbData("users");
-
-		// for (let idnum of Object.keys(users)) {
-
-		// 	let user = users[idnum];
-		// 	if (user.group2 === "roboticS4")
-		// 		console.log(user);
-		// 	// if(user.options[0] = )
-		// 	// // if( !tab.includes(user.group1))
-		// 	// // 	tab.push(user.group1);
-		// 	// // if( !tab.includes(user.group2))
-		// 	// // 	tab.push(user.group2);
-		// }
-		// tab.forEach(element => {
-		// 	console.log(element);
-		// });
-
-
-		// const agenda = await dataBase.getDbData("agenda");
-		// console.log(agenda["S2A"]);
-
-	}
-
-	//On regarde si le message commence bien par le prefix (!)
-	// if (!msg.content.startsWith(DISCORD_CONFIG.prefix))//Si le message ne commence pas par le prefix du config.json
-	// 	return;
-
-	// switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
-	// 	case "test":
-	// 		// msg.channel.send(Embed.getHelpEmbed());
-	// 		//getSubjects();
-	// 		// console.log(msg.author.id);
-	// 		//console.log(await fb.getDbDataWithFilter("users", "discordId", msg.author.id))
-	// 		const users = await fb.getDbData("users");
-	// 		for (var idnum of Object.keys(users)) {
-	// 			var user = users[idnum];
-	// 			if (user.discordId === "") console.log(user.displayName, user.group2);
-	// 		}
-	// 		break;
-	// }
-});
-

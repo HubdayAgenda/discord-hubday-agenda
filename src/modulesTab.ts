@@ -15,7 +15,7 @@ export const getTabImageAttachment = async (subjects: Subject[]): Promise<Discor
 
 	const canvas = createCanvas(1965 / 3, 25 * subjects.length + 100);
 
-	const data = modulesToTabData(subjects);
+	const data = getTabData(subjects);
 
 	const ct = new CanvasTable(canvas, {
 		data,
@@ -32,7 +32,7 @@ export const getTabImageAttachment = async (subjects: Subject[]): Promise<Discor
  * @param subjects liste des modules a afficher dans le tableau
  * @return Les modules sous forme lisible pour canvas-table
  */
-export const modulesToTabData = (subjects: Subject[]): string[][] => {
+export const getTabData = (subjects: Subject[]): string[][] => {
 	const data = [];
 	let i = 1;
 	data.push(['', '', '']);

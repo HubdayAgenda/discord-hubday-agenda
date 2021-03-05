@@ -1,16 +1,26 @@
 - system de debug via cmd pour dev
     - !agenda-version (version dans config)
     - !agenda-help commande pour afficher embed d'aide
-
-
+    - !agenda-runtime
+        - donne version
+        - donne uptime
+        - autre stats
+        - ping hubday ?
 
 
 - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
     - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
-- Webhook de bug report
+
+- Webhook d'erreur : 
+https://discordapp.com/api/webhooks/817503619699965954/alI2hU5_aH2H_tNAV_vB1AyPikKVO7RcSe4Phir22WVe_ibjepRW55ddY6mKeOkfkObS
+https://www.npmjs.com/package/discord-webhook-node
+
+- Bug report interne via webhook
+
 - Ajouter le lesson ID (subject.getLessonsOfDay)
 
 - Import fichier subjects.json avec require et donc seulement si nécéssaire
 - remettre en place les slash commands
 - Garder en mémoire les tableau générés
 - Améliorer log pour prod et uniformiser (En ou fr ?)
+

@@ -91,7 +91,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 		if (date != null) {
 			valid = true;
-			_DATE = Utils.convertDateIso(date);
+			_DATE = Utils.dateToStringValidFormat(date);
 		} else {
 			dateEmbed = Embed.getDefaultEmbed(
 				'Date invalide',
@@ -264,7 +264,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
  * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
  * @return la reponse ou null si aucune n'est donée
  */
-const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<null | number | boolean | string> => {
+export const getResponse = async (user: Discord.User, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<null | number | boolean | string> => {
 	return new Promise(
 		function (resolve) {
 			user.send(messageContent).then((msg) => {
