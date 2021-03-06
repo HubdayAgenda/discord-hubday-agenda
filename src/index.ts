@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('better-logging')(console);
 const dotenv = require('dotenv');
+
+import { BotLog } from './Classes_Interfaces/BotLog';
 
 if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
@@ -12,7 +13,7 @@ if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === unde
 		|| process.env.DISCORD_BOT_VERSION === undefined
 		|| process.env.DISCORD_BOT_PREFIX === undefined
 	) {
-		console.error('Unable to retrieve environment variables from system or config file. Please define these or create a configuration file \'env.local\'.');
+		BotLog.error('Impossible de récupérer les variables d\'environnement de configuration. Vérifiez que vous avez bien un fichier \'env.local\' correctement configuré.');
 		process.exit(1);
 	}
 }
@@ -27,6 +28,7 @@ const client = new Discord.Client();
  * Liste des id discords des utilisateurs en train d'utiliser le bot
  */
 const USER_LOAD: string[] = [];
+const userLoadLog = new BotLog('User load');
 
 /**
  * Gère les utilisateurs discord en train d'utiliser le bot.
@@ -41,19 +43,19 @@ export const handleUser = (id: string, remove = false): number | void => {
 	if (USER_LOAD.includes(id)) {
 		if (remove) {
 			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
-			console.info(`[UserLoad : ${USER_LOAD.length}] User unhandled correctly with id : ` + id);
+			userLoadLog.info(`[${USER_LOAD.length}] Bot user retiré (N'utilise plus le bot) : ` + id);
 		} else {
-			console.info(`[UserLoad : ${USER_LOAD.length}] User already handled with id : ` + id);
+			userLoadLog.info(`[${USER_LOAD.length}] Bot user déjà en train d'utiliser le bot: ` + id);
 			return -1;
 		}
 	} else if (!remove) {
 		USER_LOAD.push(id);
-		console.info(`[UserLoad : ${USER_LOAD.length}] New user handled with id : ` + id);
+		userLoadLog.info(`[${USER_LOAD.length}] Bot user ajouté (Commence à utiliser le bot): ` + id);
 		async () => {
 			setTimeout(() => {
 				handleUser(id, true);
-				console.warn(`[UserLoad : ${USER_LOAD.length}] User automatically unhandled with id : ` + id + '(timeout)');
-			}, 120000);
+				userLoadLog.error(`[${USER_LOAD.length}] Bot user retiré car son temps d'utilisation est trop long (L'utilisteur na pas du être retiré normalement) : ` + id);
+			}, 300000);
 		};
 	}
 };
@@ -121,9 +123,9 @@ client.on('ready', async () => {
 	// });
 
 
-	console.log('========================================');
-	console.log('             Bot started !              ');
-	console.log('========================================');
+	BotLog.log('========================================');
+	BotLog.log('              Bot lancé !               ');
+	BotLog.log('========================================');
 
 	const status = async () => {
 		setTimeout(() => {
@@ -137,34 +139,31 @@ client.on('ready', async () => {
 	status();
 });
 
-
+/**
+ * @TODO Sortir
+ */
 client.on('message', msg => {
 	if (msg.channel.type === 'dm') {
+		if (process.env.DISCORD_BOT_PREFIX != undefined) {
+			// On regarde si le message commence bien par le prefix (!)
+			if (msg.content.startsWith(process.env.DISCORD_BOT_PREFIX))//Si le message ne commence pas par le prefix du config.json
+				switch (msg.content.substr(1).split(' ')[0]) {
+					case 'agenda-version':
+						if (process.env.DISCORD_BOT_VERSION != undefined)
+							msg.author.send(process.env.DISCORD_BOT_VERSION);
+						return;
 
+					case 'agenda-help':
+						msg.author.send(Embed.getHelpEmbed());
+						return;
+				}
+		}
 
 		// TEST -> LANCER LE MENU DIRECT AVEC
 		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
 			onBotCommand(msg.author.id);
 		}
 
-
-
-		if (process.env.DISCORD_BOT_PREFIX != undefined) {
-			// On regarde si le message commence bien par le prefix (!)
-			if (!msg.content.startsWith(process.env.DISCORD_BOT_PREFIX))//Si le message ne commence pas par le prefix du config.json
-				return;
-
-			switch (msg.content.substr(1).split(' ')[0]) {
-			case 'agenda-version':
-				if (process.env.DISCORD_BOT_VERSION != undefined)
-					msg.author.send(process.env.DISCORD_BOT_VERSION);
-				break;
-
-			case 'agenda-help':
-				msg.author.send(Embed.getHelpEmbed());
-				break;
-			}
-		}
 	}
 });
 
@@ -181,7 +180,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 	client.users.fetch(userId).then((user) => {
 		if (handleUser(userId) === -1 && !byPassUserHandle) {
 			user.send(Embed.getDefaultEmbed('Hop hop hop attention !', 'Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !'))
-				.catch(e => console.error(e));
+				.catch(e => BotLog.error(e));
 			return;
 		}
 
@@ -193,7 +192,7 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 			const emojis: string[] = [];
 			BOT_ACTIONS.forEach(action => {
 				emojis.push(action.emoji);
-				msg.react(action.emoji).catch(() => console.info('React on deleted message'));
+				msg.react(action.emoji).catch(() => BotLog.warn('Tentative d\'ajout de réactions échouée (onBotCommand)'));
 			});
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
@@ -211,10 +210,10 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 						//Si cette action possède une fonction valide, on l'execute
 						if (action.action) {
 							action.action(user);
-							msg.delete().catch((e) => console.error(e));
+							msg.delete().catch((e) => BotLog.error(e));
 						} else {
-							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => console.error(e));
-							msg.delete().catch((e) => console.error(e));
+							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => BotLog.error(e));
+							msg.delete().catch((e) => BotLog.error(e));
 							// On renvois le menu dans le cas d'une action non valide
 							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							setTimeout(() => { onBotCommand(userId, true); }, 1000);
@@ -222,13 +221,13 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 					}
 				});
 			}).catch(() => {
-				msg.reply(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => console.error(e));
-				msg.delete().catch((e) => console.error(e));
+				msg.reply(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
+				msg.delete().catch((e) => BotLog.error(e));
 				handleUser(userId, true);
 			});
-		}).catch(() => { console.error('Impossible d\'envoyer un message privé à cet utilisateur'); });
+		}).catch(() => { BotLog.error('Impossible d\'envoyer un message privé à cet utilisateur (onBotCommand)'); });
 
-	}).catch(() => console.error('Utilisateur introuvable ou erreur interne (onBotCommand)'));
+	}).catch(() => BotLog.error('Utilisateur introuvable ou erreur interne (onBotCommand)'));
 };
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+client.login(process.env.DISCORD_BOT_TOKEN).catch(() => BotLog.error('Le bot na pas pu se connecter, vérifiez le token dans le fichier de config'));

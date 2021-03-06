@@ -18,7 +18,7 @@ https://www.npmjs.com/package/discord-webhook-node
 - Bug report interne via webhook
 
 - Ajouter le lesson ID (subject.getLessonsOfDay)
-
+- Implementer USER_List dans classe USER
 - Import fichier subjects.json avec require et donc seulement si nécéssaire
 - remettre en place les slash commands
 - Garder en mémoire les tableau générés

@@ -1,4 +1,5 @@
 import * as fireBase from '../firebase';
+import { BotLog } from './BotLog';
 import * as subjectsLocalFile from './subjects.json';
 
 interface Dictionary<T> {
@@ -68,7 +69,20 @@ export class Subject {
 	 */
 	teachingUnit: string;
 
-	constructor(id: string, aliases: string[], color: string, displayId: string, displayName: string, groups: string[] | null, icon: string, moodle: string, name: string, options: string[] | null, shortName: string, teachingUnit: string) {
+	constructor(
+		id: string,
+		aliases: string[],
+		color: string,
+		displayId: string,
+		displayName: string,
+		groups: string[] | null,
+		icon: string,
+		moodle: string,
+		name: string,
+		options: string[] | null,
+		shortName: string,
+		teachingUnit: string
+	) {
 		this.id = id;
 		this.aliases = aliases;
 		this.color = color;
@@ -123,10 +137,23 @@ export const getSubjects = async (): Promise<Dictionary<Subject>> => {
 				...subjects[subjectId]
 			};
 
-			SUBJECTS[subjectId] = new Subject(subject.id, subject.aliases, subject.color, subject.displayId, subject.displayName, subject.groups, subject.icon, subject.moodle, subject.name, subject.options, subject.shortName, subject.teachingUnit);
+			SUBJECTS[subjectId] = new Subject(
+				subject.id,
+				subject.aliases,
+				subject.color,
+				subject.displayId,
+				subject.displayName,
+				subject.groups,
+				subject.icon,
+				subject.moodle,
+				subject.name,
+				subject.options,
+				subject.shortName,
+				subject.teachingUnit
+			);
 		}
 
-		console.log('[DB] Modules retrieved : ' + Object.keys(SUBJECTS).length);
+		BotLog.log('Modules retrieved : ' + Object.keys(SUBJECTS).length);
 	}
 	return SUBJECTS;
 };
