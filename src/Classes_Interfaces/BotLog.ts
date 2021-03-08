@@ -1,5 +1,6 @@
 import { User } from './User';
 import * as Discord from 'discord.js';
+import { sendErrorsHook } from '../webhooks';
 
 /**
  * Niveaux de logs possible (Seuil de déclanchement du webhook discord)
@@ -16,9 +17,15 @@ export enum BotLogLevel {
 export interface IBotLogMessage {
 	level: BotLogLevel;
 	content: string | boolean | number | unknown;
+	timestamp: string;
 }
 
 export class BotLog {
+
+	/**
+	 * Instance unique qui est utilisée lorsque l'on log sans créer d'instance de BotLog avant
+	 */
+	static Instance = new BotLog();
 
 	/**
 	 * Niveau de log qui declenche le webhook (Warn par defaut) -> si un warn est utilisé, un message sera envoyé sur discord
@@ -56,6 +63,14 @@ export class BotLog {
 		this.discordUser = discordUser;
 	}
 
+	public getMessagesString(): string {
+		let result = '';
+		this.messages.forEach(element => {
+			result += `${this.getContentString(element)}\n`;
+		});
+		return result;
+	}
+
 	/**
 	 * Assigne a cette instance un utilisateur hubday
 	 * @param hubdayUser utilisateur a assigner
@@ -73,78 +88,75 @@ export class BotLog {
 	}
 
 	/**
-	 * Envois un message d'information
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
 	info(content: unknown): void {
-		BotLog.info(content, this.messages);
+		const message: IBotLogMessage = {
+			level: BotLogLevel.All,
+			content: content,
+			timestamp: this.getTimeStampString()
+		};
+		this.messages.push(message);
+		if(this != BotLog.Instance)
+			BotLog.Instance.messages.push(message);
+		this.checkHook(message);
+		console.info(this.getContentStringColored(message));
 	}
-
 	/**
-	 * Envois un message d'information
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
-	static info(content: unknown, msgs: IBotLogMessage[] | null = null): void {
-		const message = {
-			level: BotLogLevel.All,
-			content: content
-		};
-		if (msgs)
-			this.messages.push(message);
-		else
-			BotLog.messages.push(message);
-		console.info(this.getContentStringColored(message));
-		BotLog.checkHook(message);
+	static info(content: unknown): void {
+		BotLog.Instance.info(content);
 	}
 
 	/**
-	 * Envois un message de log
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
 	log(content: unknown): void {
-		BotLog.log(content, this.messages);
+		const message: IBotLogMessage = {
+			level: BotLogLevel.All,
+			content: content,
+			timestamp: this.getTimeStampString()
+		};
+		this.messages.push(message);
+		if(this != BotLog.Instance)
+			BotLog.Instance.messages.push(message);
+		this.checkHook(message);
+		console.log(this.getContentStringColored(message));
 	}
-
 	/**
-	 * Envois un message de log
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
-	static log(content: unknown, msgs: IBotLogMessage[] | null = null): void {
-		const message = {
-			level: BotLogLevel.All,
-			content: content
-		};
-		if (msgs)
-			this.messages.push(message);
-		else
-			BotLog.messages.push(message);
-		console.log(this.getContentStringColored(message));
-		BotLog.checkHook(message);
+	static log(content: unknown): void {
+		BotLog.Instance.log(content);
 	}
 
 	/**
-	 * Envois un message d'avertissement
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
 	warn(content: unknown): void {
-		BotLog.warn(content, this.messages);
+		const message: IBotLogMessage = {
+			level: BotLogLevel.Warn,
+			content: content,
+			timestamp: this.getTimeStampString()
+		};
+		this.messages.push(message);
+		if(this != BotLog.Instance)
+			BotLog.Instance.messages.push(message);
+		this.checkHook(message);
+		console.warn(this.getContentStringColored(message));
 	}
-
 	/**
-	 * Envois un message d'avertissement
+	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
-	static warn(content: unknown, msgs: IBotLogMessage[] | null = null): void {
-		const message = {
-			level: BotLogLevel.Warn,
-			content: content
-		};
-		if (msgs)
-			this.messages.push(message);
-		else
-			BotLog.messages.push(message);
-		console.warn(this.getContentStringColored(message));
-		BotLog.checkHook(message);
+	static warn(content: unknown): void {
+		BotLog.Instance.warn(content);
 	}
 
 	/**
@@ -152,50 +164,49 @@ export class BotLog {
 	 * @param content contenu du message
 	 */
 	error(content: unknown): void {
-		BotLog.error(content, this.messages);
+		const message: IBotLogMessage = {
+			level: BotLogLevel.Errors,
+			content: content,
+			timestamp: this.getTimeStampString()
+		};
+		this.messages.push(message);
+		if(this != BotLog.Instance)
+			BotLog.Instance.messages.push(message);
+		this.checkHook(message);
+		console.error(this.getContentStringColored(message));
 	}
-
 	/**
 	 * Envois un message d'erreur
 	 * @param content contenu du message
 	 */
-	static error(content: unknown, msgs: IBotLogMessage[] | null = null): void {
-		const message = {
-			level: BotLogLevel.Errors,
-			content: content
-		};
-		if (msgs)
-			this.messages.push(message);
-		else
-			BotLog.messages.push(message);
-		console.error(this.getContentStringColored(message));
-		BotLog.checkHook(message);
+	static error(content: unknown): void {
+		BotLog.Instance.error(content);
 	}
 
 	/**
 	 * Permet de vérifier si un message doit enclenché le web hook
 	 * @param content contenu du message
 	 */
-	private static checkHook(message: IBotLogMessage): boolean {
-		if (message.level <= this.hookLevel) {
-			BotLog.hookLogMessages();
+	private checkHook(message: IBotLogMessage): boolean {
+		if (message.level >= BotLog.hookLevel) {
+			this.hookLogMessages();
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * @TODO
+	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
-	static hookLogMessages(): void {
-
+	hookLogMessages(): void {
+		sendErrorsHook(this);
 	}
 
-	static white = '\x1b[37m';
-	static yellow = '\x1b[33m';
-	static cyan = '\x1b[36m';
-	static magenta = '\x1b[35m';
-	static red = '\x1b[31m';
+	white = '\x1b[37m';
+	yellow = '\x1b[33m';
+	cyan = '\x1b[36m';
+	magenta = '\x1b[35m';
+	red = '\x1b[31m';
 
 	/**
 	 * Permet de créer la forme du message utilisée dans le terminal (Avec couleur et infos assemblées proprement)
@@ -203,7 +214,11 @@ export class BotLog {
 	 * @returns String colorée représentant le contenu du message
 	 */
 	private getContentStringColored(message: IBotLogMessage): string {
-		return BotLog.getContentStringColored(message, this.title, this.hubdayUser?.displayName || this.discordUser?.username || null);
+		const _time = `[${this.yellow}${message.timestamp}${this.white}]`;
+		const _user = this.getUsernameString() ? `[${this.magenta}${this.getUsernameString()}${this.white}]` : '';
+		const _title = this.title ? `${this.cyan}${this.title}${this.white} - ` : '';
+		const content = `${this.getContentColor(message.level)}${message.content}`;
+		return ` ${_time}${_user} ${_title}${content}${this.white}`;
 	}
 
 	/**
@@ -211,24 +226,24 @@ export class BotLog {
 	 * @param content contenu du message
 	 * @returns String colorée représentant le contenu du message
 	 */
-	private static getContentStringColored(message: IBotLogMessage, title: string | null = null, user: string | null = null): string {
-		const _time = `[${this.yellow}${this.getTimeStamp()}${this.white}]`;
-		const _user = user ? `[${this.magenta}${user}${this.white}]` : '';
-		const _title = title ? `${this.cyan}${title}${this.white} - ` : '';
-		const content = `${this.getContentColor(message.level)}${message.content}`;
-		return ` ${_time}${_user} ${_title}${content}${this.white}`;
+	private getContentString(message: IBotLogMessage): string {
+		const _time = `${message.timestamp}]`;
+		const _user = this.getUsernameString() ? `[${this.getUsernameString()}]` : '';
+		const _title = this.title ? `${this.title}- ` : '';
+		const content = `${message.content}`;
+		return ` ${_time}${_user} ${_title}${content}`;
 	}
 
 	/**
 	 * @returns L'heure actuelle sous forme de string HH:MM:SS
 	 */
-	private static getTimeStamp(): string {
+	private getTimeStampString(): string {
 		const date = new Date();
 		return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
 	}
 
-	private static getContentColor(level: BotLogLevel){
-		switch (level){
+	private getContentColor(level: BotLogLevel) {
+		switch (level) {
 			default:
 				return this.white;
 			case BotLogLevel.Warn:
@@ -236,5 +251,13 @@ export class BotLog {
 			case BotLogLevel.Errors:
 				return this.red;
 		}
+	}
+
+	getUsernameString(): string | null {
+		if (this.hubdayUser)
+			return this.hubdayUser.displayName;
+		else if (this.discordUser)
+			return this.discordUser.username;
+		return null;
 	}
 }

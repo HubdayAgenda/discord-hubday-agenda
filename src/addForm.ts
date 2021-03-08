@@ -32,7 +32,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 			'Vous n\'avez pas été reconnu comme membre hubday',
 			'Vous devez rejoindre ce serveur discord pour que le bot vous reconnaisse: https://discord.iut-info.cf'
 		)).catch((e) => botLog.error(e));
-		throw new Exceptions.UndefinedHubdayUser();
+		throw new Exceptions.UndefinedHubdayUser(user.username);
 	}
 
 	botLog.setHubdayUser(hubdayUser);
@@ -330,7 +330,7 @@ export const getResponse = async (user: Discord.User, botLog: BotLog, messageCon
 						user.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => botLog.error(e));
 					msg.delete().catch((e) => botLog.error(e));
 					handleUser(user.id, true);
-					reject(new Exceptions.TimeOutException());
+					reject(new Exceptions.TimeOutException(user.username));
 				});
 			}).catch(e => { throw e; });
 		}

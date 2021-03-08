@@ -41,3 +41,28 @@ export const sendReportHook = async (user: Discord.User): Promise<void> => {
 
 	handleUser(user.id, true);
 };
+
+/**
+ * Lance un formulaire de bug report dans discord et envois le bug sur un webhook
+ * @param user Utilisateur qui fais le report
+ */
+export const sendErrorsHook = async (botLog: BotLog): Promise<void> => {
+	botLog.info('Envois d\'un webhook d\'erreur...');
+
+	if(process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL === undefined){
+		console.error('Webhook setup error');
+		return;
+	}
+	const hook = new Webhook(process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL);
+
+	const embedReport = new MessageBuilder()
+		.setTitle('Problème détecté ' + (botLog.getUsernameString() ? botLog.getUsernameString() : ''))
+		.setDescription('```' + botLog.getMessagesString() + '```')
+		.setColor(11524793)
+		.setTimestamp();
+	try {
+		hook.send(embedReport);
+	} catch (e) {
+		console.error('Impossible d\'envoyer un message avec le web hook de bug report, vérifiez que l\'url du web hook est valide');
+	}
+};

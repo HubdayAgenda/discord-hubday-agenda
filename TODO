@@ -8,12 +8,11 @@
         - ping hubday ?
 
 
-- Try / Catch de partout (gérer le plus grand nombre d'erreurs)
+OK - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
     - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
 
-- Webhook d'erreur : 
-https://discordapp.com/api/webhooks/817503619699965954/alI2hU5_aH2H_tNAV_vB1AyPikKVO7RcSe4Phir22WVe_ibjepRW55ddY6mKeOkfkObS
-https://www.npmjs.com/package/discord-webhook-node
+OK - Webhook d'erreur : 
+    - Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
 
 - Bug report interne via webhook
 

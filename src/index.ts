@@ -89,9 +89,9 @@ export const BOT_ACTIONS: IbotAction[] = [
 			.catch((e) => {
 				handleUser(user.id, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
 				if (e instanceof Exceptions.TimeOutException)
-					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question)');
+					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
 				else if (e instanceof Exceptions.UndefinedHubdayUser)
-					BotLog.warn('[Alerte formulaire] (Utilisateur hubday inconnu)');
+					BotLog.warn('[Alerte formulaire] (Utilisateur hubday inconnu: ' + e.message + ')');
 				else
 					BotLog.error('[Erreur formulaire] ' + e);
 			})
