@@ -16,7 +16,7 @@ OK - Webhook d'erreur :
     OK- Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
 OK - Bug report interne via webhook
 OK- Améliorer log pour prod et uniformiser (En ou fr ?)
-- Formulaire bug report annulable
+OK- Formulaire bug report annulable
 
 - Ajouter le lesson ID (subject.getLessonsOfDay)
 - Implementer USER_List dans classe USER

@@ -1,6 +1,6 @@
 import { Webhook, MessageBuilder } from 'discord-webhook-node';
 import * as Discord from 'discord.js';
-import { getResponse } from './addForm';
+import { getResponse, IemojiAction } from './addForm';
 import { getDefaultEmbed } from './embed';
 import { handleUser } from './index';
 import { BotLog } from './Classes_Interfaces/BotLog';
@@ -12,14 +12,31 @@ import { BotLog } from './Classes_Interfaces/BotLog';
 export const sendReportHook = async (user: Discord.User): Promise<void> => {
 	const botLog = new BotLog('Bug report webhook', user);
 
-	if(process.env.DISCORD_BUG_REPORT_WEBHOOK_URL === undefined){
+	if (process.env.DISCORD_BUG_REPORT_WEBHOOK_URL === undefined) {
 		botLog.error('Webhook setup error');
 		return;
 	}
 	const hook = new Webhook(process.env.DISCORD_BUG_REPORT_WEBHOOK_URL);
 
-	const filter : Discord.CollectorFilter = m  => m.author.id === user.id;
-	const reportBug = await getResponse(user, botLog, getDefaultEmbed('Bug Report', 'Veuillez décrire le problème', 'Répondez directement sous ce message'), filter);
+	const filter: Discord.CollectorFilter = m => m.author.id === user.id;
+
+	const emojiAction: IemojiAction[] = [
+		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
+	];
+
+	const reportBug = await getResponse(
+		user,
+		botLog,
+		getDefaultEmbed('Bug Report', 'Veuillez décrire le problème', 'Répondez directement sous ce message'),
+		filter,
+		emojiAction
+	);
+
+	if(reportBug == -1){
+		user.send(getDefaultEmbed('Bug report annulé', 'Si vous retrouvez un bug plus tard n\'hésitez pas à nous prévenir !'));
+		botLog.log('Formulaire bug report annulé');
+		return;
+	}
 
 	if (reportBug == null)
 		return;
@@ -49,7 +66,7 @@ export const sendReportHook = async (user: Discord.User): Promise<void> => {
 export const sendErrorsHook = async (botLog: BotLog): Promise<void> => {
 	botLog.info('Envois d\'un webhook d\'erreur...');
 
-	if(process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL === undefined){
+	if (process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL === undefined) {
 		console.error('Webhook setup error');
 		return;
 	}
