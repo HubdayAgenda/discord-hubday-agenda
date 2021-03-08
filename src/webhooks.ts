@@ -39,7 +39,7 @@ export const sendReportHook = async (user: Discord.User): Promise<void> => {
 
 	user.send(getDefaultEmbed('Bug Report', 'Votre bug report a bien été enregistré', 'Vous participez à rendre ce bot meilleur, merci'));
 
-	handleUser(user.id, true);
+	handleUser(user, true);
 };
 
 /**
@@ -57,7 +57,7 @@ export const sendErrorsHook = async (botLog: BotLog): Promise<void> => {
 
 	const embedReport = new MessageBuilder()
 		.setTitle('Problème détecté ' + (botLog.getUsernameString() ? botLog.getUsernameString() : ''))
-		.setDescription('```' + botLog.getMessagesString() + '```')
+		.setDescription('```' + botLog.getLastMessages() + '```')
 		.setColor(11524793)
 		.setTimestamp();
 	try {

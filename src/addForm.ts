@@ -277,7 +277,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _DEADLINE, _GROUP, _DETAILS, _LINK, _NOTATION);
 
 	botLog.log('== Add form ended ==');
-	handleUser(user.id, true);
+	handleUser(user, true);
 
 	await homework.persist(config.dates.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
 
@@ -291,7 +291,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
  * @param messageContent le contenu du message qui compose la question
  * @param filter filtre des reponses du message (Pour eviter que les messages du bot soint prient pour des réponses par exemple)
  * @param emojiActions peut être null, si non a utiliser pour pouvoir repondre avec des emojis en plus de pouvoir repondre avec un message
- * @return la reponse ou null si aucune n'est donée
+ * @return la reponse donnée
  */
 export const getResponse = async (user: Discord.User, botLog: BotLog, messageContent: string | Discord.MessageEmbed, filter: Discord.CollectorFilter, emojiActions: IemojiAction[] | null = null): Promise<number | boolean | string> => {
 	return new Promise(
@@ -303,36 +303,31 @@ export const getResponse = async (user: Discord.User, botLog: BotLog, messageCon
 					});
 
 					const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
-					msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
+					msg.awaitReactions(filter, { max: 1, time: 120000 + 10, errors: ['time'] }).then(collected => {
 						emojiActions.forEach(action => {
 							if (action.emoji == collected.first()?.emoji.name) {
 								if (action.value)
 									resolve(action.value);
-								reject(new Error('Action irréalisable (GetResponse)'));
 							}
 						});
-						reject(new Error('Réaction avec un emoji non reconnu'));
-					}).catch((e) => { throw e; });
+					}).catch((e) => reject(e));
 				}
 
 				msg.channel.awaitMessages(filter, {
 					max: 1,
-					time: 10000,
+					time: 120000,
 					errors: ['time']
 				}).then(answer => {
 					const content = answer.first()?.content;
 					if (typeof content !== 'undefined')
 						resolve(content);
-					else
-						reject(new Error('Erreur interne getResponse'));
 				}).catch(() => {
 					if (isUserHandled(user.id))
 						user.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => botLog.error(e));
 					msg.delete().catch((e) => botLog.error(e));
-					handleUser(user.id, true);
 					reject(new Exceptions.TimeOutException(user.username));
 				});
-			}).catch(e => { throw e; });
+			}).catch(e => reject(e));
 		}
 	);
 };
@@ -342,32 +337,31 @@ export const getResponse = async (user: Discord.User, botLog: BotLog, messageCon
  * @param user l'utilisateur concerné
  * @param emojiActions la liste des actions a faire avc les emojis
  * @param messageContent le contenu du message composant la question
- * @return la reponse ou null si aucune reponse n'est donnée
+ * @return la reponse donnée
  */
-const getEmojisResponse = async (user: Discord.User, botLog: BotLog, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<null | number | boolean> => {
+const getEmojisResponse = async (user: Discord.User, botLog: BotLog, emojiActions: IemojiAction[], messageContent: string | Discord.MessageEmbed): Promise<number | boolean> => {
 	return new Promise(
-		function (resolve) {
+		function (resolve, reject) {
 			user.send(messageContent).then((msg) => {
 				emojiActions.forEach(element => {
-					msg.react(element.emoji).catch(() => botLog.info('React on deleted message'));
+					msg.react(element.emoji).catch(() => botLog.warn('React on deleted message'));
 				});
 
 				const filter = (reaction: unknown, reactUser: Discord.User) => { return reactUser.id === user.id; };
-				msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
+				msg.awaitReactions(filter, { max: 1, time: 120000, errors: ['time'] }).then(collected => {
 					emojiActions.forEach(action => {
 						if (action.emoji == collected.first()?.emoji.name) {
-							resolve(action.value);
+							if (action.value)
+								resolve(action.value);
 						}
 					});
-					resolve(null);
 				}).catch(() => {
 					if (isUserHandled(user.id))
 						user.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => botLog.error(e));
 					msg.delete().catch((e) => botLog.error(e));
-					handleUser(user.id, true);
-					resolve(null);
+					reject(new Exceptions.TimeOutException(user.username));
 				});
-			}).catch(e => botLog.error(e));
+			}).catch(e => reject(e));
 		}
 	);
 };

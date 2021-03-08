@@ -30,7 +30,7 @@ export class BotLog {
 	/**
 	 * Niveau de log qui declenche le webhook (Warn par defaut) -> si un warn est utilisé, un message sera envoyé sur discord
 	 */
-	static hookLevel: BotLogLevel = BotLogLevel.Warn;
+	static hookLevel: BotLogLevel = BotLogLevel.Errors;
 
 	/**
 	 * Liste des messages globaux envoyés
@@ -63,12 +63,21 @@ export class BotLog {
 		this.discordUser = discordUser;
 	}
 
-	public getMessagesString(): string {
+	/**
+	 * @returns Les dernières logs de cette instance (- de 1500 chars), ou tout si noLimit = true
+	 */
+	public getLastMessages(noLimit = false): string {
 		let result = '';
 		this.messages.forEach(element => {
 			result += `${this.getContentString(element)}\n`;
 		});
+		if (result.length > 1500 && !noLimit)
+			result = '...' + result.slice(-1500);
 		return result;
+	}
+
+	public getMessagesFile(): Discord.MessageAttachment {
+		return new Discord.MessageAttachment(Buffer.from(this.getLastMessages(), 'utf8'), 'bot_logs.txt');
 	}
 
 	/**
@@ -98,7 +107,7 @@ export class BotLog {
 			timestamp: this.getTimeStampString()
 		};
 		this.messages.push(message);
-		if(this != BotLog.Instance)
+		if (this != BotLog.Instance)
 			BotLog.Instance.messages.push(message);
 		this.checkHook(message);
 		console.info(this.getContentStringColored(message));
@@ -122,7 +131,7 @@ export class BotLog {
 			timestamp: this.getTimeStampString()
 		};
 		this.messages.push(message);
-		if(this != BotLog.Instance)
+		if (this != BotLog.Instance)
 			BotLog.Instance.messages.push(message);
 		this.checkHook(message);
 		console.log(this.getContentStringColored(message));
@@ -146,7 +155,7 @@ export class BotLog {
 			timestamp: this.getTimeStampString()
 		};
 		this.messages.push(message);
-		if(this != BotLog.Instance)
+		if (this != BotLog.Instance)
 			BotLog.Instance.messages.push(message);
 		this.checkHook(message);
 		console.warn(this.getContentStringColored(message));
@@ -170,7 +179,7 @@ export class BotLog {
 			timestamp: this.getTimeStampString()
 		};
 		this.messages.push(message);
-		if(this != BotLog.Instance)
+		if (this != BotLog.Instance)
 			BotLog.Instance.messages.push(message);
 		this.checkHook(message);
 		console.error(this.getContentStringColored(message));

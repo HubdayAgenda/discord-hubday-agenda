@@ -39,22 +39,22 @@ const userLoadLog = new BotLog('User load');
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-export const handleUser = (id: string, remove = false): number | void => {
-	if (USER_LOAD.includes(id)) {
+export const handleUser = (user: Discord.User, remove = false): number | void => {
+	if (USER_LOAD.includes(user.id)) {
 		if (remove) {
-			USER_LOAD.splice(USER_LOAD.indexOf(id), 1);
-			userLoadLog.info(`[${USER_LOAD.length}] Bot user retiré (N'utilise plus le bot) : ` + id);
+			USER_LOAD.splice(USER_LOAD.indexOf(user.id), 1);
+			userLoadLog.info(`[${USER_LOAD.length}] Bot user retiré (N'utilise plus le bot) : ` + user.username);
 		} else {
-			userLoadLog.info(`[${USER_LOAD.length}] Bot user déjà en train d'utiliser le bot: ` + id);
+			userLoadLog.info(`[${USER_LOAD.length}] Bot user déjà en train d'utiliser le bot: ` + user.username);
 			return -1;
 		}
 	} else if (!remove) {
-		USER_LOAD.push(id);
-		userLoadLog.info(`[${USER_LOAD.length}] Bot user ajouté (Commence à utiliser le bot): ` + id);
+		USER_LOAD.push(user.id);
+		userLoadLog.info(`[${USER_LOAD.length}] Bot user ajouté (Commence à utiliser le bot): ` + user.username);
 		async () => {
 			setTimeout(() => {
-				handleUser(id, true);
-				userLoadLog.error(`[${USER_LOAD.length}] Bot user retiré car son temps d'utilisation est trop long (L'utilisteur na pas du être retiré normalement) : ` + id);
+				handleUser(user, true);
+				userLoadLog.error(`[${USER_LOAD.length}] Bot user retiré car son temps d'utilisation est trop long (L'utilisteur na pas du être retiré normalement) : ` + user.username);
 			}, 300000);
 		};
 	}
@@ -87,7 +87,7 @@ export const BOT_ACTIONS: IbotAction[] = [
 		'emoji': '✅',
 		'action': (user: Discord.User) => AddForm.startAddForm(user)
 			.catch((e) => {
-				handleUser(user.id, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+				handleUser(user, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
 				if (e instanceof Exceptions.TimeOutException)
 					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
 				else if (e instanceof Exceptions.UndefinedHubdayUser)
@@ -157,6 +157,7 @@ client.on('ready', async () => {
  */
 client.on('message', msg => {
 	if (msg.channel.type === 'dm') {
+
 		if (process.env.DISCORD_BOT_PREFIX != undefined) {
 			// On regarde si le message commence bien par le prefix (!)
 			if (msg.content.startsWith(process.env.DISCORD_BOT_PREFIX))//Si le message ne commence pas par le prefix du config.json
@@ -174,9 +175,8 @@ client.on('message', msg => {
 
 		// TEST -> LANCER LE MENU DIRECT AVEC
 		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
-			onBotCommand(msg.author.id);
+			onBotCommand(msg.author);
 		}
-
 	}
 });
 
@@ -188,57 +188,54 @@ client.on('message', msg => {
  * @param byPassUserHandle annule l'enregistrement de l'utilisateut qu'utilisateur qui utilise le bot
  * (Utile pour commandes pas dispo qui réaffichent le menu)
  */
-const onBotCommand = (userId: string, byPassUserHandle = false) => {
+const onBotCommand = (user: Discord.User, byPassUserHandle = false) => {
 	//Recupération de l'utilisateur qui a fais la commande
-	client.users.fetch(userId).then((user) => {
-		if (handleUser(userId) === -1 && !byPassUserHandle) {
-			user.send(Embed.getDefaultEmbed('Hop hop hop attention !', 'Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !'))
-				.catch(e => BotLog.error(e));
-			return;
-		}
+	if (handleUser(user) === -1 && !byPassUserHandle) {
+		user.send(Embed.getDefaultEmbed('Hop hop hop attention !', 'Inutile de refaire cette commande une seconde fois, fais plutôt ce que le Bot te dis de faire !'))
+			.catch(e => BotLog.error(e));
+		return;
+	}
 
-		//Envois du message de menu en privé à l'utilisateur
-		Embed.getMenuEmbed(BOT_ACTIONS);
-		user.send(Embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
-			//Creation des reactions du menu
-			const emojis: string[] = [];
+	//Envois du message de menu en privé à l'utilisateur
+	Embed.getMenuEmbed(BOT_ACTIONS);
+	user.send(Embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
+		//Creation des reactions du menu
+		const emojis: string[] = [];
+		BOT_ACTIONS.forEach(action => {
+			emojis.push(action.emoji);
+			msg.react(action.emoji).catch((e) => BotLog.warn('Tentative d\'ajout de réactions échouée (onBotCommand)\n' + e));
+		});
+
+		//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
+		// et avec seulement les emojis du menu
+		const filter = (reaction: Discord.MessageReaction, reactUser: Discord.User) => {
+			return emojis.includes(reaction.emoji.name) &&
+				reactUser.id === user.id;
+		};
+
+		// On attend la reaction de l'utilisateur on prenant le filtre en compte (Max 60 secondes d'attente)
+		msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
+			//On cherche parmis les actions possible celle qui correspond à cet emoji
 			BOT_ACTIONS.forEach(action => {
-				emojis.push(action.emoji);
-				msg.react(action.emoji).catch((e) => BotLog.warn('Tentative d\'ajout de réactions échouée (onBotCommand)\n' + e));
-			});
-
-			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
-			// et avec seulement les emojis du menu
-			const filter = (reaction: Discord.MessageReaction, reactUser: Discord.User) => {
-				return emojis.includes(reaction.emoji.name) &&
-					reactUser.id === userId;
-			};
-
-			// On attend la reaction de l'utilisateur on prenant le filtre en compte (Max 60 secondes d'attente)
-			msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(collected => {
-				//On cherche parmis les actions possible celle qui correspond à cet emoji
-				BOT_ACTIONS.forEach(action => {
-					if (collected.first()?.emoji.name == action.emoji) {
-						//Si cette action possède une fonction valide, on l'execute
-						if (action.action) {
-							action.action(user);
-						} else {
-							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => BotLog.error(e));
-							msg.delete().catch((e) => BotLog.error(e));
-							// On renvois le menu dans le cas d'une action non valide
-							// eslint-disable-next-line @typescript-eslint/no-unused-vars
-							setTimeout(() => { onBotCommand(userId, true); }, 1000);
-						}
+				if (collected.first()?.emoji.name == action.emoji) {
+					//Si cette action possède une fonction valide, on l'execute
+					if (action.action) {
+						action.action(user);
+					} else {
+						msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => BotLog.error(e));
+						msg.delete().catch((e) => BotLog.error(e));
+						// On renvois le menu dans le cas d'une action non valide
+						// eslint-disable-next-line @typescript-eslint/no-unused-vars
+						setTimeout(() => { onBotCommand(user, true); }, 1000);
 					}
-				});
-			}).catch(() => {
-				msg.reply(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
-				msg.delete().catch((e) => BotLog.error(e));
-				handleUser(userId, true);
+				}
 			});
-		}).catch((e) => BotLog.error('Impossible d\'envoyer un message privé à cet utilisateur (onBotCommand)\n' + e));
-
-	}).catch((e) => BotLog.error('Utilisateur introuvable ou erreur interne (onBotCommand)\n' + e));
+		}).catch(() => {
+			msg.reply(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
+			msg.delete().catch((e) => BotLog.error(e));
+			handleUser(user, true);
+		});
+	}).catch((e) => BotLog.error('Impossible d\'envoyer un message privé à cet utilisateur (onBotCommand)\n' + e));
 };
 
 client.login(process.env.DISCORD_BOT_TOKEN).catch((e) => BotLog.error('Le bot na pas pu se connecter, vérifiez le token dans le fichier de config\n' + e));

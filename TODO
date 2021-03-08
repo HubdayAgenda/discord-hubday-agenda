@@ -1,25 +1,26 @@
 - system de debug via cmd pour dev
-    - !agenda-version (version dans config)
-    - !agenda-help commande pour afficher embed d'aide
+    OK- !agenda-version (version dans config)
+    OK ~- !agenda-help commande pour afficher embed d'aide
     - !agenda-runtime
         - donne version
         - donne uptime
         - autre stats
         - ping hubday ?
+    - !agenda-logs télécharge les logs
 
 
 OK - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
     - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
 
 OK - Webhook d'erreur : 
-    - Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
-
-- Bug report interne via webhook
+    OK- Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
+OK - Bug report interne via webhook
+OK- Améliorer log pour prod et uniformiser (En ou fr ?)
+- Formulaire bug report annulable
 
 - Ajouter le lesson ID (subject.getLessonsOfDay)
 - Implementer USER_List dans classe USER
 - Import fichier subjects.json avec require et donc seulement si nécéssaire
 - remettre en place les slash commands
 - Garder en mémoire les tableau générés
-- Améliorer log pour prod et uniformiser (En ou fr ?)
 
