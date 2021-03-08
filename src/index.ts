@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const dotenv = require('dotenv');
 
-import { BotLog } from './Classes_Interfaces/BotLog';
-
 if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
 	if (
@@ -18,10 +16,12 @@ if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === unde
 	}
 }
 
+import * as Discord from 'discord.js';
+import * as Exceptions from './Classes_Interfaces/Exceptions';
 import * as Embed from './embed';
 import * as AddForm from './addForm';
 import { sendReportHook } from './webhooks';
-import * as Discord from 'discord.js';
+import { BotLog } from './Classes_Interfaces/BotLog';
 const client = new Discord.Client();
 
 /**
@@ -86,6 +86,15 @@ export const BOT_ACTIONS: IbotAction[] = [
 		'name': 'Ajouter un devoir',
 		'emoji': '✅',
 		'action': (user: Discord.User) => AddForm.startAddForm(user)
+			.catch((e) => {
+				handleUser(user.id, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+				if (e instanceof Exceptions.TimeOutException)
+					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question)');
+				else if (e instanceof Exceptions.UndefinedHubdayUser)
+					BotLog.warn('[Alerte formulaire] (Utilisateur hubday inconnu)');
+				else
+					BotLog.error('[Erreur formulaire] ' + e);
+			})
 	},
 	// {
 	// 	'name': 'Modifier un devoir',
@@ -128,13 +137,17 @@ client.on('ready', async () => {
 	BotLog.log('========================================');
 
 	const status = async () => {
-		setTimeout(() => {
-			client.user?.setActivity('/agenda');
+		try {
 			setTimeout(() => {
-				client.user?.setActivity('hubday.fr', { type: 'WATCHING' });
-				status();
+				client.user?.setActivity('/agenda').catch((e) => BotLog.error(e));
+				setTimeout(() => {
+					client.user?.setActivity('hubday.fr', { type: 'WATCHING' }).catch((e) => BotLog.error(e));
+					status();
+				}, 20000);
 			}, 20000);
-		}, 20000);
+		} catch (e) {
+			BotLog.error('Erreur mis à jour status du bot');
+		}
 	};
 	status();
 });
@@ -150,11 +163,11 @@ client.on('message', msg => {
 				switch (msg.content.substr(1).split(' ')[0]) {
 					case 'agenda-version':
 						if (process.env.DISCORD_BOT_VERSION != undefined)
-							msg.author.send(process.env.DISCORD_BOT_VERSION);
+							msg.author.send(process.env.DISCORD_BOT_VERSION).catch((e) => BotLog.error(e));
 						return;
 
 					case 'agenda-help':
-						msg.author.send(Embed.getHelpEmbed());
+						msg.author.send(Embed.getHelpEmbed()).catch((e) => BotLog.error(e));
 						return;
 				}
 		}
@@ -187,12 +200,11 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 		//Envois du message de menu en privé à l'utilisateur
 		Embed.getMenuEmbed(BOT_ACTIONS);
 		user.send(Embed.getMenuEmbed(BOT_ACTIONS)).then((msg) => {
-
 			//Creation des reactions du menu
 			const emojis: string[] = [];
 			BOT_ACTIONS.forEach(action => {
 				emojis.push(action.emoji);
-				msg.react(action.emoji).catch(() => BotLog.warn('Tentative d\'ajout de réactions échouée (onBotCommand)'));
+				msg.react(action.emoji).catch((e) => BotLog.warn('Tentative d\'ajout de réactions échouée (onBotCommand)\n' + e));
 			});
 
 			//Filtre : seul l'utilisateur peut réagir (evite que les reactions du bot soient prisent en compte)
@@ -210,7 +222,6 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 						//Si cette action possède une fonction valide, on l'execute
 						if (action.action) {
 							action.action(user);
-							msg.delete().catch((e) => BotLog.error(e));
 						} else {
 							msg.reply(Embed.getDefaultEmbed('Désolé cette commande n\'est pas encore disponible')).catch(e => BotLog.error(e));
 							msg.delete().catch((e) => BotLog.error(e));
@@ -225,9 +236,9 @@ const onBotCommand = (userId: string, byPassUserHandle = false) => {
 				msg.delete().catch((e) => BotLog.error(e));
 				handleUser(userId, true);
 			});
-		}).catch(() => { BotLog.error('Impossible d\'envoyer un message privé à cet utilisateur (onBotCommand)'); });
+		}).catch((e) => BotLog.error('Impossible d\'envoyer un message privé à cet utilisateur (onBotCommand)\n' + e));
 
-	}).catch(() => BotLog.error('Utilisateur introuvable ou erreur interne (onBotCommand)'));
+	}).catch((e) => BotLog.error('Utilisateur introuvable ou erreur interne (onBotCommand)\n' + e));
 };
 
-client.login(process.env.DISCORD_BOT_TOKEN).catch(() => BotLog.error('Le bot na pas pu se connecter, vérifiez le token dans le fichier de config'));
+client.login(process.env.DISCORD_BOT_TOKEN).catch((e) => BotLog.error('Le bot na pas pu se connecter, vérifiez le token dans le fichier de config\n' + e));

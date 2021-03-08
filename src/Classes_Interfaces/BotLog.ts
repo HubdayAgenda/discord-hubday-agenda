@@ -15,7 +15,7 @@ export enum BotLogLevel {
  */
 export interface IBotLogMessage {
 	level: BotLogLevel;
-	message: string | boolean | number | unknown;
+	content: string | boolean | number | unknown;
 }
 
 export class BotLog {
@@ -78,7 +78,6 @@ export class BotLog {
 	 */
 	info(content: unknown): void {
 		BotLog.info(content, this.messages);
-		console.info(this.getContentStringColored(content));
 	}
 
 	/**
@@ -88,14 +87,13 @@ export class BotLog {
 	static info(content: unknown, msgs: IBotLogMessage[] | null = null): void {
 		const message = {
 			level: BotLogLevel.All,
-			message: content
+			content: content
 		};
-		if(msgs)
+		if (msgs)
 			this.messages.push(message);
-		else {
+		else
 			BotLog.messages.push(message);
-			console.info(this.getContentStringColored(content));
-		}
+		console.info(this.getContentStringColored(message));
 		BotLog.checkHook(message);
 	}
 
@@ -105,7 +103,6 @@ export class BotLog {
 	 */
 	log(content: unknown): void {
 		BotLog.log(content, this.messages);
-		console.info(this.getContentStringColored(content));
 	}
 
 	/**
@@ -115,14 +112,13 @@ export class BotLog {
 	static log(content: unknown, msgs: IBotLogMessage[] | null = null): void {
 		const message = {
 			level: BotLogLevel.All,
-			message: content
+			content: content
 		};
-		if(msgs)
+		if (msgs)
 			this.messages.push(message);
-		else {
+		else
 			BotLog.messages.push(message);
-			console.log(this.getContentStringColored(content));
-		}
+		console.log(this.getContentStringColored(message));
 		BotLog.checkHook(message);
 	}
 
@@ -132,7 +128,6 @@ export class BotLog {
 	 */
 	warn(content: unknown): void {
 		BotLog.warn(content, this.messages);
-		console.info(this.getContentStringColored(content));
 	}
 
 	/**
@@ -142,14 +137,13 @@ export class BotLog {
 	static warn(content: unknown, msgs: IBotLogMessage[] | null = null): void {
 		const message = {
 			level: BotLogLevel.Warn,
-			message: content
+			content: content
 		};
-		if(msgs)
+		if (msgs)
 			this.messages.push(message);
-		else {
+		else
 			BotLog.messages.push(message);
-			console.warn(this.getContentStringColored(content));
-		}
+		console.warn(this.getContentStringColored(message));
 		BotLog.checkHook(message);
 	}
 
@@ -159,7 +153,6 @@ export class BotLog {
 	 */
 	error(content: unknown): void {
 		BotLog.error(content, this.messages);
-		console.info(this.getContentStringColored(content));
 	}
 
 	/**
@@ -169,14 +162,13 @@ export class BotLog {
 	static error(content: unknown, msgs: IBotLogMessage[] | null = null): void {
 		const message = {
 			level: BotLogLevel.Errors,
-			message: content
+			content: content
 		};
-		if(msgs)
+		if (msgs)
 			this.messages.push(message);
-		else {
+		else
 			BotLog.messages.push(message);
-			console.error(this.getContentStringColored(content));
-		}
+		console.error(this.getContentStringColored(message));
 		BotLog.checkHook(message);
 	}
 
@@ -203,14 +195,15 @@ export class BotLog {
 	static yellow = '\x1b[33m';
 	static cyan = '\x1b[36m';
 	static magenta = '\x1b[35m';
+	static red = '\x1b[31m';
 
 	/**
 	 * Permet de créer la forme du message utilisée dans le terminal (Avec couleur et infos assemblées proprement)
 	 * @param content contenu du message
 	 * @returns String colorée représentant le contenu du message
 	 */
-	private getContentStringColored(content: unknown): string {
-		return BotLog.getContentStringColored(content, this.title, this.hubdayUser?.displayName || this.discordUser?.username || null);
+	private getContentStringColored(message: IBotLogMessage): string {
+		return BotLog.getContentStringColored(message, this.title, this.hubdayUser?.displayName || this.discordUser?.username || null);
 	}
 
 	/**
@@ -218,10 +211,11 @@ export class BotLog {
 	 * @param content contenu du message
 	 * @returns String colorée représentant le contenu du message
 	 */
-	private static getContentStringColored(content: unknown, title: string | null = null, user: string | null = null): string {
+	private static getContentStringColored(message: IBotLogMessage, title: string | null = null, user: string | null = null): string {
 		const _time = `[${this.yellow}${this.getTimeStamp()}${this.white}]`;
 		const _user = user ? `[${this.magenta}${user}${this.white}]` : '';
 		const _title = title ? `${this.cyan}${title}${this.white} - ` : '';
+		const content = `${this.getContentColor(message.level)}${message.content}`;
 		return ` ${_time}${_user} ${_title}${content}${this.white}`;
 	}
 
@@ -231,5 +225,16 @@ export class BotLog {
 	private static getTimeStamp(): string {
 		const date = new Date();
 		return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+	}
+
+	private static getContentColor(level: BotLogLevel){
+		switch (level){
+			default:
+				return this.white;
+			case BotLogLevel.Warn:
+				return this.yellow;
+			case BotLogLevel.Errors:
+				return this.red;
+		}
 	}
 }
