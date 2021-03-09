@@ -17,6 +17,7 @@
 	"exclude": [
 		"./build/*",
 		"./node_modules/*",
+		"./src/tests"
 	],
 	"include": [
 		"./src/**/*.ts"

@@ -34,12 +34,12 @@ export const dateValid = (date: string): Date | null => {
  * @returns true si la string en entré correspond bien à une heure valide (HH:MM) et [00:00-23:59]
  */
 export const hourValid = (hour: string): boolean => {
-	if(hour.includes(':')){
+	if (hour.includes(':')) {
 		const split = hour.split(':');
-		if(split.length == 2){
+		if (split.length == 2) {
 			const h = parseInt(split[0]);
 			const m = parseInt(split[1]);
-			if(!isNaN(h) && !isNaN(m)){
+			if (!isNaN(h) && !isNaN(m)) {
 				return (h >= 0 && h < 24 && m >= 0 && m < 60);
 			}
 		}
@@ -52,12 +52,12 @@ export const hourValid = (hour: string): boolean => {
  * @param str string a verifier
  * @returns true si la string est ben une url
  */
-export const validURL = (str : string): boolean => {
-	const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-		'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-		'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-		'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-		'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-		'(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-	return (!!pattern.test(str));
+export const validURL = (urlString: string): boolean => {
+	let url;
+	try {
+		url = new URL(urlString);
+	} catch (_) {
+		return false;
+	}
+	return url.protocol === 'http:' || url.protocol === 'https:';
 };
