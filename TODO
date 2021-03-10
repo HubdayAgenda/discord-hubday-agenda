@@ -1,26 +1,42 @@
-- system de debug via cmd pour dev
-    OK- !agenda-version (version dans config)
-    OK ~- !agenda-help commande pour afficher embed d'aide
-    - !agenda-runtime
+
+======================Priorité======================
+- remettre en place les slash commands
+
+- Afficher devoirs dans discord (A décier précisement comment)
+
+- !agenda-logs télécharge les logs
+- !agenda-runtime
         - donne version
         - donne uptime
-        - autre stats
+        - autre stats...
         - ping hubday ?
-    - !agenda-logs télécharge les logs
+    
+====================Améliorations===================
+- Formulaire d'ajout choix matière -> message qui dit quand on se trompe (= ne pas répondre avec un chiffre correct)
 
+- Ajouter le lesson ID dans classe Subject (subject.getLessonsOfDay)
 
-OK - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
-    - Form choix matiere, nombre invalide ( inférieur à 1 ou supérieur à la taille du tab)
-
-OK - Webhook d'erreur : 
-    OK- Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
-OK - Bug report interne via webhook
-OK- Améliorer log pour prod et uniformiser (En ou fr ?)
-OK- Formulaire bug report annulable
-
-- Ajouter le lesson ID (subject.getLessonsOfDay)
-- Implementer USER_List dans classe USER
 - Import fichier subjects.json avec require et donc seulement si nécéssaire
-- remettre en place les slash commands
+
+- Déplacer getFromLocalFile (Subject.ts) dans fichier de config
+
+=======================Idées========================
 - Garder en mémoire les tableau générés
 
+- Implementer USER_List dans classe USER
+
+=======================Terminé========================
+OK - Webhook d'erreur : 
+    OK- Prendre x dernière log au lieu de toutes pour pas depasser 2000 chars
+    
+OK - Bug report interne via webhook
+
+OK- Améliorer log pour prod et uniformiser (En ou fr ?)
+
+OK- Formulaire bug report annulable
+
+OK - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
+
+OK- !agenda-version (version dans config)
+
+    OK ~- !agenda-help commande pour afficher embed d'aide
