@@ -6,7 +6,7 @@ import { handleUser, isUserHandled } from './index';
 import { Homework } from './Classes_Interfaces/Homework';
 import { Subject } from './Classes_Interfaces/Subject';
 import { User } from './Classes_Interfaces/User';
-import { config } from './config';
+import dateConfig from './dateConfig';
 import { BotLog } from './Classes_Interfaces/BotLog';
 
 export interface IemojiAction {
@@ -39,7 +39,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Retrieve user subjects from DB or cache
 	// ==============================================================
-	const userSubjects: Subject[] = await hubdayUser.getSubjects(config.dates.semester);
+	const userSubjects: Subject[] = await hubdayUser.getSubjects(dateConfig.semester);
 	const subjectEmbed = await Embed.getMatieresEmbed(userSubjects);
 
 	// Ask what subject the homework is about
@@ -279,7 +279,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	botLog.log('== Add form ended ==');
 	handleUser(user, true);
 
-	await homework.persist(config.dates.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
+	await homework.persist(dateConfig.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
 
 	user.send(homework.getEmbed());
 };
