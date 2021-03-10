@@ -3,7 +3,6 @@ const YEAR_START_DATE = new Date('2020-09-06 00:00:00');
 const YEAR_END_DATE = new Date('2021-06-30 23:59:59');
 
 export const config = {
-	version: '0.0.0',
 	dates: {
 		yearStart: YEAR_START_DATE,
 		yearEnd: YEAR_END_DATE,
@@ -11,3 +10,5 @@ export const config = {
 		semester: new Date() < SEMESTER_TRANSITION_DATE ? 1 : 2
 	}
 };
+
+export default config;

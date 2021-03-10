@@ -1,17 +1,24 @@
 import { expect } from 'chai';
 import * as utils from '../utils';
+import config from '../config';
+import * as moment from 'moment';
 
 describe('Utils tests', () => {
-	it('checking utils dateValid()', () => { // the single test
-		// expect(utils.dateValid('zifuyiezqd')).to.be.null;
-		// expect(utils.dateValid('22/04/2020')).to.be.not.null;
-		// expect(utils.dateValid('20/10/2020')).to.be.null;
-		// expect(utils.dateValid('20/20/2020')).to.be.null;
-		// expect(utils.dateValid('34/02/2020')).to.be.null;
-		// expect(utils.dateValid('22:04:2021')).to.be.null;
+	it('checking utils dateValid()', () => {
+		expect(config.dates).to.be.not.undefined;
+		expect(utils.dateValid('22/04/2021')).to.be.not.null;
+		expect(utils.dateValid('22/04/2021')).to.be.eql(moment('22/04/2021', 'DD/MM/YYYY').toDate());
+		expect(utils.dateValid('22:04:2021')).to.be.eql(moment('22/04/2021', 'DD/MM/YYYY').toDate());
+		expect(utils.dateValid('29/06/2021')).to.be.not.null;
+		expect(utils.dateValid('18/12/2021')).to.be.null;
+		expect(utils.dateValid('zifuyiezqd')).to.be.null;
+		expect(utils.dateValid('20/10/2020')).to.be.null;
+		expect(utils.dateValid('20/20/2020')).to.be.null;
+		expect(utils.dateValid('34/02/2020')).to.be.null;
+		expect(utils.dateValid('34/02/3040')).to.be.null;
 	});
 
-	it('checking utils hourValid()', () => { // the single test
+	it('checking utils hourValid()', () => {
 		expect(utils.hourValid('00:00')).to.be.true;
 		expect(utils.hourValid('22:30')).to.be.true;
 		expect(utils.hourValid('10:00')).to.be.true;
@@ -24,7 +31,7 @@ describe('Utils tests', () => {
 		expect(utils.hourValid('michel')).to.be.false;
 	});
 
-	it('checking utils validUrl()', () => { // the single test
+	it('checking utils validUrl()', () => {
 		expect(utils.validURL('http://silant.net')).to.be.true;
 		expect(utils.validURL('https://moodle1.u-bordeaux.fr/')).to.be.true;
 		expect(utils.validURL('michel')).to.be.false;
