@@ -2,10 +2,20 @@
 import { expect } from 'chai';
 import { Subject } from '../Classes_Interfaces/Subject';
 import { User } from '../Classes_Interfaces/User';
+const dotenv = require('dotenv');
 
 describe('User tests', () => {
 
-	require('dotenv').config({ path: 'env.local' });
+	let result = dotenv.config({ path: 'env.local' });
+
+	if (result.error || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+		console.warn('Impossible de récupérer les variables d\'environnement de configuration. dans env.local, cela peut être du au fait que le programme est éxécuté via github action');
+		console.warn('Rententative avec Environment Secrets pour github');
+		result = dotenv.config();
+		if (result.error || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+			console.warn('Impossible de trouver les variable secrets pour github');
+		}
+	}
 
 	it('checking User getFromDiscordId()', async () => {
 		expect(process.env.RTDB_URL).to.be.not.null;
