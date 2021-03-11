@@ -10,7 +10,7 @@ export class User {
 	/**
 	 * "Cache" contenant la liste des utilisateurs ayant déjà intéragit avec le bot
 	 */
-	static USERS_LIST : Dictionary<User> = {};
+	static USERS_LIST: Dictionary<User> = {};
 
 	/**
 	 * L'idnum de cet utilisateur
@@ -122,7 +122,7 @@ export class User {
 
 	/**
 	 * Récupère la liste des matières d'un utilisateur pour le semestre demandé
- 	 * @param semester semestre pour lequel récupérer les matières
+	   * @param semester semestre pour lequel récupérer les matières
 	 * @return Liste des matières suivies par l'utilisateur durant ce semestre
 	 */
 	getSubjects = async (semester = 1): Promise<Subject[]> => {
@@ -151,6 +151,8 @@ export class User {
 	 * @return L'utilisateur demandé
 	 */
 	static getFromDiscordId = async (discordId: string): Promise<User | null> => {
+		if (discordId.length == 0)
+			return null;
 		if (!(discordId in User.USERS_LIST)) {
 			const userProfiles = await fireBase.getDbDataWithFilter('users', 'discordId', discordId);
 			if (Object.keys(userProfiles).length > 0) {
@@ -161,7 +163,23 @@ export class User {
 					...userProfiles[idnum]
 				};
 
-				User.USERS_LIST[discordId] = new User(user.idnum, user.displayName, user.email, user.personalEmails, user.photoURL, user.id, user.discordId, user.mattermostId, user.options || [], user.roles || [], user.permissions || [], user.group1, user.subgroup1, user.group2, user.subgroup2);
+				User.USERS_LIST[discordId] = new User(
+					user.idnum,
+					user.displayName,
+					user.email,
+					user.personalEmails,
+					user.photoURL,
+					user.id,
+					user.discordId,
+					user.mattermostId,
+					user.options || [],
+					user.roles || [],
+					user.permissions || [],
+					user.group1,
+					user.subgroup1,
+					user.group2,
+					user.subgroup2
+				);
 			} else {
 				return null;
 			}

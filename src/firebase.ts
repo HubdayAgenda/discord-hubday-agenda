@@ -2,9 +2,6 @@
 import * as fetch from 'node-fetch';
 import { BotLog } from './Classes_Interfaces/BotLog';
 
-const RTDB_AUTH_TOKEN = process.env.RTDB_AUTH_TOKEN;
-const RTDB_URL = process.env.RTDB_URL;
-
 const botLog = new BotLog('Firebase');
 
 /**
@@ -14,7 +11,7 @@ const botLog = new BotLog('Firebase');
  */
 export const getDbData = async (path: string): Promise<any> => {
 	try {
-		const response = await fetch.default(RTDB_URL + '/' + path + '.json?auth=' + RTDB_AUTH_TOKEN);
+		const response = await fetch.default(process.env.RTDB_URL + '/' + path + '.json?auth=' + process.env.RTDB_AUTH_TOKEN);
 		return await gatherResponse(response);
 	} catch (e) {
 		botLog.error(e);
@@ -30,7 +27,7 @@ export const getDbData = async (path: string): Promise<any> => {
  */
 export const getDbDataWithFilter = async (path: string, key: string, value: string): Promise<any> => {
 	try {
-		const response = await fetch.default(`${RTDB_URL}/${path}.json?orderBy="${key}"&equalTo="${value}"&auth=${RTDB_AUTH_TOKEN}`);
+		const response = await fetch.default(`${process.env.RTDB_URL}/${path}.json?orderBy="${key}"&equalTo="${value}"&auth=${process.env.RTDB_AUTH_TOKEN}`);
 		return await gatherResponse(response);
 	} catch (e) {
 		botLog.error(e);
@@ -47,7 +44,7 @@ export const getDbDataWithFilter = async (path: string, key: string, value: stri
  */
 export const getDbDataWithLimits = async (path: string, key: string, start: string, end: string): Promise<any> => {
 	try {
-		const response = await fetch.default(`${RTDB_URL}/${path}.json?orderBy="${key}"&startAt="${start}"&endAt="${end}"&auth=${RTDB_AUTH_TOKEN}`);
+		const response = await fetch.default(`${process.env.RTDB_URL}/${path}.json?orderBy="${key}"&startAt="${start}"&endAt="${end}"&auth=${process.env.RTDB_AUTH_TOKEN}`);
 		return await gatherResponse(response);
 	} catch (e) {
 		botLog.error(e);
@@ -69,7 +66,7 @@ export const putDbData = async (path: string, data: unknown | string): Promise<a
 	};
 
 	try {
-		await fetch.default(RTDB_URL + '/' + path + '.json?auth=' + RTDB_AUTH_TOKEN, options);
+		await fetch.default(process.env.RTDB_URL + '/' + path + '.json?auth=' + process.env.RTDB_AUTH_TOKEN, options);
 	} catch (e) {
 		botLog.error(e);
 	}
@@ -91,7 +88,7 @@ export const postDbData = async (path: string, data: unknown | string): Promise<
 	};
 
 	try {
-		const response = await fetch.default(RTDB_URL + '/' + path + '.json?auth=' + RTDB_AUTH_TOKEN, options);
+		const response = await fetch.default(process.env.RTDB_URL + '/' + path + '.json?auth=' + process.env.RTDB_AUTH_TOKEN, options);
 		return await gatherResponse(response);
 	} catch (e) {
 		botLog.error(e);
