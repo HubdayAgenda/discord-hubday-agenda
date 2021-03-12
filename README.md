@@ -66,6 +66,10 @@ Vous êtes enfin prêt! Pour démarrer le projet, il vous suffit de démarrer le
 ```bash
 npm start
 ```
+Pour lancer les tests unitaires du bot : 
+```bash
+npm test
+```
 
 \
 👥 Contributeurs
