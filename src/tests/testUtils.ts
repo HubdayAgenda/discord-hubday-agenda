@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import * as utils from '../utils';
-import dateConfig from '../dateConfig';
+import config from '../config';
 import * as moment from 'moment';
 
 describe('Utils tests', () => {
 	it('checking utils dateValid()', () => {
-		expect(dateConfig).to.be.not.undefined;
+		expect(config.date).to.be.not.undefined;
 		expect(utils.dateValid('22/04/2021')).to.be.not.null;
 		expect(utils.dateValid('22/04/2021')).to.be.eql(moment('22/04/2021', 'DD/MM/YYYY').toDate());
 		expect(utils.dateValid('22:04:2021')).to.be.eql(moment('22/04/2021', 'DD/MM/YYYY').toDate());

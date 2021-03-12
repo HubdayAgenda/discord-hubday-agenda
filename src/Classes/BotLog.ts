@@ -1,6 +1,7 @@
 import User from './User';
 import * as Discord from 'discord.js';
 import { sendErrorsHook } from '../webhooks';
+import config from '../config';
 
 /**
  * Niveaux de logs possible (Seuil de déclanchement du webhook discord)
@@ -26,11 +27,6 @@ export default class BotLog {
 	 * Instance unique qui est utilisée lorsque l'on log sans créer d'instance de BotLog avant
 	 */
 	static Instance = new BotLog();
-
-	/**
-	 * Niveau de log qui declenche le webhook (Warn par defaut) -> si un warn est utilisé, un message sera envoyé sur discord
-	 */
-	static hookLevel: BotLogLevel = BotLogLevel.Errors;
 
 	/**
 	 * Liste des messages globaux envoyés
@@ -197,7 +193,7 @@ export default class BotLog {
 	 * @param content contenu du message
 	 */
 	private checkHook(message: IBotLogMessage): boolean {
-		if (message.level >= BotLog.hookLevel) {
+		if (message.level >= config.global.logHookLevel) {
 			this.hookLogMessages();
 			return true;
 		}

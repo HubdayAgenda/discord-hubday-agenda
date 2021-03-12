@@ -5,6 +5,7 @@ const YEAR_END_DATE = new Date('2021-06-30 23:59:59');
 export default {
 	global: {
 		getSubjectsFromFile: true,
+		logHookLevel: 2
 	},
 	bot: {
 		version: '0.0.0',
