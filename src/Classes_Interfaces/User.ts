@@ -1,11 +1,11 @@
 import * as fireBase from '../firebase';
-import { Subject, getSubjects } from './Subject';
+import Subject, { getSubjects } from './Subject';
 
 interface Dictionary<T> {
 	[key: string]: T;
 }
 
-export class User {
+export default class User {
 
 	/**
 	 * "Cache" contenant la liste des utilisateurs ayant déjà intéragit avec le bot

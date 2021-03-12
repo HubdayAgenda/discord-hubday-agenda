@@ -1,4 +1,4 @@
-import { User } from './User';
+import User from './User';
 import * as Discord from 'discord.js';
 import { sendErrorsHook } from '../webhooks';
 
@@ -20,7 +20,7 @@ export interface IBotLogMessage {
 	timestamp: string;
 }
 
-export class BotLog {
+export default class BotLog {
 
 	/**
 	 * Instance unique qui est utilisée lorsque l'on log sans créer d'instance de BotLog avant
@@ -208,6 +208,10 @@ export class BotLog {
 	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
 	hookLogMessages(): void {
+		/**
+		 * @TODO Webhook cause des erreurs pour les test et sans raison apparente
+		 * (L'erreur vient d'ici mais ce code n'est pas éxécuté en toute ogique durant les tests)
+		 */
 		// sendErrorsHook(this);
 	}
 

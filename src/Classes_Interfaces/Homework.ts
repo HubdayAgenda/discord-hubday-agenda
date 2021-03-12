@@ -1,8 +1,8 @@
 import * as Discord from 'discord.js';
 import * as fireBase from '../firebase';
-import { Subject } from './Subject';
+import Subject from './Subject';
 
-export class Homework {
+export default class Homework {
 
 	/**
 	 * Le module de ce devoir

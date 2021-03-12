@@ -1,12 +1,12 @@
 import * as fireBase from '../firebase';
-import { BotLog } from './BotLog';
 import * as subjectsLocalFile from './subjects.json';
+import BotLog from './BotLog';
 
 interface Dictionary<T> {
 	[key: string]: T;
 }
 
-export class Subject {
+export default class Subject {
 	/**
 	 * Id de la matière
 	 */

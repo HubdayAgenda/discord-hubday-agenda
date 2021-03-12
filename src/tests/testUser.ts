@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from 'chai';
-import { Subject } from '../Classes_Interfaces/Subject';
-import { User } from '../Classes_Interfaces/User';
+import Subject from '../Classes_Interfaces/Subject';
+import User from '../Classes_Interfaces/User';
 const dotenv = require('dotenv');
 
 describe('User tests', () => {

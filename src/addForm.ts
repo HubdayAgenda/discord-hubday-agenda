@@ -3,11 +3,11 @@ import * as Embed from './embed';
 import * as Utils from './utils';
 import * as Exceptions from './Classes_Interfaces/Exceptions';
 import { handleUser, isUserHandled } from './index';
-import { Homework } from './Classes_Interfaces/Homework';
-import { Subject } from './Classes_Interfaces/Subject';
-import { User } from './Classes_Interfaces/User';
+import Homework from './Classes_Interfaces/Homework';
+import Subject from './Classes_Interfaces/Subject';
+import User from './Classes_Interfaces/User';
 import dateConfig from './dateConfig';
-import { BotLog } from './Classes_Interfaces/BotLog';
+import BotLog from './Classes_Interfaces/BotLog';
 
 export interface IemojiAction {
 	emoji: string,

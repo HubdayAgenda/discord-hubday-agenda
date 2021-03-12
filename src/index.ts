@@ -6,7 +6,7 @@ import * as Exceptions from './Classes_Interfaces/Exceptions';
 import * as Embed from './embed';
 import * as AddForm from './addForm';
 import { sendReportHook } from './webhooks';
-import { BotLog } from './Classes_Interfaces/BotLog';
+import BotLog from './Classes_Interfaces/BotLog';
 
 if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
