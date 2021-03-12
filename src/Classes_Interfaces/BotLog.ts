@@ -208,7 +208,7 @@ export class BotLog {
 	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
 	hookLogMessages(): void {
-		// sendErrorsHook(this);
+		sendErrorsHook(this);
 	}
 
 	white = '\x1b[37m';
@@ -236,7 +236,7 @@ export class BotLog {
 	 * @returns String colorée représentant le contenu du message
 	 */
 	private getContentString(message: IBotLogMessage): string {
-		const _time = `${message.timestamp}]`;
+		const _time = `[${message.timestamp}]`;
 		const _user = this.getUsernameString() ? `[${this.getUsernameString()}]` : '';
 		const _title = this.title ? `${this.title}- ` : '';
 		const content = `${message.content}`;
