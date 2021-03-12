@@ -136,7 +136,6 @@ export const getSubjects = async (): Promise<Dictionary<Subject>> => {
 				id: subjectId,
 				...subjects[subjectId]
 			};
-
 			SUBJECTS[subjectId] = new Subject(
 				subject.id,
 				subject.aliases,
@@ -153,7 +152,7 @@ export const getSubjects = async (): Promise<Dictionary<Subject>> => {
 			);
 		}
 
-		BotLog.log('Modules retrieved : ' + Object.keys(SUBJECTS).length);
+		BotLog.log('Récupération de ' + Object.keys(SUBJECTS).length + ' modules.');
 	}
 	return SUBJECTS;
 };
