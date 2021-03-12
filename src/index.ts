@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const dotenv = require('dotenv');
 
+import * as Discord from 'discord.js';
+import * as Exceptions from './Classes_Interfaces/Exceptions';
+import * as Embed from './embed';
+import * as AddForm from './addForm';
+import { sendReportHook } from './webhooks';
+import { BotLog } from './Classes_Interfaces/BotLog';
+
 if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
 	if (
@@ -16,12 +23,6 @@ if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === unde
 	}
 }
 
-import * as Discord from 'discord.js';
-import * as Exceptions from './Classes_Interfaces/Exceptions';
-import * as Embed from './embed';
-import * as AddForm from './addForm';
-import { sendReportHook } from './webhooks';
-import { BotLog } from './Classes_Interfaces/BotLog';
 const client = new Discord.Client();
 
 /**
