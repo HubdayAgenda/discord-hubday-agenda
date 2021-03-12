@@ -208,7 +208,7 @@ export class BotLog {
 	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
 	hookLogMessages(): void {
-		// sendErrorsHook(this);
+		sendErrorsHook(this);
 	}
 
 	white = '\x1b[37m';
