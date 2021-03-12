@@ -4,7 +4,7 @@ import * as Discord from 'discord.js';
 const { CanvasTable } = require('canvas-table');
 const { createCanvas } = require('canvas');
 
-import Subject from './Classes_Interfaces/Subject';
+import Subject from './Classes/Subject';
 
 /**
  * Création du canvas avec les matières et les UE

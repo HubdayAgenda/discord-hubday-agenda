@@ -1,13 +1,13 @@
 import * as Discord from 'discord.js';
 import * as Embed from './embed';
 import * as Utils from './utils';
-import * as Exceptions from './Classes_Interfaces/Exceptions';
+import * as Exceptions from './Classes/Exceptions';
+import config from './config';
 import { handleUser, isUserHandled } from './index';
-import Homework from './Classes_Interfaces/Homework';
-import Subject from './Classes_Interfaces/Subject';
-import User from './Classes_Interfaces/User';
-import dateConfig from './dateConfig';
-import BotLog from './Classes_Interfaces/BotLog';
+import Homework from './Classes/Homework';
+import Subject from './Classes/Subject';
+import User from './Classes/User';
+import BotLog from './Classes/BotLog';
 
 export interface IemojiAction {
 	emoji: string,
@@ -39,7 +39,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Retrieve user subjects from DB or cache
 	// ==============================================================
-	const userSubjects: Subject[] = await hubdayUser.getSubjects(dateConfig.semester);
+	const userSubjects: Subject[] = await hubdayUser.getSubjects(config.date.semester);
 	const subjectEmbed = await Embed.getMatieresEmbed(userSubjects);
 
 	// Ask what subject the homework is about
@@ -279,7 +279,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	botLog.log('== Add form ended ==');
 	handleUser(user, true);
 
-	await homework.persist(dateConfig.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
+	await homework.persist(config.date.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
 
 	user.send(homework.getEmbed());
 };

@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import dateConfig from './dateConfig';
+import config from './config';
 
 /**
  * Convertit une date en une string correspondante dans un format valide pour hubday
@@ -21,8 +21,8 @@ export const dateValid = (date: string): Date | null => {
 
 	const homeworkDate = moment(date, 'DD/MM/YYYY').toDate();
 
-	if ((today > dateConfig.semesterTransition && homeworkDate > dateConfig.semesterTransition && homeworkDate < dateConfig.yearEnd)
-		|| (today <= dateConfig.semesterTransition && homeworkDate > dateConfig.yearStart && homeworkDate < dateConfig.semesterTransition)) {
+	if ((today > config.date.semesterTransition && homeworkDate > config.date.semesterTransition && homeworkDate < config.date.yearEnd)
+		|| (today <= config.date.semesterTransition && homeworkDate > config.date.yearStart && homeworkDate < config.date.semesterTransition)) {
 		return homeworkDate;
 	}
 	return null;

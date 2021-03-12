@@ -16,10 +16,6 @@
 
 - Ajouter le lesson ID dans classe Subject (subject.getLessonsOfDay)
 
-- Import fichier subjects.json avec require et donc seulement si nécéssaire
-
-- Déplacer getFromLocalFile (Subject.ts) dans fichier de config
-
 =======================Idées========================
 - Garder en mémoire les tableau générés
 
@@ -40,3 +36,7 @@ OK - Try / Catch de partout (gérer le plus grand nombre d'erreurs)
 OK- !agenda-version (version dans config)
 
     OK ~- !agenda-help commande pour afficher embed d'aide
+
+OK- Import fichier subjects.json avec require et donc seulement si nécéssaire
+
+OK - Déplacer getFromLocalFile (Subject.ts) dans fichier de config

@@ -2,7 +2,7 @@ import * as Discord from 'discord.js';
 import * as index from './index';
 import * as modulesTab from './modulesTab';
 import { IemojiAction } from './addForm';
-import Subject from './Classes_Interfaces/Subject';
+import Subject from './Classes/Subject';
 
 /**
  * Création de l'embed pour l'affichage du !help-agenda

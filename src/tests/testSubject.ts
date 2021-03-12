@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from 'chai';
-import Subject, { getSubjects } from '../Classes_Interfaces/Subject';
+import Subject, { getSubjects } from '../Classes/Subject';
 const dotenv = require('dotenv');
 
 describe('Subject tests', () => {

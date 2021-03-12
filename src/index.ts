@@ -2,21 +2,22 @@
 const dotenv = require('dotenv');
 
 import * as Discord from 'discord.js';
-import * as Exceptions from './Classes_Interfaces/Exceptions';
+import * as Exceptions from './Classes/Exceptions';
 import * as Embed from './embed';
 import * as AddForm from './addForm';
 import { sendReportHook } from './webhooks';
-import BotLog from './Classes_Interfaces/BotLog';
+import BotLog from './Classes/BotLog';
+import config from './config';
 
-if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+if (process.env.DISCORD_BOT_TOKEN === undefined
+	|| process.env.RTDB_URL === undefined
+	|| process.env.RTDB_AUTH_TOKEN === undefined) {
 	const result = dotenv.config({ path: 'env.local' });
 	if (
 		result.error
 		|| process.env.DISCORD_BOT_TOKEN === undefined
 		|| process.env.RTDB_URL === undefined
 		|| process.env.RTDB_AUTH_TOKEN === undefined
-		|| process.env.DISCORD_BOT_VERSION === undefined
-		|| process.env.DISCORD_BOT_PREFIX === undefined
 	) {
 		BotLog.error('Impossible de récupérer les variables d\'environnement de configuration. Vérifiez que vous avez bien un fichier \'env.local\' correctement configuré.');
 		process.exit(1);
@@ -159,21 +160,19 @@ client.on('ready', async () => {
 client.on('message', msg => {
 	if (msg.channel.type === 'dm') {
 
-		if (process.env.DISCORD_BOT_PREFIX != undefined) {
-			// On regarde si le message commence bien par le prefix (!)
-			if (msg.content.startsWith(process.env.DISCORD_BOT_PREFIX))//Si le message ne commence pas par le prefix du config.json
-				switch (msg.content.substr(1).split(' ')[0]) {
-					case 'agenda-version':
-						if (process.env.DISCORD_BOT_VERSION != undefined)
-							msg.author.send(process.env.DISCORD_BOT_VERSION).catch((e) => BotLog.error(e));
-						return;
+		// On regarde si le message commence bien par le prefix (!)
+		if (msg.content.startsWith(config.bot.prefix)){//Si le message ne commence pas par le prefix du config.json
+			switch (msg.content.substr(1).split(' ')[0]) {
+				case 'agenda-version':
+					msg.author.send(Embed.getDefaultEmbed(config.bot.version)).catch((e) => BotLog.error(e));
+					return;
 
-					case 'agenda-help':
-						msg.author.send(Embed.getHelpEmbed()).catch((e) => BotLog.error(e));
-						return;
-				}
+				case 'agenda-help':
+					msg.author.send(Embed.getHelpEmbed()).catch((e) => BotLog.error(e));
+					return;
+			}
+			return;
 		}
-
 		// TEST -> LANCER LE MENU DIRECT AVEC
 		if (msg.author.id !== client.user?.id && !USER_LOAD.includes(msg.author.id)) {
 			onBotCommand(msg.author);

@@ -33,8 +33,6 @@ Avant de pouvoir lancer le projet et l'essayer, il est nécessaire de saisir plu
 * **RTDB_URL** (*String, requis*): URL de connexion à la base de données Firebase Realtime Database, sans '/' à la fin.
 * **RTDB_AUTH_TOKEN** (*String, requis*): Jeton d'authentification de la base de données.
 * **DISCORD_BOT_TOKEN** (*String, requis*): Jeton d'authentification du bot Discord.
-* **DISCORD_BOT_VERSION** (*String, requis*): La version du bot discord.
-* **DISCORD_BOT_PREFIX** (*String, requis*): Le prefix lié au commandes du bot.
 * **DISCORD_BUG_REPORT_WEBHOOK_URL** (*String, facultatif*): Le lien d'un webhook discord permettant de recevoir les messages de bug report.
 * **DISCORD_ERRORS_REPORT_WEBHOOK_URL** (*String, facultatif*): Le lien d'un webhook discord permettant de recevoir les messages d'erreur.
 
@@ -44,13 +42,12 @@ Avant de pouvoir lancer le projet et l'essayer, il est nécessaire de saisir plu
 RTDB_URL="https://{firebase-project-name}.firebaseio.com"
 RTDB_AUTH_TOKEN="XXXXxXxXxXXXXXxXXXxxxXXXXxXXXXXXxxxxxxX"
 DISCORD_BOT_TOKEN="XXXxXxXxXXXxXxXxXxXxXXXx.XXxxXX.XxxXXxX-XXXXxxxXxXxXxXxxxxx"
-DISCORD_BOT_VERSION="0.0.0"
-DISCORD_BOT_PREFIX="!"
 DISCORD_BUG_REPORT_WEBHOOK_URL="https://discordapp.com/api/webhooks/XXXXXX..."
 DISCORD_ERRORS_REPORT_WEBHOOK_URL="https://discordapp.com/api/webhooks/XXXXXX..."
 ```
 
 Une fois ce fichier de configuration créé et configuré, vous êtes prêt à tester le bot !
+>### D'autres options de coniguration sont aussi disponibles dans le fichier ```src/config.ts```
 
 \
 🛠 Commandes disponibles

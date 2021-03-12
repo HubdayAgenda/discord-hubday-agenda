@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as fetch from 'node-fetch';
-import BotLog from './Classes_Interfaces/BotLog';
+import BotLog from './Classes/BotLog';
 
 const botLog = new BotLog('Firebase');
 

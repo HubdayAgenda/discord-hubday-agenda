@@ -3,7 +3,7 @@ import * as Discord from 'discord.js';
 import { getResponse, IemojiAction } from './addForm';
 import { getDefaultEmbed } from './embed';
 import { handleUser } from './index';
-import BotLog from './Classes_Interfaces/BotLog';
+import BotLog from './Classes/BotLog';
 
 /**
  * Lance un formulaire de bug report dans discord et envois le bug sur un webhook

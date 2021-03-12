@@ -1,6 +1,6 @@
 import * as fireBase from '../firebase';
-import * as subjectsLocalFile from './subjects.json';
 import BotLog from './BotLog';
+import config from '../config';
 
 interface Dictionary<T> {
 	[key: string]: T;
@@ -112,11 +112,6 @@ export default class Subject {
 }
 
 /**
- * True -> ne télécharge pas le fichier contenant l'ensemble des modules a chaque lancement du bot
- */
-const getFromLocalFile = true;
-
-/**
  * Liste des modules présents pour toutes classe et tout niveau confondus
  */
 let SUBJECTS: Dictionary<Subject> | null = null;
@@ -129,7 +124,7 @@ let SUBJECTS: Dictionary<Subject> | null = null;
 export const getSubjects = async (): Promise<Dictionary<Subject>> => {
 	if (SUBJECTS === null) {
 		SUBJECTS = {};
-		const subjects = getFromLocalFile ? subjectsLocalFile : await fireBase.getDbData('subjects');
+		const subjects = config.global.getSubjectsFromFile ? await import('./subjects.json') : await fireBase.getDbData('subjects');
 
 		for (const subjectId of Object.keys(subjects)){
 			const subject = {
