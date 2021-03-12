@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
 import * as Discord from 'discord.js';
 import * as Exceptions from './Classes_Interfaces/Exceptions';
@@ -8,20 +8,20 @@ import * as AddForm from './addForm';
 import { sendReportHook } from './webhooks';
 import { BotLog } from './Classes_Interfaces/BotLog';
 
-if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
-	const result = dotenv.config({ path: 'env.local' });
-	if (
-		result.error
-		|| process.env.DISCORD_BOT_TOKEN === undefined
-		|| process.env.RTDB_URL === undefined
-		|| process.env.RTDB_AUTH_TOKEN === undefined
-		|| process.env.DISCORD_BOT_VERSION === undefined
-		|| process.env.DISCORD_BOT_PREFIX === undefined
-	) {
-		BotLog.error('Impossible de récupérer les variables d\'environnement de configuration. Vérifiez que vous avez bien un fichier \'env.local\' correctement configuré.');
-		process.exit(1);
-	}
-}
+// if (process.env.DISCORD_BOT_TOKEN === undefined || process.env.RTDB_URL === undefined || process.env.RTDB_AUTH_TOKEN === undefined) {
+// 	const result = dotenv.config({ path: 'env.local' });
+// 	if (
+// 		result.error
+// 		|| process.env.DISCORD_BOT_TOKEN === undefined
+// 		|| process.env.RTDB_URL === undefined
+// 		|| process.env.RTDB_AUTH_TOKEN === undefined
+// 		|| process.env.DISCORD_BOT_VERSION === undefined
+// 		|| process.env.DISCORD_BOT_PREFIX === undefined
+// 	) {
+// 		BotLog.error('Impossible de récupérer les variables d\'environnement de configuration. Vérifiez que vous avez bien un fichier \'env.local\' correctement configuré.');
+// 		process.exit(1);
+// 	}
+// }
 
 const client = new Discord.Client();
 
