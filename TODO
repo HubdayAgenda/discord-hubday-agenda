@@ -16,6 +16,8 @@
 
 - Ajouter le lesson ID dans classe Subject (subject.getLessonsOfDay)
 
+- Mettre les logs dans un fichier plutot que dans une variable
+
 =======================Idées========================
 - Garder en mémoire les tableau générés
 

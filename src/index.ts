@@ -161,7 +161,7 @@ client.on('message', msg => {
 	if (msg.channel.type === 'dm') {
 
 		// On regarde si le message commence bien par le prefix (!)
-		if (msg.content.startsWith(config.bot.prefix)){//Si le message ne commence pas par le prefix du config.json
+		if (msg.content.startsWith(config.bot.prefix)) {//Si le message ne commence pas par le prefix du config.json
 			switch (msg.content.substr(1).split(' ')[0]) {
 				case 'agenda-version':
 					msg.author.send(Embed.getDefaultEmbed(config.bot.version)).catch((e) => BotLog.error(e));
@@ -169,6 +169,10 @@ client.on('message', msg => {
 
 				case 'agenda-help':
 					msg.author.send(Embed.getHelpEmbed()).catch((e) => BotLog.error(e));
+					return;
+
+				case 'agenda-logs':
+					msg.author.send(BotLog.Instance.getMessagesFile()).catch((e) => BotLog.error(e));
 					return;
 			}
 			return;

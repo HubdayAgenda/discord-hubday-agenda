@@ -53,7 +53,13 @@ Une fois ce fichier de configuration créé et configuré, vous êtes prêt à t
 🛠 Commandes disponibles
 ========================
 
-*À venir*
+- Grand public :
+> [MP] ```!agenda-help``` affiche l'aide du bot
+
+- Développeurs :
+> [MP] ```!agenda-version``` affiche la version du bot
+
+> [MP] ```!agenda-logs``` envois le fichier contenant toutes les logs du bot
 
 \
 🚀 Lancement du projet
