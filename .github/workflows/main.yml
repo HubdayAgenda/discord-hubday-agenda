@@ -34,3 +34,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm test
+        env:
+          RTDB_URL: ${{ secrets.RTDB_URL }}
+          RTDB_AUTH_TOKEN: ${{ secrets.RTDB_AUTH_TOKEN }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
