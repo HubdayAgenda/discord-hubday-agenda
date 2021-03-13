@@ -1,6 +1,10 @@
 import * as moment from 'moment';
 import config from './config';
 
+export const dateAndHourToDate = (date: string, hour: string): Date => {
+	return moment(date + ' ' + hour, 'YYYY-MM-DD HH:mm:ss').toDate();
+};
+
 /**
  * Convertit une date en une string correspondante dans un format valide pour hubday
  * @param date La date a convertir
@@ -8,6 +12,15 @@ import config from './config';
  */
 export const dateToStringValidFormat = (date: Date): string => {
 	return moment(date).format('YYYY-MM-DD');
+};
+
+/**
+ * Permet de réupérer une date X jours après aujourd'hui
+ * @param days le nombre de jour qui qui nous séparent de la date
+ * @returns La date relative de X jours par rapport à aujourd'hui
+ */
+export const getRelativeDate = (days: number): Date => {
+	return moment(new Date(), 'YYYY-MM-DD').add(days, 'day').toDate();
 };
 
 /**

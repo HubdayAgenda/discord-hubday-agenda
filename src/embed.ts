@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import * as index from './index';
+// import { IbotAction } from './Classes/SlashCommands';
 import * as modulesTab from './modulesTab';
 import { IemojiAction } from './addForm';
 import Subject from './Classes/Subject';
@@ -37,23 +37,23 @@ export const getMatieresEmbed = async (userSubjects: Subject[]): Promise<Discord
 	return embed;
 };
 
-/**
- * Création de l'embed pour l'affichage du menu des commandes
- * @param BOT_ACTIONS JSON contenant les emojis, les noms etc correspondant aux commandes
- * @return l'embed mis en forme
- */
-export const getMenuEmbed = (BOT_ACTIONS: index.IbotAction[]): Discord.MessageEmbed => {
-	const embed = new Discord.MessageEmbed()
-		.setAuthor('Menu des commandes', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png')
-		.setColor('#afdab9')
-		.setFooter('Réagissez avec l\'émoji correspondant à l\'action souhaitée.');
+// /**
+//  * Création de l'embed pour l'affichage du menu des commandes
+//  * @param BOT_ACTIONS JSON contenant les emojis, les noms etc correspondant aux commandes
+//  * @return l'embed mis en forme
+//  */
+// export const getMenuEmbed = (BOT_ACTIONS: IbotAction[]): Discord.MessageEmbed => {
+// 	const embed = new Discord.MessageEmbed()
+// 		.setAuthor('Menu des commandes', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png')
+// 		.setColor('#afdab9')
+// 		.setFooter('Réagissez avec l\'émoji correspondant à l\'action souhaitée.');
 
-	BOT_ACTIONS.forEach((action: index.IbotAction) => {
-		embed.addField(action.action ? action.name : '~~' + action.name + '~~', action.emoji);
-	});
+// 	BOT_ACTIONS.forEach((action: IbotAction) => {
+// 		embed.addField(action.action ? action.name : '~~' + action.name + '~~', action.emoji);
+// 	});
 
-	return embed;
-};
+// 	return embed;
+// };
 
 
 /**

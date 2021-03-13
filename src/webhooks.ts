@@ -2,8 +2,8 @@ import { Webhook, MessageBuilder } from 'discord-webhook-node';
 import * as Discord from 'discord.js';
 import { getResponse, IemojiAction } from './addForm';
 import { getDefaultEmbed } from './embed';
-import { handleUser } from './index';
 import BotLog from './Classes/BotLog';
+import { handleUser } from './userLoad';
 
 /**
  * Lance un formulaire de bug report dans discord et envois le bug sur un webhook
@@ -61,7 +61,7 @@ export const sendReportHook = async (user: Discord.User): Promise<void> => {
 
 /**
  * Lance un formulaire de bug report dans discord et envois le bug sur un webhook
- * @param user Utilisateur qui fais le report
+ * @param botLog instance de botLog qui contient les logs a envoyer
  */
 export const sendErrorsHook = async (botLog: BotLog): Promise<void> => {
 	botLog.info('Envois d\'un webhook d\'erreur...');

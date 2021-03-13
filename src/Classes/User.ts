@@ -1,5 +1,6 @@
 import * as fireBase from '../firebase';
 import Subject, { getSubjects } from './Subject';
+import config from '../config';
 
 interface Dictionary<T> {
 	[key: string]: T;
@@ -144,6 +145,10 @@ export default class User {
 		}
 
 		return this.subjects;
+	}
+
+	getCurrentGroup() : string {
+		return config.date.semester == 1 ? this.group1 : this.group2;
 	}
 
 	/**

@@ -1,6 +1,8 @@
 import * as Discord from 'discord.js';
 import * as fireBase from '../firebase';
-import Subject from './Subject';
+import * as utils from '../utils';
+import Subject, { getSubjects } from './Subject';
+import User from './User';
 
 export default class Homework {
 
@@ -89,14 +91,21 @@ export default class Homework {
 	 * Créer un embed a partir de ce devoir avec toutes ses informations
 	 * @return l'embed de ce devoir
 	 */
-	getEmbed(): Discord.MessageEmbed {
+	getEmbed(addConfirmation = true): Discord.MessageEmbed {
 		const embed = new Discord.MessageEmbed()
 			.setColor(this.subject.color)
 			.setTitle(`${this.subject.displayId} - ${this.subject.getDisplayName()}`)
 			.setURL('https://www.hubday.fr/dashboard#subject/' + this.subject.id)
-			.setAuthor('Devoir enregistré avec succès ! [Voir]', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png', 'https://www.hubday.fr/dashboard#homework/' + this.id + '/view')
+			.setAuthor(
+				addConfirmation ? 'Devoir enregistré avec succès ! [Voir]' : 'Devoir à faire ! [Voir]',
+				'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png',
+				'https://www.hubday.fr/dashboard#homework/' + this.id + '/view')
 			.setFooter('Échéance', 'https://images.emojiterra.com/google/android-nougat/512px/23f1.png')
-			.setTimestamp(new Date(this.date));
+			.setTimestamp(
+				this.deadline ?
+					utils.dateAndHourToDate(this.date, this.deadline) :
+					new Date(this.date).setHours(0, 0, 0)
+			);
 
 		let description = '';
 
@@ -149,4 +158,45 @@ export default class Homework {
 			await fireBase.putDbData(`homeworks/${group}/${this.id}`, this.getJSON());
 		}
 	}
+
+	/**
+	 * Permet de récupérer les devoirs pour un utilisateur dans une période données
+	 * @param hubdayUser L'utilisateur concerné par les devoirs
+	 * @param start La date de début de la période qui comprend les devoirs à récupérer (Incluse)
+	 * @param end La date de fin de la période qui comprend les devoirs à récupérer (Incluse)
+	 * @returns La liste des devoirs dans la période spécifié
+	 */
+	static async getHomeworks(hubdayUser: User, start: Date, end: Date): Promise<Homework[]> {
+
+		const homeworks = await fireBase.getDbDataWithLimits(
+			`homeworks/${hubdayUser.getCurrentGroup()}`,
+			'date',
+			utils.dateToStringValidFormat(start),
+			utils.dateToStringValidFormat(end)
+		);
+
+		console.group(homeworks);
+
+		const hmArray: Homework[] = [];
+
+		for (const key in homeworks) {
+			const homeworkObject = homeworks[key];
+
+			const subjects = await getSubjects();
+
+			hmArray.push(new Homework(
+				subjects[homeworkObject.subject],
+				homeworkObject.tasks,
+				homeworkObject.date,
+				homeworkObject.deadline ?? null,
+				homeworkObject.group ?? null,
+				homeworkObject.details ?? null,
+				homeworkObject.link ?? null,
+				homeworkObject.notation ?? null
+			));
+		}
+
+		return hmArray;
+	}
+
 }

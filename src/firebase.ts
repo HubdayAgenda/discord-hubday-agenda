@@ -101,7 +101,7 @@ export const postDbData = async (path: string, data: unknown | string): Promise<
  * @param response la réponse a traiter
  * @return la réponse traitée
  */
-const gatherResponse = async (response: fetch.Response): Promise<string> => {
+export const gatherResponse = async (response: fetch.Response): Promise<string> => {
 	const {
 		headers
 	} = response;

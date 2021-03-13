@@ -3,7 +3,7 @@ import * as Embed from './embed';
 import * as Utils from './utils';
 import * as Exceptions from './Classes/Exceptions';
 import config from './config';
-import { handleUser, isUserHandled } from './index';
+import { handleUser, isUserHandled } from './userLoad';
 import Homework from './Classes/Homework';
 import Subject from './Classes/Subject';
 import User from './Classes/User';
@@ -139,6 +139,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		if (Utils.hourValid(deadlineResponse.toString())) {
 			valid = true;
 			_DEADLINE = deadlineResponse.toString() + ':00';
+			if (_DEADLINE.length < 8) _DEADLINE = '0' + _DEADLINE;
 		} else if (deadlineResponse == -1) {
 			valid = true;
 		} else {

@@ -266,7 +266,7 @@ export default class BotLog {
 		if (this.hubdayUser)
 			return this.hubdayUser.displayName;
 		else if (this.discordUser)
-			return this.discordUser.username;
+			return `${this.discordUser.username}#${this.discordUser.discriminator}`;
 		return null;
 	}
 }
