@@ -85,7 +85,7 @@ const commandPayload = {
 };
 
 
-export default class SlashCommands {
+export class SlashCommands {
 
 	/**
 	 * Ajoute une slash command sur un serveur
@@ -159,6 +159,20 @@ export default class SlashCommands {
 	}
 
 	/**
+	 * Permet de traiter une interaction (commande) reçu par le bot
+	 * @param client bot discord
+	 * @param interaction interaction reçu
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static processInteraction(client: Discord.Client, interaction: any): void {
+		BotLog.log('Interaction received');
+		BotLog.log(interaction);
+	}
+}
+
+export default class AgendaSlashCommands extends SlashCommands {
+
+	/**
 	 * Permet de lancer une action liée à une slash command ou interaction reçu par le bot
 	 * @param client bot discord
 	 * @param interaction interaction reçu
@@ -169,27 +183,44 @@ export default class SlashCommands {
 
 		//On cherche l'user qui a fais cette commande
 		client.users.fetch(userId).then(user => {
-			this.processCommandForUser(interaction, user);
+			this.processCommandForDiscordUser(interaction, user);
 		}).catch(e => {
 			BotLog.error('Impossible de trouver un utilisateur discord ayant exécuté une commande \n' + e);
 		});
 	}
 
+	/**
+	 * Permet de donner l'action à faire en fonction de l'interaction reçu et de son utilisteur
+	 * @param interaction L'inetraction soit la commande reçu et à traiter
+	 * @param user L'utilisateur qui a fait l'interaction
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	private static processCommandForUser(interaction: any, user: Discord.User) {
-		switch (interaction.data.options[0].name) {
-			case 'ajout':
-				this.handleAddForm(user);
-				break;
-			case 'liste':
-				this.handleHomeWorkList(user, interaction);
-				break;
-		}
+	private static processCommandForDiscordUser(interaction: any, user: Discord.User) {
+		User.getFromDiscordUser(user).then((hubdayUser: User) => {
+			switch (interaction.data.options[0].name) {
+				case 'ajout':
+					this.handleAddCommand(hubdayUser);
+					break;
+				case 'liste':
+					this.handleListCommand(hubdayUser, interaction);
+					break;
+			}
+		}).catch(e => {
+			user.send(Embed.getDefaultEmbed(
+				'Vous n\'avez pas été reconnu comme membre hubday',
+				'Vous devez rejoindre ce serveur discord pour que le bot vous reconnaisse: https://discord.iut-info.cf'
+			)).catch((e) => BotLog.error(e));
+			BotLog.warn(e);
+		});
 	}
 
+	/**
+	 * Commande /agenda liste
+	 * @param hubdayUser Utilisateur hubday cncerné
+	 * @param interaction Interaction faite par l'utilisateur
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	private static async handleHomeWorkList(user: Discord.User, interaction: any) {
-		user.send('Liste de vos devoirs :');
+	private static async handleListCommand(hubdayUser: User, interaction: any) {
 
 		let start: Date = new Date();
 		let end: Date = utils.getRelativeDate(7);
@@ -216,36 +247,42 @@ export default class SlashCommands {
 			}
 		}
 
-
-		const hubdayUser = await User.getFromDiscordId(user.id);
-		if (hubdayUser === null) {
-			user.send(Embed.getDefaultEmbed(
-				'Vous n\'avez pas été reconnu comme membre hubday',
-				'Vous devez rejoindre ce serveur discord pour que le bot vous reconnaisse: https://discord.iut-info.cf'
-			)).catch((e) => BotLog.error(e));
-			BotLog.warn('Utilisateur non enregistré sur Hubday');
-			return;
-		}
-
 		const listHomework: Homework[] = await Homework.getHomeworks(hubdayUser, start, end);
 
+		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
+			'Voici la liste de vos devoirs :',
+			`Du ${utils.dateToStringValidFormat(start)} au ${utils.dateToStringValidFormat(end)}`
+		)).catch(e => BotLog.error(e));
+
 		listHomework.forEach(hm => {
-			user.send(hm.getEmbed(false)).catch(e => {
+			hubdayUser.discordUser.send(hm.getEmbed(false)).catch(e => {
 				BotLog.error(e);
 			});
 		});
 	}
 
-	private static handleAddForm(user: Discord.User) {
-		user.send('Ajouter un devoir');
-		AddForm.startAddForm(user).catch((e) => {
-			handleUser(user, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+	/**
+	 * Commande /agenda ajout
+	 * @param hubdayUser Utilisateur concerné par la commande
+	 */
+	private static handleAddCommand(hubdayUser: User) {
+
+		handleUser(hubdayUser.discordUser);
+
+		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
+			'Ajouter un devoir :',
+			'Répondez aux questions suivantes pour créer un nouveau devoir'
+		)).catch(e => BotLog.error(e));
+
+		AddForm.startAddForm(hubdayUser).catch((e) => {
+
+			handleUser(hubdayUser.discordUser, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+
 			if (e instanceof Exceptions.TimeOutException)
 				BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
-			else if (e instanceof Exceptions.UndefinedHubdayUser)
-				BotLog.warn('[Alerte formulaire] (Utilisateur hubday inconnu: ' + e.message + ')');
 			else
 				BotLog.error('[Erreur formulaire] ' + e);
+
 		});
 	}
 }

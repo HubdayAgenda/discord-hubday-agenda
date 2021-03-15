@@ -18,24 +18,11 @@ export interface IemojiAction {
 /**
  * Contient l'entièreté des questions nécéssaires à la création d'un devoir
  * A la fin du formulaire un nouveau devoir est créé
- * @param user l'utilisateur concerné par le formulaire
+ * @param hubdayUser l'utilisateur concerné par le formulaire
  */
-export const startAddForm = async (user: Discord.User): Promise<void> => {
-	const botLog = new BotLog('Formulaire d\'ajout', user);
+export const startAddForm = async (hubdayUser: User): Promise<void> => {
+	const botLog = new BotLog('Formulaire d\'ajout', hubdayUser.discordUser, hubdayUser);
 	botLog.info('Début formulaire');
-
-	// Retrieve user from DB or cache
-	// ==============================================================
-	const hubdayUser: User | null = await User.getFromDiscordId(user.id);
-	if (hubdayUser === null) {
-		user.send(Embed.getDefaultEmbed(
-			'Vous n\'avez pas été reconnu comme membre hubday',
-			'Vous devez rejoindre ce serveur discord pour que le bot vous reconnaisse: https://discord.iut-info.cf'
-		)).catch((e) => botLog.error(e));
-		throw new Exceptions.UndefinedHubdayUser(user.username);
-	}
-
-	botLog.setHubdayUser(hubdayUser);
 
 	// Retrieve user subjects from DB or cache
 	// ==============================================================
@@ -44,12 +31,12 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Ask what subject the homework is about
 	// ==============================================================
-	let filter: Discord.CollectorFilter = m => m.author.id === user.id
+	let filter: Discord.CollectorFilter = m => m.author.id === hubdayUser.discordUser.id
 		&& !Number.isNaN(parseInt(m.content))
 		&& (parseInt(m.content) < Object.keys(userSubjects).length + 1)
 		&& (parseInt(m.content) > 0);
 
-	const subjectNb = await getResponse(user, botLog, subjectEmbed, filter)
+	const subjectNb = await getResponse(hubdayUser.discordUser, botLog, subjectEmbed, filter)
 		.catch(e => { throw e; });
 
 	const _SUBJECT: Subject = userSubjects[parseInt(subjectNb.toString()) - 1];
@@ -60,7 +47,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	// Request the list of tasks that make up the homework
 	// ==============================================================
-	filter = m => m.author.id === user.id;
+	filter = m => m.author.id === hubdayUser.discordUser.id;
 	const labelEmbed = Embed.getDefaultEmbed(
 		`Nouveau devoir pour le cours de ${_SUBJECT.getDisplayName()}`,
 		'Veuillez indiquer la liste des tâches à effectuer pour ce devoir',
@@ -68,7 +55,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		_SUBJECT.color,
 	);
 
-	const tasksResponse = await getResponse(user, botLog, labelEmbed, filter)
+	const tasksResponse = await getResponse(hubdayUser.discordUser, botLog, labelEmbed, filter)
 		.catch(e => { throw e; });
 
 	const _TASKS: string[] = [];
@@ -92,7 +79,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	let valid = false;
 	let _DATE = 'error-date';
 	while (!valid) {
-		const dateResponse = await getResponse(user, botLog, dateEmbed, filter = m => m.author.id === user.id)
+		const dateResponse = await getResponse(hubdayUser.discordUser, botLog, dateEmbed, filter = m => m.author.id === hubdayUser.discordUser.id)
 			.catch(e => { throw e; });
 
 		const date = Utils.dateValid(dateResponse.toString());
@@ -125,7 +112,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 
 	while (!valid) {
 		const deadlineResponse = await getResponse(
-			user,
+			hubdayUser.discordUser,
 			botLog,
 			Embed.getEmojiFormEmbed('Indiquer une heure de remise ?',
 				emojiAction,
@@ -133,7 +120,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 				'Réagissez avec l\'émoji pour passer ou répondez.',
 				_SUBJECT.color
 			),
-			filter = m => m.author.id === user.id,
+			filter = m => m.author.id === hubdayUser.discordUser.id,
 			emojiAction,
 		).catch(e => { throw e; });
 		if (Utils.hourValid(deadlineResponse.toString())) {
@@ -143,7 +130,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 		} else if (deadlineResponse == -1) {
 			valid = true;
 		} else {
-			user.send(Embed.getDefaultEmbed('Répondez avec une heure valide !', null, null, _SUBJECT.color));
+			hubdayUser.discordUser.send(Embed.getDefaultEmbed('Répondez avec une heure valide !', null, null, _SUBJECT.color));
 		}
 	}
 
@@ -161,7 +148,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	];
 
 	const groupResponse = await getEmojisResponse(
-		user,
+		hubdayUser.discordUser,
 		botLog,
 		emojiAction,
 		Embed.getEmojiFormEmbed('Quel groupe est concerné par ce devoir ?',
@@ -194,7 +181,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	];
 
 	const deliveryResponse = await getResponse(
-		user,
+		hubdayUser.discordUser,
 		botLog,
 		Embed.getEmojiFormEmbed('Ajouter des détails à ce devoir ? (facultatif)',
 			emojiAction,
@@ -202,7 +189,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 			'Réagissez avec l\'émoji pour passer ou répondez.',
 			_SUBJECT.color
 		),
-		filter = m => m.author.id === user.id,
+		filter = m => m.author.id === hubdayUser.discordUser.id,
 		emojiAction,
 	).catch(e => { throw e; });
 
@@ -223,7 +210,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	if (_DETAILS) {
 		while (!valid) {
 			const linkResponse = await getResponse(
-				user,
+				hubdayUser.discordUser,
 				botLog,
 				Embed.getEmojiFormEmbed(
 					'Ajouter un lien ? (facultatif)',
@@ -232,7 +219,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 					'Réagissez avec l\'émoji pour passer ou répondez avec un lien.',
 					_SUBJECT.color
 				),
-				filter = m => m.author.id === user.id,
+				filter = m => m.author.id === hubdayUser.discordUser.id,
 				emojiAction
 			).catch(e => { throw e; });
 			if (linkResponse == -1) {
@@ -241,7 +228,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 				_LINK = linkResponse;
 				valid = true;
 			} else {
-				user.send(Embed.getDefaultEmbed('Répondez avec un lien valide !', null, null, _SUBJECT.color));
+				hubdayUser.discordUser.send(Embed.getDefaultEmbed('Répondez avec un lien valide !', null, null, _SUBJECT.color));
 			}
 		}
 	}
@@ -260,7 +247,7 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	];
 
 	const gradeResponse = await getEmojisResponse(
-		user,
+		hubdayUser.discordUser,
 		botLog,
 		emojiAction,
 		Embed.getEmojiFormEmbed('Le devoir est-il noté ? (facultatif)', emojiAction, null, 'Réagissez avec l\'émoji correspondant à l\'action souhaitée.', _SUBJECT.color)
@@ -278,11 +265,11 @@ export const startAddForm = async (user: Discord.User): Promise<void> => {
 	const homework = new Homework(_SUBJECT, _TASKS, _DATE, _DEADLINE, _GROUP, _DETAILS, _LINK, _NOTATION);
 
 	botLog.log('== Add form ended ==');
-	handleUser(user, true);
+	handleUser(hubdayUser.discordUser, true);
 
 	await homework.persist(config.date.semester === 1 ? hubdayUser.group1 : hubdayUser.group2);
 
-	user.send(homework.getEmbed());
+	hubdayUser.discordUser.send(homework.getEmbed());
 };
 
 

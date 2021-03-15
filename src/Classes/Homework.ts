@@ -175,8 +175,6 @@ export default class Homework {
 			utils.dateToStringValidFormat(end)
 		);
 
-		console.group(homeworks);
-
 		const hmArray: Homework[] = [];
 
 		for (const key in homeworks) {

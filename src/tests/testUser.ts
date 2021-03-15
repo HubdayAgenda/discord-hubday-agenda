@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 import Subject from '../Classes/Subject';
 import User from '../Classes/User';
+import MockDiscord from './MockDiscord';
 const dotenv = require('dotenv');
 
 describe('User tests', () => {
@@ -17,21 +18,25 @@ describe('User tests', () => {
 		}
 	}
 
-	it('checking User getFromDiscordId()', async () => {
+	it('checking User getFromDiscordUser()', async () => {
 		expect(process.env.RTDB_URL).to.be.not.null;
 
+		const mockDiscord = new MockDiscord();
+		const testUser = mockDiscord.getUser();
+
 		//String vide
-		let user = await User.getFromDiscordId('');
-		expect(user).to.be.null;
+		testUser.id = '';
+		expect(User.getFromDiscordUser(testUser)).to.throw;
 
 		//Utilisateur discord pas sur hubday
-		user = await User.getFromDiscordId('708037476781916260');
-		expect(user).to.be.null;
+		testUser.id = '708037476781916260';
+		expect(User.getFromDiscordUser(testUser)).to.throw;
 
 		//Test avec compte Célian
-		user = await User.getFromDiscordId('316950783146983426');
+		testUser.id = '316950783146983426';
+		const user = await User.getFromDiscordUser(testUser);
 		expect(user).to.be.not.null;
-		expect(user?.discordId).to.equal('316950783146983426');
+		expect(user?.discordUser.id).to.equal('316950783146983426');
 		expect(user?.idnum).to.equal('criboulet');
 		expect(user?.displayName).to.equal('Celian Riboulet');
 		expect(user?.personalEmails).to.eql(['celian.riboulet@gmail.com']);
@@ -44,8 +49,11 @@ describe('User tests', () => {
 	});
 
 	it('checking getSubjects()', async () => {
-		const user = await User.getFromDiscordId('316950783146983426');
-		expect(user).to.be.not.null;
+		const mockDiscord = new MockDiscord();
+		const testUser = mockDiscord.getUser();
+		testUser.id = '316950783146983426';
+		const user = await User.getFromDiscordUser(testUser);
+		expect(user).to.be.not.throw;
 
 		const subjects = await user?.getSubjects();
 		expect(subjects).to.be.not.empty.and.not.undefined;

@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 import * as Embed from './embed';
 
 import BotLog from './Classes/BotLog';
-import SlashCommands from './Classes/SlashCommands';
+import AgendaSlashCommands from './Classes/SlashCommands';
 import config from './config';
 
 const client = new Discord.Client();
@@ -39,7 +39,7 @@ client.on('ready', async () => {
 	 * Création des slashs commands
 	 */
 	if(client.user?.id && process.env.DISCORD_BOT_TOKEN != undefined)
-		SlashCommands.updateAgendaCommand(client.user?.id, process.env.DISCORD_BOT_TOKEN);
+		AgendaSlashCommands.updateAgendaCommand(client.user?.id, process.env.DISCORD_BOT_TOKEN);
 	else
 		BotLog.error('Erreur de mise à jour slash commands');
 
@@ -47,7 +47,7 @@ client.on('ready', async () => {
 	 * Enregistrement listener des slash commands
 	 */
 	client.ws.on(('INTERACTION_CREATE' as Discord.WSEventType), async interaction => {
-		SlashCommands.processInteraction(client, interaction);
+		AgendaSlashCommands.processInteraction(client, interaction);
 	});
 
 	BotLog.log('========================================');
