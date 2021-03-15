@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 import BotLog from './BotLog';
 import * as AddForm from '../addForm';
 import * as Exceptions from '../Classes/Exceptions';
-import { handleUser } from '../userLoad';
+import { handleUser, isUserHandled } from '../userLoad';
 import Homework from './Homework';
 import User from './User';
 import * as Embed from '../embed';
@@ -266,7 +266,13 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 * @param hubdayUser Utilisateur concerné par la commande
 	 */
 	private static handleAddCommand(hubdayUser: User) {
-
+		if(isUserHandled(hubdayUser.discordUser.id)){
+			hubdayUser.discordUser.send(Embed.getDefaultEmbed(
+				'Vous utilisez déjà le bot',
+				'Continuez de répondre et finissez l\'ajout d\'un devoir avant de refaire une commande'
+			)).catch(e => BotLog.error(e));
+			return;
+		}
 		handleUser(hubdayUser.discordUser);
 
 		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
