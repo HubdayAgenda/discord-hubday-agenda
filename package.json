@@ -22,7 +22,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
-    "test": "mocha -r ts-node/register './src/tests/**/*.ts'"
+    "test": "mocha --exit -r ts-node/register './src/tests/**/*.ts'"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
