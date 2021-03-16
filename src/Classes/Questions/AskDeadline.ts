@@ -14,14 +14,12 @@ export default class AskDeadline extends Question {
 		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
 	];
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {
 		return new Promise((resolve, reject) => {
-			const embed = Embed.getEmojiFormEmbed('Indiquer une heure de remise ?',
+			const embed = Embed.getEmojiFormEmbed(
+				'Indiquer une heure de remise ?',
 				AskDeadline.emojiAction,
 				'Donnez l\'heure sous la forme HH:MM',
 				'Réagissez avec l\'émoji pour passer ou répondez.',

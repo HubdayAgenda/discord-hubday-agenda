@@ -7,9 +7,6 @@ import * as Discord from 'discord.js';
 
 export default class AskTasks extends Question {
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {

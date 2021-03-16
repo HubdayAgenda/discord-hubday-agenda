@@ -283,9 +283,11 @@ export default class AgendaSlashCommands extends SlashCommands {
 		const form = new AddSubjectForm(hubdayUser);
 		form.start()
 			.then(homework => {
-				homework.persist(hubdayUser.getCurrentGroup());
-				hubdayUser.discordUser.send(homework.getEmbed())
-					.catch(e => BotLog.error(e));
+				console.log(homework);
+				homework.persist(hubdayUser.getCurrentGroup()).then(() => {
+					hubdayUser.discordUser.send(homework.getEmbed(true))
+						.catch(e => BotLog.error(e));
+				}).catch(e => BotLog.error(e));
 			})
 			.catch((e) => {
 				handleUser(hubdayUser.discordUser, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs

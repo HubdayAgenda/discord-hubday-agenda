@@ -97,6 +97,8 @@ export default class AddSubjectForm {
 	createHomework(): Homework | never {
 		if (!this.isComplete())
 			throw new UncompleteForm('Le formulaire n\'est pas complet, il est donc impossible de créer un devoir à partir de ce dernier');
+
+		this.botLog.log('Devoir créé');
 		return new Homework(
 			<Subject>this.subject,
 			<string[]>this.tasks,

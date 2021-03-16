@@ -14,9 +14,6 @@ export default class AskLink extends Question {
 		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
 	];
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {

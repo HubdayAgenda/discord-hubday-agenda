@@ -4,7 +4,6 @@ import Question, { Skip } from './Question';
 import BotLog from '../BotLog';
 import * as Embed from '../../embed';
 import * as Discord from 'discord.js';
-import * as Utils from '../../utils';
 
 import { IemojiAction } from '../AddSubjectForm';
 
@@ -14,14 +13,12 @@ export default class AskDetails extends Question {
 		{ 'emoji': '❌', 'value': -1, 'description': 'Ne pas spécifier' },
 	];
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {
 		return new Promise((resolve, reject) => {
-			const embed = Embed.getEmojiFormEmbed('Ajouter des détails à ce devoir ? (facultatif)',
+			const embed = Embed.getEmojiFormEmbed(
+				'Ajouter des détails à ce devoir ? (facultatif)',
 				AskDetails.emojiAction,
 				'Ici, vous pouvez indiquer des consignes de remise ou d\'autres détails',
 				'Réagissez avec l\'émoji pour passer ou répondez.',

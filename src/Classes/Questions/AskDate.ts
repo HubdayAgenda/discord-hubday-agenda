@@ -8,9 +8,6 @@ import * as Utils from '../../utils';
 
 export default class AskDate extends Question {
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {

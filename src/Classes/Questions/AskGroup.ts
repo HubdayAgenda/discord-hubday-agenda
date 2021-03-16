@@ -4,9 +4,6 @@ import Question, { Skip } from './Question';
 import BotLog from '../BotLog';
 import * as Embed from '../../embed';
 import * as Discord from 'discord.js';
-import * as Utils from '../../utils';
-
-import { IemojiAction } from '../AddSubjectForm';
 
 export default class AskGroup extends Question {
 
@@ -16,14 +13,12 @@ export default class AskGroup extends Question {
 		{ 'emoji': '✌️', 'value': 3, 'description': 'Groupe seconde' },
 	];
 
-	/**
-	 * Les modules de cet utilisateur hubday
-	 */
 	subject: Subject;
 
 	async send(): Promise<Discord.Message> {
 		return new Promise((resolve, reject) => {
-			const embed = Embed.getEmojiFormEmbed('Quel groupe est concerné par ce devoir ?',
+			const embed = Embed.getEmojiFormEmbed(
+				'Quel groupe est concerné par ce devoir ?',
 				AskGroup.emojiAction,
 				'‌‌ ',
 				'Réagissez avec l\'émoji correspondant à l\'action souhaitée.',
