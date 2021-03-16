@@ -14,10 +14,10 @@ import AskDetails from './Questions/AskDetails';
 import AskLink from './Questions/AskLink';
 import AskNotation from './Questions/AskNotation';
 
-type ResponseType = ((value: null) => void) | ((value: string) => void) | ((value: string[]) => void) | ((value: Subject) => void);
+type SetResponseType = ((value: null) => void) | ((value: string) => void) | ((value: string[]) => void) | ((value: Subject) => void);
 
 interface AddFormQuestion {
-	setResponse: ResponseType,
+	setResponse: SetResponseType,
 	question: () => Question,
 }
 
@@ -152,6 +152,7 @@ export default class AddSubjectForm {
 				await this.handleQuestion(question as AddFormQuestion);
 			}
 		}
+		this.user.addSubjectForm = null;
 		return this.createHomework();
 	}
 

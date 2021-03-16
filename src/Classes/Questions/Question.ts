@@ -1,10 +1,10 @@
-import * as Discord from 'discord.js';
-import { isUserHandled } from '../../userLoad';
 import User from '../User';
-import * as Embed from '../../embed';
-import * as Exceptions from '../Exceptions';
 import BotLog from '../BotLog';
 import Subject from '../Subject';
+import * as Discord from 'discord.js';
+import * as Embed from '../../embed';
+import * as Exceptions from '../Exceptions';
+import { isUserHandled } from '../../userLoad';
 import { IemojiAction } from '../AddSubjectForm';
 
 export class Skip {
@@ -17,7 +17,7 @@ export class Skip {
 	}
 }
 
-export default class Question {
+export default abstract class Question {
 
 	user: User
 	botLog: BotLog;
@@ -87,7 +87,7 @@ export default class Question {
 					if (isUserHandled(this.user.discordUser.id))
 						this.user.discordUser.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
 					msg.delete().catch((e) => BotLog.error(e));
-					reject(new Exceptions.TimeOutException(this.user.discordUser.username));
+					reject(new Exceptions.QuestionTimeOutException(this.user.discordUser.username));
 				});
 			}
 		});

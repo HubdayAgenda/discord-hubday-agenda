@@ -1,7 +1,7 @@
 import User from './User';
-import * as Discord from 'discord.js';
-import { sendErrorsHook } from '../webhooks';
 import config from '../config';
+import * as Discord from 'discord.js';
+import { Webhook, MessageBuilder } from 'discord-webhook-node';
 
 /**
  * Niveaux de logs possible (Seuil de déclanchement du webhook discord)
@@ -204,11 +204,24 @@ export default class BotLog {
 	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
 	hookLogMessages(): void {
-		/**
-		 * @TODO Webhook cause des erreurs pour les test et sans raison apparente
-		 * (L'erreur vient d'ici mais ce code n'est pas éxécuté en toute ogique durant les tests)
-		 */
-		// sendErrorsHook(this);
+		this.info('Envois d\'un webhook d\'erreur...');
+
+		if (process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL === undefined) {
+			console.error('Webhook setup error');
+			return;
+		}
+		const hook = new Webhook(process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL);
+
+		const embedReport = new MessageBuilder()
+			.setTitle('Problème détecté ' + (this.getUsernameString() ? this.getUsernameString() : ''))
+			.setDescription('```' + this.getLastMessages() + '```')
+			.setColor(11524793)
+			.setTimestamp();
+		try {
+			hook.send(embedReport);
+		} catch (e) {
+			console.error('Impossible d\'envoyer un message avec le web hook de bug report, vérifiez que l\'url du web hook est valide');
+		}
 	}
 
 	white = '\x1b[37m';

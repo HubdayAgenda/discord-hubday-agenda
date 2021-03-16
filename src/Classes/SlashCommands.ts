@@ -266,6 +266,7 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 * @param hubdayUser Utilisateur concerné par la commande
 	 */
 	private static handleAddCommand(hubdayUser: User) {
+
 		if (isUserHandled(hubdayUser.discordUser.id)) {
 			hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 				'Vous utilisez déjà le bot',
@@ -273,7 +274,6 @@ export default class AgendaSlashCommands extends SlashCommands {
 			)).catch(e => BotLog.error(e));
 			return;
 		}
-		handleUser(hubdayUser.discordUser);
 
 		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 			'Ajouter un devoir :',
@@ -281,20 +281,23 @@ export default class AgendaSlashCommands extends SlashCommands {
 		)).catch(e => BotLog.error(e));
 
 		const form = new AddSubjectForm(hubdayUser);
+
+		handleUser(hubdayUser.discordUser);
+
 		form.start()
 			.then(homework => {
-				console.log(homework);
 				homework.persist(hubdayUser.getCurrentGroup()).then(() => {
 					hubdayUser.discordUser.send(homework.getEmbed(true))
 						.catch(e => BotLog.error(e));
 				}).catch(e => BotLog.error(e));
 			})
 			.catch((e) => {
-				handleUser(hubdayUser.discordUser, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
-				if (e instanceof Exception.TimeOutException)
+				if (e instanceof Exception.QuestionTimeOutException)
 					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
 				else
 					BotLog.error('[Erreur formulaire] ' + e);
+			}).finally(() => {
+				handleUser(hubdayUser.discordUser, true);
 			});
 	}
 }
