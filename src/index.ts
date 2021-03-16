@@ -7,6 +7,10 @@ import * as Embed from './embed';
 import BotLog from './Classes/BotLog';
 import AgendaSlashCommands from './Classes/SlashCommands';
 import config from './config';
+import AddSubjectForm from './Classes/AddSubjectForm';
+import User from './Classes/User';
+import { handleUser, isUserHandled } from './userLoad';
+import { TimeOutException } from './Classes/Exceptions';
 
 const client = new Discord.Client();
 
@@ -95,6 +99,22 @@ client.on('message', msg => {
 			}
 			return;
 		}
+
+		if(isUserHandled(msg.author.id) || msg.author.id == client.user?.id)
+			return;
+		User.getFromDiscordUser(msg.author).then((hubdayUser: User) => {
+			handleUser(hubdayUser.discordUser);
+			const form = new AddSubjectForm(hubdayUser);
+			form.start()
+				.catch((e) => {
+					handleUser(hubdayUser.discordUser, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+					if (e instanceof TimeOutException)
+						BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
+					else
+						BotLog.error('[Erreur formulaire] ' + e);
+				});
+		}).catch(e => BotLog.error(e));
+
 	}
 });
 

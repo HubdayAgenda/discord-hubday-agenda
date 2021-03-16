@@ -3,6 +3,7 @@ import Subject, { getSubjects } from './Subject';
 import config from '../config';
 import { UndefinedHubdayUser } from './Exceptions';
 import * as Discord from 'discord.js';
+import AddSubjectForm from './AddSubjectForm';
 
 interface Dictionary<T> {
 	[key: string]: T;
@@ -14,6 +15,11 @@ export default class User {
 	 * "Cache" contenant la liste des utilisateurs ayant déjà intéragit avec le bot
 	 */
 	static USERS_LIST: Dictionary<User> = {};
+
+	/**
+	 * Le formulaire que cet utilisateur est en train de compléter
+	 */
+	addSubjectForm: null | AddSubjectForm;
 
 	/**
 	 * L'idnum de cet utilisateur
@@ -121,6 +127,7 @@ export default class User {
 		this.group2 = group2;
 		this.subgroup2 = subgroup2;
 		this.subjects = null;
+		this.addSubjectForm = null;
 	}
 
 	/**

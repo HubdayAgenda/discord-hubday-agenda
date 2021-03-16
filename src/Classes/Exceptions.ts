@@ -5,3 +5,7 @@ export class TimeOutException extends Error{
 export class UndefinedHubdayUser extends Error{
 	constructor(content: string){super(content);}
 }
+
+export class UncompleteForm extends Error{
+	constructor(content: string){super(content);}
+}
