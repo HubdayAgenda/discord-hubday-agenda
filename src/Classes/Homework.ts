@@ -74,7 +74,16 @@ export default class Homework {
 	 * @param notation indique si le devoir est noté
 	 * @param lessonId id de la lesson associé au devoir
 	 */
-	constructor(subject: Subject, tasks: string[], date: string, deadline: string | null, group: string | null, details: string | null, link: string | null, notation: boolean | null) {
+	constructor(
+		subject: Subject,
+		tasks: string[],
+		date: string,
+		deadline: string | null,
+		group: string | null,
+		details: string | null,
+		link: string | null,
+		notation: boolean | null
+	) {
 		this.id = null;
 		this.subject = subject;
 		this.tasks = tasks;

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as fetch from 'node-fetch';
-import { gatherResponse } from '../firebase';
 import * as Discord from 'discord.js';
 import BotLog from './BotLog';
-import * as AddForm from '../addForm';
-import * as Exceptions from '../Classes/Exceptions';
-import { handleUser, isUserHandled } from '../userLoad';
+import AddSubjectForm from './AddSubjectForm';
 import Homework from './Homework';
 import User from './User';
+import * as Exception from './Exceptions';
 import * as Embed from '../embed';
 import * as utils from '../utils';
+import { gatherResponse } from '../firebase';
+import { handleUser, isUserHandled } from '../userLoad';
 
 // const INTERACTION_TYPE = Object.freeze({
 // 	PING: 1,
@@ -266,29 +266,38 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 * @param hubdayUser Utilisateur concerné par la commande
 	 */
 	private static handleAddCommand(hubdayUser: User) {
-		if(isUserHandled(hubdayUser.discordUser.id)){
+
+		if (isUserHandled(hubdayUser.discordUser.id)) {
 			hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 				'Vous utilisez déjà le bot',
 				'Continuez de répondre et finissez l\'ajout d\'un devoir avant de refaire une commande'
 			)).catch(e => BotLog.error(e));
 			return;
 		}
-		handleUser(hubdayUser.discordUser);
 
 		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 			'Ajouter un devoir :',
 			'Répondez aux questions suivantes pour créer un nouveau devoir'
 		)).catch(e => BotLog.error(e));
 
-		AddForm.startAddForm(hubdayUser).catch((e) => {
+		const form = new AddSubjectForm(hubdayUser);
 
-			handleUser(hubdayUser.discordUser, true); // En cas d'erreur dans le formulaire à n'importe quel moment, on retire l'utilisateur des utilisateurs actifs
+		handleUser(hubdayUser.discordUser);
 
-			if (e instanceof Exceptions.TimeOutException)
-				BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
-			else
-				BotLog.error('[Erreur formulaire] ' + e);
-
-		});
+		form.start()
+			.then(homework => {
+				homework.persist(hubdayUser.getCurrentGroup()).then(() => {
+					hubdayUser.discordUser.send(homework.getEmbed(true))
+						.catch(e => BotLog.error(e));
+				}).catch(e => BotLog.error(e));
+			})
+			.catch((e) => {
+				if (e instanceof Exception.QuestionTimeOutException)
+					BotLog.warn('[Alerte formulaire] (Temps de réponse trop long à une question : ' + e.message + ')');
+				else
+					BotLog.error('[Erreur formulaire] ' + e);
+			}).finally(() => {
+				handleUser(hubdayUser.discordUser, true);
+			});
 	}
 }
