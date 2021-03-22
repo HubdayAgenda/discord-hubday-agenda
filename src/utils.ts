@@ -74,3 +74,19 @@ export const validURL = (urlString: string): boolean => {
 	}
 	return url.protocol === 'http:' || url.protocol === 'https:';
 };
+
+/**
+ * Determine le prochain jour voulu dans la semaine
+ * @param dayWeek le jour de la semaine voulu (tout en minuscule et en anglais)
+ * @returns la date de ce jour
+ */
+export const getNextDay = (dayWeek: string): Date => {
+	const dayOfWeek = moment().day(dayWeek).hour(0).minute(0).second(0).millisecond(0);
+	const endOfToday = moment().hour(23).minute(59).second(59);
+
+	if(dayOfWeek.isBefore(endOfToday)) {
+		dayOfWeek.add(1, 'weeks');
+	}
+
+	return dayOfWeek.toDate();
+};

@@ -13,7 +13,7 @@ logHookLevel :
 export default {
 	global: {
 		getSubjectsFromFile: true,
-		logHookLevel: 1
+		logHookLevel: 2
 	},
 	bot: {
 		version: '0.0.0',
