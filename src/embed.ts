@@ -1,8 +1,14 @@
 import * as Discord from 'discord.js';
 import * as modulesTab from './modulesTab';
 import { IemojiAction } from './Classes/AddSubjectForm';
-import Subject from './Classes/Subject';
-
+import Subject, { getSubjects } from './Classes/Subject';
+import { userLoadCount } from './userLoad';
+import User from './Classes/User';
+import moment = require('moment');
+import config from './config';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 /**
  * Création de l'embed pour l'affichage du !help-agenda
  * @return l'embed mis en forme
@@ -77,5 +83,21 @@ export const getEmojiFormEmbed = (titre: string, emojiList: IemojiAction[], desc
 	emojiList.forEach((param: IemojiAction) => {
 		embed.addField(param.emoji + '‌‌ ‌‌ ' + param.description, '‌‌ ', true);
 	});
+	return embed;
+};
+
+export const getRuntimeEmbed = async (): Promise<Discord.MessageEmbed> => {
+	const uptime = moment.duration(process.uptime(), 'second')
+		.format('dd:hh:mm:ss');
+
+	const embed = new Discord.MessageEmbed()
+		.setAuthor('Runtime', 'https://www.hubday.fr/favicon/apple-touch-icon-72x72-precomposed.png')
+		.addField('UpTime', uptime)
+		.addField('Subjects count', Object.values(await getSubjects()).length)
+		.addField('User count', Object.values(User.USERS_LIST).length)
+		.addField('User load', userLoadCount())
+		.addField('Bot version', config.bot.version)
+		.setColor('#afdab9');
+
 	return embed;
 };

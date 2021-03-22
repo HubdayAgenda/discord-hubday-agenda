@@ -204,8 +204,6 @@ export default class BotLog {
 	 * Envois via webhook la liste des messages (Log déjà reçu par cette instance)
 	 */
 	hookLogMessages(): void {
-		this.info('Envois d\'un webhook d\'erreur...');
-
 		if (process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL === undefined) {
 			console.error('Webhook setup error');
 			return;

@@ -15,6 +15,15 @@ export const dateToStringValidFormat = (date: Date): string => {
 };
 
 /**
+ * Convertit une date en une string correspondante dans un format valide pour hubday
+ * @param date La date a convertir
+ * @returns La string correspondante sous le format adapté pour hubday
+ */
+export const dateToStringReadableFormat = (date: Date): string => {
+	return moment(date).format('DD/MM/YYYY');
+};
+
+/*
  * Permet de réupérer une date X jours après aujourd'hui
  * @param days le nombre de jour qui qui nous séparent de la date
  * @returns La date relative de X jours par rapport à aujourd'hui
@@ -24,12 +33,40 @@ export const getRelativeDate = (days: number): Date => {
 };
 
 /**
+ * Convertit une date en son jour de la semaine sous forme de texte
+ * @param date la date a convertir
+ * @return le jour de la semaine en string et en français
+ */
+export const dateDayToString = (date: Date): string => {
+	const day = date.getDay();
+	switch (day) {
+		default:
+			return 'Dimanche';
+		case 1:
+			return 'Lundi';
+		case 2:
+			return 'Mardi';
+		case 3:
+			return 'Mercredi';
+		case 4:
+			return 'Jeudi';
+		case 5:
+			return 'Vendredi';
+		case 6:
+			return 'Samedi';
+	}
+};
+
+/**
  * Determine si un string est une date valide au format DD/MM/YYYY, si c'est le cas, cette date sera
  * retournée en tant qu'instance de Date, si ce n'est pas le cas null sera retourné.
  * @param date date sous forme de string a vérifier puis instancier en tant qu'objet de la classe Date
  * @returns Objet de la classe Date si la string en entrée est valide, sinon null dans le cas invalide
  */
 export const dateValid = (date: string): Date | null => {
+	if(date.length != 10)
+		return null;
+
 	const today = new Date();
 
 	const homeworkDate = moment(date, 'DD/MM/YYYY').toDate();

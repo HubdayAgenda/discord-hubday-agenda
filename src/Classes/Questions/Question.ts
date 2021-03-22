@@ -73,23 +73,38 @@ export default abstract class Question {
 				}).catch((e) => reject(e));
 			}
 
-			if(!onlyEmojis) {
-				const filter = (m: Discord.Message) => m.author.id === this.user.discordUser.id;
-				msg.channel.awaitMessages(filter, {
-					max: 1,
-					time: 120000,
-					errors: ['time']
-				}).then(answer => {
-					const content = answer.first()?.content;
-					if (typeof content !== 'undefined')
-						resolve(content);
-				}).catch(() => {
-					if (isUserHandled(this.user.discordUser.id))
-						this.user.discordUser.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
-					msg.delete().catch((e) => BotLog.error(e));
-					reject(new Exceptions.QuestionTimeOutException(this.user.discordUser.username));
-				});
-			}
+
+			const filter = (m: Discord.Message) => m.author.id === this.user.discordUser.id;
+			msg.channel.awaitMessages(filter, {
+				max: 1,
+				time: 120000,
+				errors: ['time']
+			}).then(answer => {
+				//3
+				const content = answer.first()?.content;
+				if (typeof content == 'undefined') {
+					reject(new Error('Message response content'));
+					return;
+				}
+
+				if (this.emojiActions != undefined && content.length == 1) {
+					const numAnswerEmoji: number = parseInt(content);
+					if (Number(numAnswerEmoji)) {
+						if(numAnswerEmoji > 0 && numAnswerEmoji <= this.emojiActions.length){
+							resolve(this.emojiActions[numAnswerEmoji - 1].value);
+						}
+					}
+				}
+				if (!onlyEmojis)
+					resolve(content);
+			}).catch((e) => {
+				this.botLog.warn(e);
+				if (isUserHandled(this.user.discordUser.id))
+					this.user.discordUser.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
+				msg.delete().catch((e) => BotLog.error(e));
+				reject(new Exceptions.QuestionTimeOutException(this.user.discordUser.username));
+			});
+
 		});
 	}
 

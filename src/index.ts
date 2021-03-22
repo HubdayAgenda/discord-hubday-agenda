@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 import * as Embed from './embed';
 
 import BotLog from './Classes/BotLog';
-import AgendaSlashCommands from './Classes/SlashCommands';
+import AgendaSlashCommands from './Classes/SlashCommands/AgendaSlashCommands';
 import config from './config';
 
 const client = new Discord.Client();
@@ -35,11 +35,15 @@ if (process.env.DISCORD_BOT_TOKEN === undefined
  */
 client.on('ready', async () => {
 
+	// AgendaSlashCommands.getSlashCommands(client, '796320431569109012');
+	// AgendaSlashCommands.deleteSlashCommand(client, '820352959455690762', '796320431569109012');
+
 	/**
 	 * Création des slashs commands
+	 * 823566121629909014
 	 */
 	if(client.user?.id && process.env.DISCORD_BOT_TOKEN != undefined)
-		AgendaSlashCommands.updateAgendaCommand(client.user?.id, process.env.DISCORD_BOT_TOKEN);
+		AgendaSlashCommands.addAgendaSlashCommand(client);
 	else
 		BotLog.error('Erreur de mise à jour slash commands');
 
@@ -69,13 +73,19 @@ client.on('ready', async () => {
 		}
 	};
 	status();
+
+	if(process.platform !== 'win32'){
+		const startLog = new BotLog('Démarrage');
+		startLog.info('Lancement du Bot_Agenda');
+		startLog.hookLogMessages();
+	}
 });
 
 /**
  * Commandes classiques du bot
  * on 'message' = quand le bot recoit un message n'importe ou
  */
-client.on('message', msg => {
+client.on('message', async msg => {
 	if (msg.channel.type === 'dm') {//On accepte que les message en MP
 
 		// On regarde si le message commence bien par le prefix (!)
@@ -92,10 +102,16 @@ client.on('message', msg => {
 				case 'agenda-logs':
 					msg.author.send(BotLog.Instance.getMessagesFile()).catch((e) => BotLog.error(e));
 					return;
-			}
-			return;
-		}
 
+				case 'agenda-runtime':
+					msg.author.send(await Embed.getRuntimeEmbed()).catch((e) => BotLog.error(e));
+					return;
+
+				default :
+					msg.author.send('Commande non reconnue : !agenda-(version/help/logs/runtime)').catch((e) => BotLog.error(e));
+					return;
+			}
+		}
 	}
 });
 

@@ -7,6 +7,7 @@ logHookLevel :
  - 0: Toutes les logs sont envoyés sur discord via webhook
  - 1: Les warning + les erreurs ...
  - 2: Uniquement les erreurs ...
+ - 3: Rien
  Pour que le webhook fonctionne, sont url doit être configuré (Voir README - configuration, pour plus de détails)
 */
 
@@ -16,7 +17,7 @@ export default {
 		logHookLevel: 2
 	},
 	bot: {
-		version: '0.0.0',
+		version: '1.0.0',
 		prefix: '!'
 	},
 	date : {
