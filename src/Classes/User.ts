@@ -135,7 +135,9 @@ export default class User {
 	   * @param semester semestre pour lequel récupérer les matières
 	 * @return Liste des matières suivies par l'utilisateur durant ce semestre
 	 */
-	getSubjects = async (semester = 1): Promise<Subject[]> => {
+	getSubjects = async (): Promise<Subject[]> => {
+		const semester = config.date.semester;
+
 		if (this.subjects === null) {
 			const subjects = await getSubjects();
 
