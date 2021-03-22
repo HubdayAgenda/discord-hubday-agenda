@@ -15,6 +15,7 @@
     "eslint": "^7.21.0",
     "glob": "^7.1.6",
     "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.1"
   },
   "scripts": {
@@ -28,6 +29,7 @@
     "@types/chai": "^4.2.15",
     "@types/glob": "^7.1.1",
     "@types/mocha": "^8.2.1",
+    "@types/moment-duration-format": "^2.2.2",
     "@types/node": "^11.15.12",
     "@types/node-fetch": "^2.5.8",
     "@types/ws": "^7.4.0",

@@ -23,7 +23,7 @@ interface AddFormQuestion {
 
 export interface IemojiAction {
 	emoji: string,
-	value: number | boolean | null | string,
+	value: number | boolean | string,
 	description: string
 }
 

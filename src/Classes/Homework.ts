@@ -103,7 +103,7 @@ export default class Homework {
 	getEmbed(addConfirmation = true): Discord.MessageEmbed {
 		const embed = new Discord.MessageEmbed()
 			.setColor(this.subject.color)
-			.setTitle(`${this.subject.displayId} - ${this.subject.getDisplayName()}`)
+			.setTitle(this.subject.getDisplayName())
 			.setURL('https://www.hubday.fr/dashboard#subject/' + this.subject.id)
 			.setAuthor(
 				addConfirmation ? 'Devoir enregistré avec succès ! [Voir]' : 'Devoir à faire ! [Voir]',

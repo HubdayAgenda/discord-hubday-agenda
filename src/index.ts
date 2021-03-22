@@ -7,7 +7,6 @@ import * as Embed from './embed';
 import BotLog from './Classes/BotLog';
 import AgendaSlashCommands from './Classes/SlashCommands/AgendaSlashCommands';
 import config from './config';
-import { start } from 'repl';
 
 const client = new Discord.Client();
 
@@ -86,7 +85,7 @@ client.on('ready', async () => {
  * Commandes classiques du bot
  * on 'message' = quand le bot recoit un message n'importe ou
  */
-client.on('message', msg => {
+client.on('message', async msg => {
 	if (msg.channel.type === 'dm') {//On accepte que les message en MP
 
 		// On regarde si le message commence bien par le prefix (!)
@@ -105,7 +104,7 @@ client.on('message', msg => {
 					return;
 
 				case 'agenda-runtime':
-					msg.author.send(process.uptime()).catch((e) => BotLog.error(e));
+					msg.author.send(await Embed.getRuntimeEmbed()).catch((e) => BotLog.error(e));
 					return;
 
 				default :

@@ -45,3 +45,7 @@ export const handleUser = (user: Discord.User, remove = false): number | void =>
 export const isUserHandled = (id: string): boolean => {
 	return USER_LOAD.includes(id);
 };
+
+export const userLoadCount = (): number => {
+	return USER_LOAD.length;
+};

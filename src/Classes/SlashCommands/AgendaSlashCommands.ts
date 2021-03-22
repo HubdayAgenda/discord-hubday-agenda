@@ -155,12 +155,12 @@ export default class AgendaSlashCommands extends SlashCommands {
 		if(listHomework.length == 0){
 			hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 				'Vous n\'avez pas de devoirs',
-				`Du ${utils.dateToStringValidFormat(start)} au ${utils.dateToStringValidFormat(end)}`
+				`Du ${utils.dateToStringReadableFormat(start)} au ${utils.dateToStringReadableFormat(end)}`
 			)).catch(e => BotLog.error(e));
 		} else {
 			hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 				'Voici la liste de vos devoirs :',
-				`Du ${utils.dateToStringValidFormat(start)} au ${utils.dateToStringValidFormat(end)}`
+				`Du ${utils.dateToStringReadableFormat(start)} au ${utils.dateToStringReadableFormat(end)}`
 			)).catch(e => BotLog.error(e));
 			listHomework.forEach(hm => {
 				hubdayUser.discordUser.send(hm.getEmbed(false)).catch(e => {
