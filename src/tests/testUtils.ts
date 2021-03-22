@@ -27,8 +27,8 @@ describe('Utils tests', () => {
 	});
 
 	it('checking utils getRelativeDate()', () => {
-		const date = moment(new Date(), 'YYYY-MM-DD').add(2, 'day').toDate();
-		expect(date).to.eql(moment(new Date(), 'YYYY-MM-DD').add(2, 'day').toDate());
+		const date = moment(new Date(), 'YYYY-MM-DD').add(2, 'day').toDate().setSeconds(0).toPrecision(1);
+		expect(date).to.eql(utils.getRelativeDate(2).setSeconds(0).toPrecision(1));
 	});
 
 	it('checking utils dateDayToString()', () => {
