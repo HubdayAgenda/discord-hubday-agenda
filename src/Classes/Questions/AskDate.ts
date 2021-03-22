@@ -22,8 +22,8 @@ export default class AskDate extends Question {
 			const embed = Embed.getEmojiFormEmbed(
 				'Échéance du devoir',
 				AskDate.emojiAction,
-				null,
-				'Indiquer la date sous la forme **JJ/MM/AAAA** ou réagissez avec un emoji',
+				'Indiquer la date en répondant sous la forme JJ/MM/AAAA',
+				'Ou réagissez avec une des propositions ci-dessus',
 				this.subject.color
 			);
 			this.user.discordUser.send(embed)
