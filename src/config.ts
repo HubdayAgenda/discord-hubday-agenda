@@ -17,7 +17,7 @@ export default {
 		logHookLevel: 2
 	},
 	bot: {
-		version: '0.0.0',
+		version: '1.0.0',
 		prefix: '!'
 	},
 	date : {
