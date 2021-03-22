@@ -16,22 +16,22 @@ const userLoadLog = new BotLog('User load');
  * @param id id de l'utilisateur a manager
  * @return -1 si l'utilisateur est déjà managé (soit déjà en train d'utiliser le bot)
  */
-export const handleUser = (user: Discord.User, remove = false): number | void => {
+export const handleUser = (user: Discord.User, remove = false, log = true): number | void => {
 	if (USER_LOAD.includes(user.id)) {
 		if (remove) {
 			USER_LOAD.splice(USER_LOAD.indexOf(user.id), 1);
-			userLoadLog.info(`[${USER_LOAD.length}] Bot user retiré (N'utilise plus le bot) : ` + user.username);
+			log && userLoadLog.info(`[${USER_LOAD.length}] Bot user retiré (N'utilise plus le bot) : ` + user.username);
 		} else {
-			userLoadLog.info(`[${USER_LOAD.length}] Bot user déjà en train d'utiliser le bot: ` + user.username);
+			log && userLoadLog.info(`[${USER_LOAD.length}] Bot user déjà en train d'utiliser le bot: ` + user.username);
 			return -1;
 		}
 	} else if (!remove) {
 		USER_LOAD.push(user.id);
-		userLoadLog.info(`[${USER_LOAD.length}] Bot user ajouté (Commence à utiliser le bot): ` + user.username);
+		log && userLoadLog.info(`[${USER_LOAD.length}] Bot user ajouté (Commence à utiliser le bot): ` + user.username);
 		async () => {
 			setTimeout(() => {
 				handleUser(user, true);
-				userLoadLog.error(`[${USER_LOAD.length}] Bot user retiré car son temps d'utilisation est trop long (L'utilisteur na pas du être retiré normalement) : ` + user.username);
+				log && userLoadLog.error(`[${USER_LOAD.length}] Bot user retiré car son temps d'utilisation est trop long (L'utilisteur na pas du être retiré normalement) : ` + user.username);
 			}, 300000);
 		};
 	}

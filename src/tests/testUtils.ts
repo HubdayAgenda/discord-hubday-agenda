@@ -4,6 +4,57 @@ import config from '../config';
 import * as moment from 'moment';
 
 describe('Utils tests', () => {
+
+	it('checking utils dateAndHourToDate()', () => {
+		const date = utils.dateAndHourToDate('2021-03-22', '21:30:00');
+		const expected = moment('22/03/2021', 'DD-MM-YYYY').toDate();
+		expected.setHours(21);
+		expected.setMinutes(30);
+		expected.setSeconds(0);
+		expect(date).to.eql(expected);
+	});
+
+	it('checking utils dateToStringValidFormat()', () => {
+		expect(utils.dateToStringValidFormat(moment('22/04/2021', 'DD-MM-YYYY').toDate())).to.eql('2021-04-22');
+		expect(utils.dateToStringValidFormat(moment('26/01/2021', 'DD-MM-YYYY').toDate())).to.eql('2021-01-26');
+		expect(utils.dateToStringValidFormat(moment('15/04/2030', 'DD-MM-YYYY').toDate())).to.eql('2030-04-15');
+	});
+
+	it('checking utils dateToStringReadableFormat()', () => {
+		expect(utils.dateToStringReadableFormat(moment('22/04/2021', 'DD-MM-YYYY').toDate())).to.eql('22/04/2021');
+		expect(utils.dateToStringReadableFormat(moment('26/01/2021', 'DD-MM-YYYY').toDate())).to.eql('26/01/2021');
+		expect(utils.dateToStringReadableFormat(moment('15/04/2030', 'DD-MM-YYYY').toDate())).to.eql('15/04/2030');
+	});
+
+	it('checking utils getRelativeDate()', () => {
+		const date = moment(new Date(), 'YYYY-MM-DD').add(2, 'day').toDate();
+		expect(date).to.eql(moment(new Date(), 'YYYY-MM-DD').add(2, 'day').toDate());
+	});
+
+	it('checking utils dateDayToString()', () => {
+		expect(utils.dateDayToString(moment('22/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Lundi');
+		expect(utils.dateDayToString(moment('23/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Mardi');
+		expect(utils.dateDayToString(moment('24/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Mercredi');
+		expect(utils.dateDayToString(moment('25/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Jeudi');
+		expect(utils.dateDayToString(moment('26/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Vendredi');
+		expect(utils.dateDayToString(moment('27/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Samedi');
+		expect(utils.dateDayToString(moment('28/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Dimanche');
+	});
+
+	it('checking utils getNextDay()', () => {
+		const dimanche = utils.getNextDay('sunday');
+		expect(dimanche).to.eql(moment('28/03/2021', 'DD/MM/YYYY').toDate());
+
+		const lundi = utils.getNextDay('monday');
+		expect(lundi).to.eql(moment('29/03/2021', 'DD/MM/YYYY').toDate());
+
+		const mercredi = utils.getNextDay('wednesday');
+		expect(mercredi).to.eql(moment('24/03/2021', 'DD/MM/YYYY').toDate());
+
+		const vendredi = utils.getNextDay('friday');
+		expect(vendredi).to.eql(moment('26/03/2021', 'DD/MM/YYYY').toDate());
+	});
+
 	it('checking utils dateValid()', () => {
 		expect(config.date).to.be.not.undefined;
 		expect(utils.dateValid('22/04/2021')).to.be.not.null;
@@ -38,19 +89,4 @@ describe('Utils tests', () => {
 		expect(utils.validURL('://')).to.be.false;
 		expect(utils.validURL('http//michel.com')).to.be.false;
 	});
-
-	it('checking utils getNextDay()', () => {
-		const dimanche = utils.getNextDay('sunday');
-		expect(dimanche).to.eql(moment('28/03/2021', 'DD/MM/YYYY').toDate());
-
-		const lundi = utils.getNextDay('monday');
-		expect(lundi).to.eql(moment('29/03/2021', 'DD/MM/YYYY').toDate());
-
-		const mercredi = utils.getNextDay('wednesday');
-		expect(mercredi).to.eql(moment('24/03/2021', 'DD/MM/YYYY').toDate());
-
-		const vendredi = utils.getNextDay('friday');
-		expect(vendredi).to.eql(moment('26/03/2021', 'DD/MM/YYYY').toDate());
-	});
-
 });

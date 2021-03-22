@@ -1,6 +1,12 @@
 import * as moment from 'moment';
 import config from './config';
 
+/**
+ * Transforme une date et une heure sous forme de texte en unse seule date
+ * @param date date sous forme YYYY-MM-DD
+ * @param hour heure sous force HH:mm:ss
+ * @returns La date correspondante
+ */
 export const dateAndHourToDate = (date: string, hour: string): Date => {
 	return moment(date + ' ' + hour, 'YYYY-MM-DD HH:mm:ss').toDate();
 };
@@ -58,13 +64,29 @@ export const dateDayToString = (date: Date): string => {
 };
 
 /**
+ * Determine le prochain jour voulu dans la semaine
+ * @param dayWeek le jour de la semaine voulu (tout en minuscule et en anglais)
+ * @returns la date de ce jour
+ */
+export const getNextDay = (dayWeek: string): Date => {
+	const dayOfWeek = moment().day(dayWeek).hour(0).minute(0).second(0).millisecond(0);
+	const endOfToday = moment().hour(23).minute(59).second(59);
+
+	if (dayOfWeek.isBefore(endOfToday)) {
+		dayOfWeek.add(1, 'weeks');
+	}
+
+	return dayOfWeek.toDate();
+};
+
+/**
  * Determine si un string est une date valide au format DD/MM/YYYY, si c'est le cas, cette date sera
  * retournée en tant qu'instance de Date, si ce n'est pas le cas null sera retourné.
  * @param date date sous forme de string a vérifier puis instancier en tant qu'objet de la classe Date
  * @returns Objet de la classe Date si la string en entrée est valide, sinon null dans le cas invalide
  */
 export const dateValid = (date: string): Date | null => {
-	if(date.length != 10)
+	if (date.length != 10)
 		return null;
 
 	const today = new Date();
@@ -110,20 +132,4 @@ export const validURL = (urlString: string): boolean => {
 		return false;
 	}
 	return url.protocol === 'http:' || url.protocol === 'https:';
-};
-
-/**
- * Determine le prochain jour voulu dans la semaine
- * @param dayWeek le jour de la semaine voulu (tout en minuscule et en anglais)
- * @returns la date de ce jour
- */
-export const getNextDay = (dayWeek: string): Date => {
-	const dayOfWeek = moment().day(dayWeek).hour(0).minute(0).second(0).millisecond(0);
-	const endOfToday = moment().hour(23).minute(59).second(59);
-
-	if(dayOfWeek.isBefore(endOfToday)) {
-		dayOfWeek.add(1, 'weeks');
-	}
-
-	return dayOfWeek.toDate();
 };
