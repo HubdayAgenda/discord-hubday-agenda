@@ -4,6 +4,7 @@ import Homework from '../Homework';
 import User from '../User';
 import SlashCommands from './SlashCommands';
 import BotLog from '../BotLog';
+import AskToCompleteForm from '../Questions/AskToCompleteForm';
 import * as Exception from '../Exceptions';
 import * as Embed from '../../embed';
 import * as utils from '../../utils';
@@ -174,7 +175,26 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 * Commande /agenda ajout
 	 * @param hubdayUser Utilisateur concerné par la commande
 	 */
-	private static handleAddCommand(hubdayUser: User) {
+	private static async handleAddCommand(hubdayUser: User) {
+
+		if(hubdayUser.addSubjectForm != null){
+			this.botLog.log('L\'utilisateur possède un formulaire non terminé');
+			const completeFormQuestion = new AskToCompleteForm(hubdayUser, this.botLog);
+			const response = await completeFormQuestion.ask()
+				.catch(e => {
+					if(e instanceof Exception.QuestionTimeOutException)
+						this.botLog.warn('[Demande de reprise de formulaire] - Temps de réponse trop long');
+					else
+						this.botLog.error(e);
+				});
+			if(response == true){
+				this.botLog.log('reprise d\'un formulaire incomplet');
+				/**
+				 * @TODO
+				 */
+				return;
+			}
+		}
 
 		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 			'Ajouter un devoir :',
