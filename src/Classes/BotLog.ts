@@ -73,7 +73,7 @@ export default class BotLog {
 	}
 
 	public getMessagesFile(): Discord.MessageAttachment {
-		return new Discord.MessageAttachment(Buffer.from(this.getLastMessages(), 'utf8'), 'bot_logs.txt');
+		return new Discord.MessageAttachment(Buffer.from(this.messages.join('\n'), 'utf8'), 'bot_logs.txt');
 	}
 
 	/**
@@ -211,10 +211,11 @@ export default class BotLog {
 		const hook = new Webhook(process.env.DISCORD_ERRORS_REPORT_WEBHOOK_URL);
 
 		const embedReport = new MessageBuilder()
-			.setTitle('Problème détecté ' + (this.getUsernameString() ? this.getUsernameString() : ''))
 			.setDescription('```' + this.getLastMessages() + '```')
 			.setColor(11524793)
 			.setTimestamp();
+		if (this.getUsernameString() != null)
+			embedReport.setTitle(this.getUsernameString() || '');
 		try {
 			hook.send(embedReport);
 		} catch (e) {
