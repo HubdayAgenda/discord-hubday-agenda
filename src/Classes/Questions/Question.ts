@@ -66,8 +66,7 @@ export default abstract class Question {
 				}).then(collected => {
 					this.emojiActions?.forEach(action => {
 						if (action.emoji == collected.first()?.emoji.name) {
-							if (action.value)
-								resolve(action.value);
+							resolve(action.value);
 						}
 					});
 				}).catch((e) => reject(e));
