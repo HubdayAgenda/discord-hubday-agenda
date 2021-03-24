@@ -41,20 +41,6 @@ describe('Utils tests', () => {
 		expect(utils.dateDayToString(moment('28/03/2021', 'DD-MM-YYYY').toDate())).to.eql('Dimanche');
 	});
 
-	it('checking utils getNextDay()', () => {
-		const dimanche = utils.getNextDay('sunday');
-		expect(dimanche).to.eql(moment('28/03/2021', 'DD/MM/YYYY').toDate());
-
-		const lundi = utils.getNextDay('monday');
-		expect(lundi).to.eql(moment('29/03/2021', 'DD/MM/YYYY').toDate());
-
-		const mercredi = utils.getNextDay('wednesday');
-		expect(mercredi).to.eql(moment('24/03/2021', 'DD/MM/YYYY').toDate());
-
-		const vendredi = utils.getNextDay('friday');
-		expect(vendredi).to.eql(moment('26/03/2021', 'DD/MM/YYYY').toDate());
-	});
-
 	it('checking utils dateValid()', () => {
 		expect(config.date).to.be.not.undefined;
 		expect(utils.dateValid('22/04/2021')).to.be.not.null;
