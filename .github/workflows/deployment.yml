@@ -38,8 +38,7 @@ jobs:
           RTDB_AUTH_TOKEN: ${{ secrets.RTDB_AUTH_TOKEN }}
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
 
-      - name: Send webhook
+      - name: Send webhook to update bot
         uses: fjogeleit/http-request-action@master
         with:
           url: ${{ secrets.WEBHOOK_URL }}
-          method: 'POST'
