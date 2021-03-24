@@ -86,7 +86,7 @@ export const getNextDay = (dayWeek: string): Date => {
  * @returns Objet de la classe Date si la string en entrée est valide, sinon null dans le cas invalide
  */
 export const dateValid = (date: string): Date | null => {
-	if (date.length != 10)
+	if(date.length != 10)
 		return null;
 
 	const today = new Date();
