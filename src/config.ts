@@ -13,11 +13,11 @@ logHookLevel :
 
 export default {
 	global: {
-		getSubjectsFromFile: true,
-		logHookLevel: 2
+		getSubjectsFromFile: false,
+		logHookLevel: 1
 	},
 	bot: {
-		version: '1.0.0',
+		version: '1.0.1',
 		prefix: '!'
 	},
 	date : {

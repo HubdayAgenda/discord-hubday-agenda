@@ -64,7 +64,9 @@ export default abstract class Question {
 					time: 120000 + 10,
 					errors: ['time']
 				}).then(collected => {
+					this.botLog.log(collected.first()?.emoji.name);
 					this.emojiActions?.forEach(action => {
+						this.botLog.log(action.emoji == collected.first()?.emoji.name + ' -- ' + action.value);
 						if (action.emoji == collected.first()?.emoji.name) {
 							resolve(action.value);
 						}
@@ -79,7 +81,6 @@ export default abstract class Question {
 				time: 120000,
 				errors: ['time']
 			}).then(answer => {
-				//3
 				const content = answer.first()?.content;
 				if (typeof content == 'undefined') {
 					reject(new Error('Message response content'));
