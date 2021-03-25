@@ -76,7 +76,7 @@ client.on('ready', async () => {
 
 	if(process.platform !== 'win32'){
 		const startLog = new BotLog('Démarrage');
-		startLog.info('Lancement du Bot_Agenda');
+		startLog.info('Lancement du bot en version ' + config.bot.version);
 		startLog.hookLogMessages();
 	}
 });
