@@ -12,9 +12,8 @@ export default class AskNotation extends Question {
 	 */
 	static emojiAction = [
 		{ 'emoji': '📈', 'value': 1, 'description': 'Devoir noté' },
-		// { 'emoji': '📉', 'value': 2, 'description': 'Devoir non noté' },
-		// { 'emoji': '❌', 'value': -1, 'description': 'Non renseigné' },
-		{ 'emoji': '❌', 'value': -1, 'description': 'Devoir non noté' },
+		{ 'emoji': '📉', 'value': 2, 'description': 'Devoir non noté' },
+		{ 'emoji': '❌', 'value': -1, 'description': 'Non renseigné' },
 	];
 
 	subject: Subject;
