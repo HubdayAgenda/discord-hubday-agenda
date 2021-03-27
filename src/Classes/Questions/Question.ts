@@ -64,9 +64,7 @@ export default abstract class Question {
 					time: 120000 + 10,
 					errors: ['time']
 				}).then(collected => {
-					this.botLog.log(collected.first()?.emoji.name);
 					this.emojiActions?.forEach(action => {
-						this.botLog.log(action.emoji == collected.first()?.emoji.name + ' -- ' + action.value);
 						if (action.emoji == collected.first()?.emoji.name) {
 							resolve(action.value);
 						}
@@ -97,14 +95,12 @@ export default abstract class Question {
 				}
 				if (!onlyEmojis)
 					resolve(content);
-			}).catch((e) => {
-				this.botLog.warn(e);
+			}).catch(() => {
 				if (isUserHandled(this.user.discordUser.id))
 					this.user.discordUser.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
 				msg.delete().catch((e) => BotLog.error(e));
 				reject(new Exceptions.QuestionTimeOutException(this.user.discordUser.username));
 			});
-
 		});
 	}
 
