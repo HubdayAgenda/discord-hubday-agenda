@@ -177,22 +177,32 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 */
 	private static async handleAddCommand(hubdayUser: User) {
 
+		let startIndex = 0;
+		let form = new AddSubjectForm(hubdayUser);
+
 		if(hubdayUser.addSubjectForm != null){
-			this.botLog.log('L\'utilisateur possède un formulaire non terminé');
-			const completeFormQuestion = new AskToCompleteForm(hubdayUser, this.botLog);
-			const response = await completeFormQuestion.ask()
-				.catch(e => {
-					if(e instanceof Exception.QuestionTimeOutException)
-						this.botLog.warn('[Demande de reprise de formulaire] - Temps de réponse trop long');
-					else
-						this.botLog.error(e);
-				});
-			if(response == true){
-				this.botLog.log('reprise d\'un formulaire incomplet');
-				/**
-				 * @TODO
-				 */
-				return;
+			//On demande de reprendre un ormulaire uniquement si au moins 3 questions
+			//Sont déjà complétées
+			if(hubdayUser.addSubjectForm.lastCompletedQuestionIndex() >= 2) {
+
+				this.botLog.log('L\'utilisateur possède un formulaire non terminé');
+
+				//On demande si veut reprendre le fomulaire
+				const response = await new AskToCompleteForm(hubdayUser, this.botLog).ask()
+					.catch(e => {
+						if(e instanceof Exception.QuestionTimeOutException)
+							this.botLog.warn('[Demande de reprise de formulaire] - Temps de réponse trop long');
+						else
+							this.botLog.error(e);
+					});
+
+				//Si l'utilisateur veut reprendre le formulaire, on change juste l'index de depart (Question de depart)
+				if(response == true){
+					this.botLog.log('reprise d\'un formulaire incomplet');
+					startIndex = hubdayUser.addSubjectForm.lastCompletedQuestionIndex();
+					form = hubdayUser.addSubjectForm;//On reprend l'instance de l'ancien formulaire (au lieu d'une nouvelle instance)
+					return;
+				}
 			}
 		}
 
@@ -201,11 +211,9 @@ export default class AgendaSlashCommands extends SlashCommands {
 			'Répondez aux questions suivantes pour créer un nouveau devoir'
 		)).catch(e => BotLog.error(e));
 
-		const form = new AddSubjectForm(hubdayUser);
-
 		handleUser(hubdayUser.discordUser);
 
-		form.start()
+		form.start(startIndex)
 			.then(homework => {
 				homework.persist(hubdayUser.getCurrentGroup()).then(() => {
 					hubdayUser.discordUser.send(homework.getEmbed(true))

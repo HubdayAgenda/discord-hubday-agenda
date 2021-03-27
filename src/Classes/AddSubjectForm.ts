@@ -76,15 +76,15 @@ export default class AddSubjectForm {
 			throw new UncompleteForm('Tasks undefined');
 		if (<string>this.date == undefined)
 			throw new UncompleteForm('Date undefined');
-		if (typeof(this.deadline) == 'undefined')
+		if (typeof (this.deadline) == 'undefined')
 			throw new UncompleteForm('Deadline undefined');
-		if (typeof(this.group) == 'undefined')
+		if (typeof (this.group) == 'undefined')
 			throw new UncompleteForm('Group undefined');
-		if (typeof(this.details) == 'undefined')
+		if (typeof (this.details) == 'undefined')
 			throw new UncompleteForm('Details undefined');
-		if (typeof(this.link) == 'undefined')
+		if (typeof (this.link) == 'undefined')
 			throw new UncompleteForm('Link undefined');
-		if (typeof(this.notation) == 'undefined')
+		if (typeof (this.notation) == 'undefined')
 			throw new UncompleteForm('Notation undefined');
 		return true;
 	}
@@ -112,9 +112,11 @@ export default class AddSubjectForm {
 	}
 
 	/**
+	 * @param index l'index de la question de départ (0 par defaut pour la première question du formulaire)
+	 * Utilisé pour reprendre un formulaire incomplet
 	 * @returns Le devoir de ce formulaire
 	 */
-	async start(): Promise<Homework> {
+	async start(index = 0): Promise<Homework> {
 		const subjects = await this.user.getSubjects();
 
 		/**
@@ -134,6 +136,9 @@ export default class AddSubjectForm {
 			{ setResponse: this.setNotation, question: (): Question => { return new AskNotation(this.user, this.botLog, <Subject>this.subject); } },
 		];
 
+		//Suppression des question déjà faites (Si le paramètre index est donné)
+
+		questions.splice(0, index);
 		for (const question of questions) {
 			//Cas ou l'on rentre dans un array de dépendance de question
 			// (Une question est éxécutée si la précedente à une réponse non null)
@@ -170,5 +175,28 @@ export default class AddSubjectForm {
 
 		formQuestion.setResponse(<never>((response instanceof Skip) ? null : response));
 		return (response instanceof Skip);
+	}
+
+	/**
+	 * @returns La position dans le formulaire de la première question encore non répondue
+	 */
+	public lastCompletedQuestionIndex(): number {
+		if ((this.subject as Subject) == undefined)
+			return 0;
+		if (<string[]>this.tasks == undefined)
+			return 1;
+		if (<string>this.date == undefined)
+			return 2;
+		if (typeof (this.deadline) == 'undefined')
+			return 3;
+		if (typeof (this.group) == 'undefined')
+			return 4;
+		if (typeof (this.details) == 'undefined')
+			return 5;
+		if (typeof (this.link) == 'undefined')
+			return 6;
+		if (typeof (this.notation) == 'undefined')
+			return 7;
+		return 8;
 	}
 }

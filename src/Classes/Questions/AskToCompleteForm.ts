@@ -9,8 +9,8 @@ import AddSubjectForm from '../AddSubjectForm';
 export default class AskToCompleteForm extends Question {
 
 	static emojiAction = [
-		{ 'emoji': '✅', 'value': true, 'description': 'Reprendre le formulaire' },
-		{ 'emoji': '❌', 'value': false, 'description': 'Recommencer depuis le début' },
+		{ 'emoji': '✅', 'value': 1, 'description': 'Reprendre le formulaire' },
+		{ 'emoji': '❌', 'value': 2, 'description': 'Recommencer depuis le début' },
 	];
 
 	async send(): Promise<Discord.Message> {
@@ -33,11 +33,11 @@ export default class AskToCompleteForm extends Question {
 			uncompleteHomeworkEmbed.setAuthor(form.subject?.getDisplayName() || 'Matière à choisir');
 			uncompleteHomeworkEmbed.addField('Taches : ', form.tasks || 'A completer');
 			uncompleteHomeworkEmbed.addField('Date : ', form.date || 'A completer');
-			uncompleteHomeworkEmbed.addField('Heure : ', form.deadline || 'A completer');
-			uncompleteHomeworkEmbed.addField('Groupe : ', form.group || 'A completer');
-			uncompleteHomeworkEmbed.addField('Détails : ', form.details || 'A completer');
-			uncompleteHomeworkEmbed.addField('Lien : ', form.link || 'A completer');
-			uncompleteHomeworkEmbed.addField('Notation : ', form.notation || 'A completer');
+			uncompleteHomeworkEmbed.addField('Heure : ', form.deadline == null ? 'Aucune' : form.deadline || 'A completer');
+			uncompleteHomeworkEmbed.addField('Groupe : ', form.group == null ? 'Aucun' : form.group || 'A completer');
+			uncompleteHomeworkEmbed.addField('Détails : ', form.details == null ? 'Aucun' : form.details || 'A completer');
+			uncompleteHomeworkEmbed.addField('Lien : ', form.link == null ? 'Aucun' : form.link || 'A completer');
+			uncompleteHomeworkEmbed.addField('Notation : ', form.notation == null ? 'Aucune' : form.notation || 'A completer');
 
 			this.user.discordUser.send(uncompleteHomeworkEmbed)
 				.then(msg => resolve(msg))
@@ -46,7 +46,7 @@ export default class AskToCompleteForm extends Question {
 	}
 
 	async awaitResponse(msg: Discord.Message): Promise<string | string[] | number | Subject | boolean | Skip> {
-		return await super.awaitResponse(msg, true);
+		return await super.awaitResponse(msg, true) == 1;
 	}
 
 	getContext(): string {
