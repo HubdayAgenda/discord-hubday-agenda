@@ -7,9 +7,12 @@ import * as Discord from 'discord.js';
 
 export default class AskNotation extends Question {
 
+	/**
+	 * @TODO Réajouter devoir non noté
+	 */
 	static emojiAction = [
-		{ 'emoji': '📈', 'value': true, 'description': 'Devoir noté' },
-		{ 'emoji': '📉', 'value': false, 'description': 'Devoir non noté' },
+		{ 'emoji': '📈', 'value': 1, 'description': 'Devoir noté' },
+		{ 'emoji': '📉', 'value': 2, 'description': 'Devoir non noté' },
 		{ 'emoji': '❌', 'value': -1, 'description': 'Non renseigné' },
 	];
 
@@ -34,10 +37,15 @@ export default class AskNotation extends Question {
 	async awaitResponse(msg: Discord.Message): Promise<string | string[] | number | Subject | boolean | Skip> {
 		const response = await super.awaitResponse(msg, true);
 
-		if(typeof(response) == 'boolean')
-			return response;
+		switch(response) {
+			case 1:
+				return true;
+			case 2:
+				return false;
+			default:
+				return new Skip('Notation non spécifiée');
+		}
 
-		return new Skip('Devoir non noté');
 	}
 
 	getContext(): string {

@@ -79,7 +79,6 @@ export default abstract class Question {
 				time: 120000,
 				errors: ['time']
 			}).then(answer => {
-				//3
 				const content = answer.first()?.content;
 				if (typeof content == 'undefined') {
 					reject(new Error('Message response content'));
@@ -96,14 +95,12 @@ export default abstract class Question {
 				}
 				if (!onlyEmojis)
 					resolve(content);
-			}).catch((e) => {
-				this.botLog.warn(e);
+			}).catch(() => {
 				if (isUserHandled(this.user.discordUser.id))
 					this.user.discordUser.send(Embed.getDefaultEmbed('Annulation', 'Temps de réponse trop long')).catch(e => BotLog.error(e));
 				msg.delete().catch((e) => BotLog.error(e));
 				reject(new Exceptions.QuestionTimeOutException(this.user.discordUser.username));
 			});
-
 		});
 	}
 
