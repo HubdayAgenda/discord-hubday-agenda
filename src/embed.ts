@@ -6,6 +6,7 @@ import { userLoadCount } from './userLoad';
 import User from './Classes/User';
 import moment = require('moment');
 import config from './config';
+import AgendaSlashCommands from './Classes/SlashCommands/AgendaSlashCommands';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
@@ -96,6 +97,8 @@ export const getRuntimeEmbed = async (): Promise<Discord.MessageEmbed> => {
 		.addField('Subjects count', Object.values(await getSubjects()).length)
 		.addField('User count', Object.values(User.USERS_LIST).length)
 		.addField('User load', userLoadCount())
+		.addField('/agenda liste count', AgendaSlashCommands.listCount)
+		.addField('/agenda ajout count', AgendaSlashCommands.addCount)
 		.addField('Bot version', config.bot.version)
 		.setColor('#afdab9');
 
