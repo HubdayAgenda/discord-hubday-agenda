@@ -76,7 +76,11 @@ export default class SlashCommands {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(client as any).api.interactions(interaction.id, interaction.token).callback.post({
 			data: {
-				type: 2
+				type: 4,
+				data: {
+					flags: 1 << 6,
+					content: '‌‌ '
+				}
 			}
 		})
 			.catch((e: unknown) => this.botLog.error(e));

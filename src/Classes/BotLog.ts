@@ -73,7 +73,7 @@ export default class BotLog {
 	}
 
 	public getMessagesFile(): Discord.MessageAttachment {
-		return new Discord.MessageAttachment(Buffer.from(this.messages.join('\n'), 'utf8'), 'bot_logs.txt');
+		return new Discord.MessageAttachment(Buffer.from(this.getLastMessages(true), 'utf8'), 'bot_logs.txt');
 	}
 
 	/**
@@ -132,6 +132,7 @@ export default class BotLog {
 		this.checkHook(message);
 		console.log(this.getContentStringColored(message));
 	}
+
 	/**
 	 * Envois un message d'erreur
 	 * @param content contenu du message
