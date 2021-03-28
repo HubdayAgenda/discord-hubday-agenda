@@ -99,7 +99,6 @@ export const getRuntimeEmbed = async (): Promise<Discord.MessageEmbed> => {
 		.addField('User load', userLoadCount())
 		.addField('/agenda liste count', AgendaSlashCommands.listCount)
 		.addField('/agenda ajout count', AgendaSlashCommands.addCount)
-		.addField('User load', userLoadCount())
 		.addField('Bot version', config.bot.version)
 		.setColor('#afdab9');
 
