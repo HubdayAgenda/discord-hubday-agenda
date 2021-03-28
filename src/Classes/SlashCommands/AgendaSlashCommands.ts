@@ -12,6 +12,9 @@ import { handleUser, isUserHandled } from '../../userLoad';
 
 export default class AgendaSlashCommands extends SlashCommands {
 
+	static listCount = 0;
+	static addCount = 0;
+
 	/**
 	 * Définition des slash commands du bot
 	 * /agenda ajout  -> ajouter un devoir
@@ -124,7 +127,7 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private static async handleListCommand(hubdayUser: User, interaction: any) {
-
+		this.listCount++;
 		let start: Date = new Date();
 		let end: Date = utils.getRelativeDate(7);
 
@@ -175,7 +178,7 @@ export default class AgendaSlashCommands extends SlashCommands {
 	 * @param hubdayUser Utilisateur concerné par la commande
 	 */
 	private static handleAddCommand(hubdayUser: User) {
-
+		this.addCount ++;
 		hubdayUser.discordUser.send(Embed.getDefaultEmbed(
 			'Ajouter un devoir :',
 			'Répondez aux questions suivantes pour créer un nouveau devoir'
