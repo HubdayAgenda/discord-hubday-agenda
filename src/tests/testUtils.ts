@@ -46,13 +46,12 @@ describe('Utils tests', () => {
 		const inFewDaysDate = utils.getRelativeDate(3);
 		const inFewDaysString = `${inFewDaysDate.getDate()}/${inFewDaysDate.getMonth()}/2021`;
 
-		//Possibilité d'ajouter le jour même
 		expect(config.date).to.be.not.undefined;
 
-		//Possibilité d'ajouter pour dans quelques jours
+		//Possibilité d'ajouter le jour même
 		expect(utils.dateValid(`${today.getDate()}/${today.getMonth()}/2021`)).to.be.not.null;
 
-		//Test date retournée
+		//Possibilité d'ajouter pour dans quelques jours
 		expect(utils.dateValid(inFewDaysString)).to.be.eql(moment(inFewDaysString, 'DD/MM/YYYY').toDate());
 
 		// Faux
