@@ -93,8 +93,9 @@ export const dateValid = (date: string): Date | null => {
 
 	const homeworkDate = moment(date, 'DD/MM/YYYY').toDate();
 
-	if ((today > config.date.semesterTransition && homeworkDate > config.date.semesterTransition && homeworkDate < config.date.yearEnd)
-		|| (today <= config.date.semesterTransition && homeworkDate > config.date.yearStart && homeworkDate < config.date.semesterTransition)) {
+	if (((today > config.date.semesterTransition && homeworkDate > config.date.semesterTransition && homeworkDate < config.date.yearEnd)
+		|| (today <= config.date.semesterTransition && homeworkDate > config.date.yearStart && homeworkDate < config.date.semesterTransition))
+		&& homeworkDate >= today){
 		return homeworkDate;
 	}
 	return null;
