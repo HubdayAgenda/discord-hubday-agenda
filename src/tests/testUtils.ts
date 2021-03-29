@@ -42,17 +42,16 @@ describe('Utils tests', () => {
 	});
 
 	it('checking utils dateValid()', () => {
-		const today = new Date();
-		const inFewDaysDate = utils.getRelativeDate(3);
-		const inFewDaysString = `${inFewDaysDate.getDate()}/${inFewDaysDate.getMonth()}/2021`;
+		const inFewDaysString = utils.dateToStringReadableFormat(utils.getRelativeDate(3));
 
 		expect(config.date).to.be.not.undefined;
 
 		//Possibilité d'ajouter pour dans quelques jours
+		expect(utils.dateValid(inFewDaysString)).to.not.be.null;
 		expect(utils.dateValid(inFewDaysString)).to.be.eql(moment(inFewDaysString, 'DD/MM/YYYY').toDate());
 
 		// Faux
-		expect(utils.dateValid(`${today.getDate()}/${today.getMonth()}/2021`)).to.be.null;
+		expect(utils.dateValid(utils.dateToStringReadableFormat(new Date()))).to.be.null;
 		expect(utils.dateValid('18/12/2021')).to.be.null;
 		expect(utils.dateValid('zifuyiezqd')).to.be.null;
 		expect(utils.dateValid('20/10/2020')).to.be.null;
