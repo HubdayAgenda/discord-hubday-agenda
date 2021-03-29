@@ -48,13 +48,11 @@ describe('Utils tests', () => {
 
 		expect(config.date).to.be.not.undefined;
 
-		//Possibilité d'ajouter le jour même
-		expect(utils.dateValid(`${today.getDate()}/${today.getMonth()}/2021`)).to.be.not.null;
-
 		//Possibilité d'ajouter pour dans quelques jours
 		expect(utils.dateValid(inFewDaysString)).to.be.eql(moment(inFewDaysString, 'DD/MM/YYYY').toDate());
 
 		// Faux
+		expect(utils.dateValid(`${today.getDate()}/${today.getMonth()}/2021`)).to.be.null;
 		expect(utils.dateValid('18/12/2021')).to.be.null;
 		expect(utils.dateValid('zifuyiezqd')).to.be.null;
 		expect(utils.dateValid('20/10/2020')).to.be.null;
