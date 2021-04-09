@@ -35,7 +35,7 @@ export default class AskSubject extends Question {
 			return await this.awaitResponse(msg);
 		}
 
-		if (response < 0 || response > this.subjects.length) {
+		if (response <= 0 || response > this.subjects.length) {
 			this.botLog.warn('Réponse n\'est pas un chiffre valide');
 
 			await this.user.discordUser.send(Embed.getDefaultEmbed(
