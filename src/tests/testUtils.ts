@@ -63,10 +63,11 @@ describe('Utils tests', () => {
 	it('checking utils hourValid()', () => {
 		expect(utils.hourValid('00:00')).to.be.true;
 		expect(utils.hourValid('22:30')).to.be.true;
+		expect(utils.hourValid('22:3')).to.be.false;
 		expect(utils.hourValid('10:00')).to.be.true;
 		expect(utils.hourValid('23:59')).to.be.true;
 		expect(utils.hourValid('02:00')).to.be.true;
-		expect(utils.hourValid('2:00')).to.be.true;
+		expect(utils.hourValid('2:00')).to.be.false;
 		expect(utils.hourValid('22h30')).to.be.false;
 		expect(utils.hourValid('24:00')).to.be.false;
 		expect(utils.hourValid('24:0')).to.be.false;
