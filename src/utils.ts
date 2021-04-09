@@ -107,17 +107,22 @@ export const dateValid = (date: string): Date | null => {
  * @returns true si la string en entré correspond bien à une heure valide (HH:MM) et [00:00-23:59]
  */
 export const hourValid = (hour: string): boolean => {
-	if (hour.includes(':')) {
-		const split = hour.split(':');
-		if (split.length == 2) {
-			const h = parseInt(split[0]);
-			const m = parseInt(split[1]);
-			if (!isNaN(h) && !isNaN(m)) {
-				return (h >= 0 && h < 24 && m >= 0 && m < 60);
-			}
-		}
-	}
-	return false;
+	if(hour.length != 5)
+		return false;
+
+	if (!hour.includes(':'))
+		return false;
+
+	const split = hour.split(':');
+	if (split.length != 2)
+		return false;
+
+	const h = parseInt(split[0]);
+	const m = parseInt(split[1]);
+	if (isNaN(h) || isNaN(m))
+		return false;
+
+	return (h >= 0 && h < 24 && m >= 0 && m < 60);
 };
 
 /**
