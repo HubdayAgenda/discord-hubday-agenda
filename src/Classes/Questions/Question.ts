@@ -51,13 +51,15 @@ export default abstract class Question {
 		return new Promise((resolve, reject) => {
 
 			if (this.emojiActions != undefined) {
+				const emojis: string[] = [];
 				this.emojiActions.forEach(element => {
+					emojis.push(element.emoji);
 					msg.react(element.emoji)
 						.catch(() => this.botLog.warn('React on deleted message'));
 				});
 
-				const filter = (reaction: unknown, reactUser: Discord.User) => {
-					return reactUser.id === this.user.discordUser.id;
+				const filter = (reaction: Discord.MessageReaction, reactUser: Discord.User) => {
+					return emojis.includes(reaction.emoji.name) && reactUser.id === this.user.discordUser.id;
 				};
 				msg.awaitReactions(filter, {
 					max: 1,
